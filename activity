@@ -1,0 +1,2 @@
+#!/bin/bash
+paste <( date +"%Y/%m/%d %H:%M:%S") <(detex thesis.tex | wc -w)

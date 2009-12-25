@@ -1,0 +1,74 @@
+\documentclass[a4paper, 12pt, %
+%draft,%
+pdftex]{report} % make report->book for two sided final publishing.
+%\fussy
+\sloppy
+
+\usepackage{upthesis}
+% Cause floats to always be below  where they are inserted as per
+% Prof. de Vaal.
+% \usepackage{flafter}
+\usepackage{fancybox}
+
+\newcommand{\citehere}{\fbox{\bf Citation needed!}}
+\newcommand{\num}[1]{\ensuremath{\fnum{#1}}}
+\newcommand{\units}[1]{\ensuremath{\mathrm{#1}}}
+\newcommand{\xxx}{\fbox{\bf XX Check XX}}
+
+% Title and author definitions
+\title{Generic Framework for Chemical Process Modelling with Stochastic Inputs} 
+\author{Carl Sandrock} 
+\degree{Philosophiae Doctor (Control Engineering)} 
+\department{Department of Chemical Engineering} 
+%\date{December 2008}
+
+% Include directives
+\includeonly{
+front,
+% -- Text Starts --
+introduction,
+literature,
+flowsheeting,
+montecarlo,
+design, 
+implementation,
+samples,
+conclusion,
+% -- Appendix Entries --
+%programmingdetails,
+% -- Back matter --
+back
+}
+
+\begin{document}
+
+\include{front}
+
+% Page numbering: Start at 1
+
+\pagestyle{headings}
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+\include{introduction}
+\part{Literature}
+\include{literature}
+\include{flowsheeting}
+\include{montecarlo}
+\part{Design and implementation}
+\include{design}
+\include{implementation}
+\part{Results}
+\include{results}
+\include{conclusion}
+
+\appendix
+%\include{programlistings}
+%\include{parametervalues}
+%\include{programmingdetails}
+%\include{testresults}
+
+\include{back}
+
+
+\end{document}

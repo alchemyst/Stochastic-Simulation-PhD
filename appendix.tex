@@ -1,0 +1,24 @@
+\appendix
+
+\chapter{Program listings}
+
+\lstset{language=matlab, commentstyle=\emph, mathescape=true, %stringstyle=\ttfamily,
+        breaklines, basicstyle=\small, numberstyle=\tiny, stepnumber=1}
+
+\newcommand\progsection[1]{\section{#1}\label{lst:#1} \lstinputlisting{\sourcedir saiccor/#1.m} \bigskip}
+
+\progsection{saiccor}
+
+\progsection{menu}
+
+\progsection{controlstrategy}
+
+\progsection{ModelDerivatives}
+
+\progsection{arrhenius}
+
+\progsection{optimsaiccor}
+
+% Local Variables:
+% TeX-master: "thesis"
+% End:
