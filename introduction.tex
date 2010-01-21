@@ -1,26 +1,37 @@
 \chapter{Introduction}\label{chap:intro}
 
-Chemical engineering process modelling and simulation poses a
+\section{Motivation}
+Chemical engineering process modelling and simulation pose a
 significant challenge to the computer program developer.  Chemical
 processes are invariably described by nonlinear equations such as
 chemical reaction kinetics, flow-pressure relationships and physical
-properties.  Dynamic simulation such systems involves the solution of
+properties.  Dynamic simulation of such systems involves the solution of
 sets of nonlinear differential and algebraic equations.  There is also
 uncertainty associated with the model equations themselves (model
 uncertainty), their parameters (parametric uncertainty) and the inputs
 into the model (input uncertainty).
 
 This work aims to present a framework for the development of
-stochastic dynamic simulations of chemical processes.  The framework
-is designed to be generic.  The large problem of stochastic dynamic
-simulation has been broken down into three steps: input modelling,
-process modelling and postprocessing.  
+stochastic dynamic simulations of chemical processes. The framework is
+designed to be generic. The large problem of stochastic dynamic
+modelling has been broken down into three steps: input modelling,
+process modelling and postprocessing.
 
-This document is divided into three sections
+\section{Structure of the document}
+This document is divided into three sections: Part I reviews relevant literature, Part II explains the implementation details of 
 
 Each step of the simulation is
 discussed
 
+\section{Contributions}
+The deliverables of this work are:
+\begin{enumerate}
+\item A novel application of multi-objective optimisation to the identification of transition probabilities in Markov Chain models of input sequences.
+\item A set of Modelica models that enable modelling of chemical engineering unit operations
+\item Support for using CAPE-Open compliant property databases for the calculation of thermodynamic properties in these models
+\item A set of programs that can run models built using this framework in Monte Carlo simulations
+\item 
+\end{enumerate}
 
 % Local Variables:
 % TeX-master: "thesis"

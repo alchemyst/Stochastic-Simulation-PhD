@@ -1,2 +1,3 @@
 #!/bin/bash
-paste <( date +"%Y/%m/%d %H:%M:%S") <(detex thesis.tex | wc -w)
+words=`detex thesis.tex | wc -w | tr -d -c [0-9]`
+sqlite3 $1 "insert into activity values (datetime('now'),"$words");"
