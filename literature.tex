@@ -143,41 +143,6 @@ fitting, as attempts to fit the data too accurately usually
 lead to a loss of generality (the over fitting problem,
 described by \cite{Arora2003Fitting} among others).
 
-\section{Optimisation}
-
-\subsection{Multi-objective optimisation}
-The trade-off between accuracy and generality of a fit would
-traditionally be decided by the designer of an algorithm.  Perhaps
-some noise reduction would be done before identifying events, or
-constraints on the fitting functions would be enforced to avoid over
-fitting~\cite{Arora2003Fitting,Punskaya2002Bayesian}.  
-
-Multi-objective optimisation provides a different approach.  All the
-objective function values are evaluated and a solution is retained if
-it is better in any way than all of the solutions already encountered.
-Such solutions are called Pareto optimal or nondominated
-solutions \cite{Steuer1986Multiple}. The result of such an optimisation
-algorithm is a \emph{list} of Pareto optimal solutions, or more
-properly an approximation of the Pareto front.  This list is most
-commonly called the archive.
-
-\subsection{Evolutionary algorithms}
-Evolutionary algorithms are a natural fit for multi-objective
-optimisation, as they are already population based.  Genetic
-algorithms in particular have enjoyed
-popularity~\cite{Deb2001MultiObjective}.  Recent work in Particle
-Swarm Optimisation has rekindled interest in using it for
-multi-objective optimisation.
-
-The algorithm used in this work is the MOPSO-CD (Multi-Objective
-Particle Swarm Optimisation with Crowding Distance) algorithm proposed
-by \cite{Raquel2005Effective}.  It is a modification of Particle Swarm
-Optimisation that adds an archive of nondominated solutions and uses a
-crowding distance measure to prevent many similar Pareto optimal
-solutions from being retained in the archive.
-
-
-
 \section{Uncertainty}
 The reason for stochastic simulation is the existence of uncertainty in
 one or more aspects of the model.  If the model was perfect, a single
@@ -230,8 +195,6 @@ on a real industry example.  The core of the process is a reactor with
 a separation and recycle arrangement.  Four reactions are mentioned.
 
 
-
-
 \section{CAPE-OPEN}
 The CO-lan describes CAPE-OPEN as follows:
 \quote{CAPE-OPEN standards are the uniform standards for interfacing
@@ -242,8 +205,37 @@ The CO-lan describes CAPE-OPEN as follows:
   available free of charge. They are described in a formal
   documentation set.}
 
-\subsection{Unit interface}
+The documentation set comprises the following items:
+\subsection{Thermodynamics and Physical Properties Interface Specification}
 
+\subsection{Unit Operations Interface Specification}
+
+\subsection{Chemical Reactions Interface Specification}
+
+\subsection{Methods \& Tools Integrated Guidelines}
+
+\subsection{Optimisation Interface Specification}
+
+\subsection{Parameter Estimation and Data Reconciliation Interface Spec}
+This document defines the interfaces required to do parameter estimation and data reconciliation.  The parameter estimation problem is to find the parameters that correspond with the best match between the model and the data, while the data reconciliation problem is to find data that does not correspond to the model.  Both of these activities require a model of the system or the ability to run the model and data from the system.  
+
+\subsection{Partial Differential Algebraic Equations Interface Specification}
+
+\subsection{Petroleum Fractions Interface Specification}
+
+\subsection{Physical Properties Data Bases Interface Specification}
+
+\subsection{Planning and Scheduling Interface Specification}
+
+\subsection{Simulation Context COSE Interface}
+
+
+\subsection{Identification Common Interface}
+\subsection{Parameter Common Interface}
+\subsection{Collection Common Interface}
+\subsection{Error Common Interface}
+\subsection{Persistence Common Interface}
+\subsection{Utilities Common Interface}
 
 % Local Variables:
 % TeX-master: "thesis"
