@@ -3,13 +3,13 @@
 \section{Motivation}
 Chemical engineering process modelling and simulation pose a
 significant challenge to the computer program developer.  Chemical
-processes are invariably described by nonlinear equations such as
-chemical reaction kinetics, flow-pressure relationships and physical
-properties.  Dynamic simulation of such systems involves the solution of
-sets of nonlinear differential and algebraic equations.  There is also
-uncertainty associated with the model equations themselves (model
-uncertainty), their parameters (parametric uncertainty) and the inputs
-into the model (input uncertainty).
+processes are invariably described by nonlinear differential equations
+such as chemical reaction kinetics, flow-pressure relationships and
+physical properties.  Dynamic simulation of such systems involves the
+solution of sets of nonlinear differential and algebraic equations.
+There is also uncertainty associated with the model equations
+themselves (model uncertainty), their parameters (parametric
+uncertainty) and the inputs into the model (input uncertainty).
 
 This work aims to present a framework for the development of
 stochastic dynamic simulations of chemical processes. The framework is
@@ -18,10 +18,13 @@ modelling has been broken down into three steps: input modelling,
 process modelling and postprocessing.
 
 \section{Structure of the document}
-This document is divided into three sections: Part I reviews relevant literature, Part II explains the implementation details of 
-
-Each step of the simulation is
-discussed
+This document is divided into three sections: 
+\begin{description}
+\item[Part I] reviews relevant literature pertaining to statistics,
+  dynamic simulation of chemical engineering systems and existing
+  frameworks for these activities.
+\item[Part II], Part II explains the implementation details of 
+\end{description}
 
 \section{Contributions}
 The deliverables of this work are:
@@ -30,7 +33,6 @@ The deliverables of this work are:
 \item A set of Modelica models that enable modelling of chemical engineering unit operations
 \item Support for using CAPE-Open compliant property databases for the calculation of thermodynamic properties in these models
 \item A set of programs that can run models built using this framework in Monte Carlo simulations
-\item 
 \end{enumerate}
 
 % Local Variables:

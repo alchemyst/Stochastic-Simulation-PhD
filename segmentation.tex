@@ -51,7 +51,7 @@ has been reduced below a threshold.
     \Function{topdown}{$T, \epsilon$}
     \If{approximationerror($T$) $< \epsilon$}
        
-\Return{approximate($T$)}
+    \Return{approximate($T$)}
     \Else
       \State $N \gets $ length($T$)
       \State $b \gets \min_i{\mathrm{splitcost}(T,i)}$ \Comment{Find
@@ -65,10 +65,10 @@ has been reduced below a threshold.
 The algorithm described in Algorithm~\ref{alg:topdown} lends itself to
 optimisation by dynamic programming, as the optimal subdivisions of
 smaller sequences can be stored as partial solutions to the larger
-problem.  The Douglas-Peuker algorithm \citep{douglas_algorithms_1973} is also an example of a
-top-down algorithm, although it does not search for optimal breaks
-recursively -- it simply uses the node with the maximum perpendicular
-distance from the line as the break point.
+problem.  The Douglas-Peuker algorithm \citep{douglas_algorithms_1973}
+is also an example of a top-down algorithm, although it does not
+search for optimal breaks recursively -- it simply uses the node with
+the maximum perpendicular distance from the line as the break point.
 
 \subsection{Bottom-up methods}
 Bottom-up or composition methods start with segments between
