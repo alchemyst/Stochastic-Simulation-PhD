@@ -1,0 +1,23 @@
+digraph G { 
+	rankdir=LR;
+      subgraph clusterm {
+      label = "Markov Process";
+      S1; 
+      S2; 
+      S3;
+      S1 -> S1 [ label=0.1];
+      S1 -> S2 [ label=0.9];
+      S2 -> S2 [ label=0.1];
+      S2 -> S3 [ label=0.9];
+      S3 -> S1 [ label=0.2];
+      S3 -> S2 [ label=0.8]; }
+      subgraph clusterh {
+      label = "Observations"
+      O1; O2; 
+      S1 -> O3 [label=0.5];
+      S1 -> O2 [label=0.5];
+      S2 -> O3;
+      S3 -> O2 [label=0.2];
+      S3 -> O1 [label=0.8];
+      }
+}
