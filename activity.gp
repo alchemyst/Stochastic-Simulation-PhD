@@ -5,9 +5,12 @@ set output 'activity.png'
 set style data lines
 set style line 1 lw 3
 set ylabel 'Words'
+
+set grid
+set key outside bottom horizontal reverse Left
+
 set xdata time
 set format x '%y-%m'
-set grid
 set timefmt '%Y-%m-%d'
 
 # fit trendline
@@ -17,8 +20,7 @@ b = 2.7e8+8e5
 
 fit f(x) 'activity.dat' using 1:2 via a
 
-plot 'activity.dat' using 1:2 notitle, \
+plot 'activity.dat' using 1:2 title "detex words", \
      f(x) title sprintf("%.1f words per day", a*24*3600), \
      18234 title "Carl Masters", \
      41734 title "Ruanne Masters"
-
