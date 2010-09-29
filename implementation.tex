@@ -1,6 +1,122 @@
 \chapter{Implementation}\label{chap:implementation}
 \begin{overview}
+
 \end{overview}
+
+\section{Event identification}
+\subsection{Application}
+As an example of the results obtainable using multi-objective
+optimisation, the MOPSO-CD (Multi-Objective Particle Swarm
+Optimisation with Crowding Distance) algorithm proposed
+by\cite{raquel_effective_2005}was used to fit a first-order response
+prototype to input signals.  The algorithm is a modification of
+Particle Swarm Optimisation that adds an archive of nondominated
+solutions and uses a crowding distance measure to prevent many similar
+Pareto optimal solutions from being retained in the archive.
+
+A problem description based on a prototypical first order response was
+used in this study. Figure~\ref{fig:definition} shows the prototype
+function.
+\begin{figure}[htbp]
+  \centering
+  \setlength{\unitlength}{1.8em}
+  \begin{picture}(10,10) 
+    \thicklines
+    % axis
+    \put(1,1){\vector(1,0){8}}
+    
+    \put(5,0){$t$}
+    \put(1,1){\vector(0,1){8}}
+    \put(0,7){$y_p$}
+    % curve
+    \qbezier(2,2)(4,8)(8,8)
+    \put(2,2){\circle*{0.2}}
+    \put(2,0){$t_{i-1}$}
+    \put(0,2){$y_{i-1}$}
+
+    \put(8,8){\circle*{0.2}} 
+    \put(8,0){$t_i$}
+    \put(0,8){$y_i$}
+
+    \put(3,2){$\Delta t$}
+    \put(3,1.8){\vector(-1,0){1}}
+    \put(3,1.8){\vector(+1,0){2}}
+
+    \put(6,1.7){$\Delta t_i$}
+    \put(6,1.5){\vector(-1,0){4}}
+    \put(6,1.5){\vector(+1,0){2}}
+    
+    \thinlines
+    \put(2,2){\line(-1,0){1}}
+    \put(2,2){\line(0,-1){1}}
+    \put(8,8){\line(-1,0){7}}
+    \put(8,8){\line(0,-1){7}}
+    \put(5,7){\line(-1,0){4}}
+    \put(5,7){\line(0,-1){6}}
+
+  \end{picture}
+  \caption{First order response prototype definition.  $\Delta t$ and
+    $\Delta t_i$ are the times of the interpolation time and end point
+    time relative to the prototype start.}
+  \label{fig:definition}
+\end{figure}
+
+Our goal is to find a sequence of prototypes that fits the sequence of
+events.  We wish to fit the entire data set, so the first and last
+times are to coincide with the first and last times in the data set.
+Therefore, given that we are fitting $N$ prototypes, we seek to find
+$N-1$ transition times and $N$ parameter value sets.
+
+A few key decisions ease optimisation.  Firstly, a linear term 
+added to the exponential response ensures that the prototype
+interpolates through the initial $(x_{i-1}, y_{i-1})$ and final
+$(x_{i}, y_{i})$ points.  This does add any parameters to the
+description.  The predicted value for the prototype at a given time
+$t$ is shown in equation~\ref{eq:prototype}:
+\begin{equation}
+  \label{eq:prototype}
+  y_p = y_{i-1} + y_i \left (1 - \underbrace{e^{\Delta
+        t/\tau_i}}_{\textrm{exponential}} + \underbrace{\frac{\Delta
+        t}{\Delta t_i}e^{\Delta t_i/\tau_i}}_{\textrm{linear}} \right)
+\end{equation}
+
+Secondly, the optimisation parameters were chosen to reduce coupling
+in the problem parameters by using absolute times for each starting
+point and constraining these times to be sequential rather than time
+differences constrained to be positive.  This reduced the effect of
+any one starting point on the error produced by the remaining fit
+functions.
+
+\subsection{Objective functions}
+Two objectives were defined: the RMS error of the fit over all the
+prototypes and the ``complexity'' of the fit, which was calculated as
+\begin{equation}
+  c = \sum_i^{N} \frac{1}{\tau_i}.
+\end{equation}
+
+This complexity measure works due to the addition of the linear
+correction term, which dominates for large $\tau$, meaning that as
+$\tau$ increases, one sees more of the linear behaviour and less of
+the exponential.  Therefore, larger $c$ corresponds to greater
+curvature of the fitting prototypes.
+
+\subsection{Prototype to event mapping}
+Each sequence of prototypes identified was mapped back to a sequence
+of event types by using the following heuristics:
+\begin{itemize}
+\item If the difference between the start and end values is less
+  than a cut-off value $\epsilon_c$, the prototype is taken to
+  represent a constant event.
+\item If the time constant is larger than a cut-off time constant
+  $\tau_c$, it is taken as a ramp.
+\item If neither of these holds, the prototype is a first order response.
+\end{itemize}
+
+The values of $\epsilon_c$ and $\tau_c$ are problem-dependant and
+should be chosen to represent an insignificant change in $y$ and a
+large time constant (in the chosen time units) respectively.
+
+
 
 
 % Local Variables:

@@ -11,16 +11,90 @@ Introduce optimisation quickly to show I know what I'm talking about, then move 
 
 From Wikipedia
 \begin{quote}
-Consider a design space with $n$ real parameters, and for each design-space point there are $m$ different criteria by which to judge that point. Let $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ be the function which assigns, to each design-space point $x$, a criteria-space point $f$($x$). This represents the way of valuing the designs. Now, it may be that some designs are infeasible; so let $X$ be a set of feasible designs in ${\mathbb{R}}^n$, which must be a [[compact space|compact set]]. Then the set which represents the feasible criterion points is $f$($X$), the image of the set $X$ under the action of $f$. Call this image $Y$.
+  Consider a design space with $n$ real parameters, and for each
+  design-space point there are $m$ different criteria by which to
+  judge that point. Let $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ be
+  the function which assigns, to each design-space point $x$, a
+  criteria-space point $f$($x$). This represents the way of valuing
+  the designs. Now, it may be that some designs are infeasible; so let
+  $X$ be a set of feasible designs in ${\mathbb{R}}^n$, which must be
+  a [[compact space|compact set]]. Then the set which represents the
+  feasible criterion points is $f$($X$), the image of the set $X$
+  under the action of $f$. Call this image $Y$.
 
-Now construct the Pareto frontier as a subset of $Y$, the feasible criterion points. It can be assumed that the preferable values of each criterion parameter are the lesser ones, thus minimizing each dimension of the criterion vector. Then compare criterion vectors as follows: One criterion vector $y$ $strictly dominates$ (or "is preferred to") a vector $y*$ if each parameter of $y$ is no greater than the corresponding parameter of $y*$ and at least one parameter is strictly less: that is, $\mathbf{y}_i \le \mathbf{y*}_i$ for each $i$ and $\mathbf{y}_i < \mathbf{y*}_i$ for some $i$. This is  written as $\mathbf{y} \succ \mathbf{y*}$ to mean that $y$ strictly dominates $y*$. Then the Pareto frontier is the set of points from $Y$ that are not strictly dominated by another point in $Y$.
+  Now construct the Pareto frontier as a subset of $Y$, the feasible
+  criterion points. It can be assumed that the preferable values of
+  each criterion parameter are the lesser ones, thus minimizing each
+  dimension of the criterion vector. Then compare criterion vectors as
+  follows: One criterion vector $y$ $strictly dominates$ (or "is
+  preferred to") a vector $y*$ if each parameter of $y$ is no greater
+  than the corresponding parameter of $y*$ and at least one parameter
+  is strictly less: that is, $\mathbf{y}_i \le \mathbf{y*}_i$ for each
+  $i$ and $\mathbf{y}_i < \mathbf{y*}_i$ for some $i$. This is written
+  as $\mathbf{y} \succ \mathbf{y*}$ to mean that $y$ strictly
+  dominates $y*$. Then the Pareto frontier is the set of points from
+  $Y$ that are not strictly dominated by another point in $Y$.
 \end{quote}
 
 \subsection{Curve fitting and approximation}
 Here we introduce the general curve fitting problems.
 
+\subsubsection{Least squares}
+Wikipedia: 
+\begin{quote}
+  The method of least squares is a standard approach to the
+  approximate solution of overdetermined systems, i.e. sets of
+  equations in which there are more equations than unknowns. "Least
+  squares" means that the overall solution minimizes the sum of the
+  squares of the errors made in solving every single equation.  The
+  most important application is in data fitting. The best fit in the
+  least-squares sense minimizes the sum of squared residuals, a
+  residual being the difference between an observed value and the
+  fitted value provided by a model.  Least squares problems fall into
+  two categories: linear least squares and nonlinear least squares,
+  depending on whether or not the residuals are linear in all
+  unknowns. The linear least-squares problem occurs in statistical
+  regression analysis; it has a closed-form solution. The non-linear
+  problem has no closed solution and is usually solved by iterative
+  refinement; at each iteration the system is approximated by a linear
+  one, thus the core calculation is similar in both cases.  The
+  least-squares method was first described by Carl Friedrich Gauss
+  around 1794.[1] Least squares corresponds to the maximum likelihood
+  criterion if the experimental errors have a normal distribution and
+  can also be derived as a method of moments estimator.
+\end{quote}
+
 \section{Population based methods}
-Cut stuff about PSO here.
+\subsection{Differential Evolution}
+\subsection{PSO}
+Kennedy and Eberhart developed the Particle Swarm algorithm in XXX
+(year) and it has been adopted
+
+Wikipedia: 
+\begin{quote}
+  Such methods are commonly known as metaheuristics as they make few
+  or no assumptions about the problem being optimized and can search
+  very large spaces of candidate solutions. However, metaheuristics
+  such as PSO do not guarantee an optimal solution is ever found.
+  More specifically, PSO does not use the gradient of the problem
+  being optimized, which means PSO does not require for the
+  optimization problem to be differentiable as is required by classic
+  optimization methods such as gradient descent and quasi-newton
+  methods. PSO can therefore also be used on optimization problems
+  that are partially irregular, noisy, change over time, etc.  PSO
+  optimizes a problem by having a population of candidate solutions,
+  here dubbed particles, and moving these particles around in the
+  search-space according to simple mathematical formulae. The
+  movements of the particles are guided by the best found positions in
+  the search-space which are updated as better positions are found by
+  the particles.  PSO is originally attributed to Kennedy, Eberhart
+  and Shi [1][2] and was first intended for simulating social
+  behaviour. The algorithm was simplified and it was observed to be
+  performing optimization. The book by Kennedy and Eberhart [3]
+  describes many philosophical aspects of PSO and swarm
+  intelligence. An extensive survey of PSO applications is made by
+  Poli [4][5].
+\end{quote}
 
 \section{Multiple objectives}
 MOPSO.
@@ -40,6 +114,8 @@ solutions \cite{Steuer1986Multiple}. The result of such an optimisation
 algorithm is a \emph{list} of Pareto optimal solutions, or more
 properly an approximation of the Pareto front.  This list is most
 commonly called the archive.
+
+% TODO: Picture of Pareto Front
 
 \subsection{Evolutionary algorithms}
 Evolutionary algorithms are a natural fit for multi-objective

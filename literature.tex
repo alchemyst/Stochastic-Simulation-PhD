@@ -34,11 +34,18 @@ Macroscopic modelling
 
 \subsection{Modelica}
 The Modelica project was spearheaded by \xxx, who started research on
-modelling languages during his PhD studies in \xxx.
+modelling languages during his PhD studies in \xxx.  ``Modelica is a modern, strongly typed, declarative, and object-oriented language for modeling and simulation of complex systems.'' (\url{http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.139.7209})
 
 \subsection{Stochastic simulation}
 
 \subsection{Proprietary simulators}
+
+\begin{itemize}
+\item GPROMS
+\item HYSIS
+\item CHEMCAD
+\end{itemize}
+
 
 \subsection{Input identification}
 Stochastic simulation of systems, especially those using Monte Carlo
@@ -185,32 +192,6 @@ parametric uncertainty is often blurred by the fact that models are
 often developed with additional parameters designed to make the model
 more flexible.  This work does not address model uncertainty.
 
-\section{Standard simulation problems}
-
-\subsection{The Tenessee-Eastman Process}
-\label{sec:tenessee-eastman}
-\citet{tenesseeeastman} proposed a realistic problem for control based
-on a real industry example.  The core of the process is a reactor with
-a separation and recycle arrangement.  The flowsheet is shown in
-Figure~\ref{fig:teprocess}.
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{teflowsheet}
-  \caption{Flowsheet for the Tennessee Eastman process~\citep{tenesseeeastman}}
-  % TODO: Redraw TE flowsheet properly.
-  \label{fig:teprocess}
-\end{figure}
-
-Four reactions featuring eight compounds (A through H) take place in the reactor:
-\begin{eqnarray}
-A(g) + C(g) + D(g) & \rightarrow & G(l) \\
-A(g) + C(g) + E(g) & \rightarrow & H(l) \\
-A(g) + E(g)        & \rightarrow & F(l) \\
-3D(g)              & \rightarrow & 2F(l) 
-\label{eq:te-reaction}
-\end{eqnarray}
-
-G and H are the first and second products, while F is a byproduct.
 
 \section{CAPE-OPEN}
 The CO-lan describes CAPE-OPEN as follows:

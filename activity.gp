@@ -12,6 +12,7 @@ set key outside bottom horizontal reverse Left
 set xdata time
 set format x '%y-%m'
 set timefmt '%Y-%m-%d'
+set xrange ["2010-01-01":"2010-11-01"]
 
 # fit trendline
 f(x) = a*(x-b)
