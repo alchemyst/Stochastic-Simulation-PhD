@@ -1,0 +1,183 @@
+% UP Engineering PhD Thesis style
+% Author: Carl Sandrock
+% To Do
+% - Automatically detect pdfTeX (or lack thereof) and change graphics filetypes accordingly
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{upthesis}[2010/07/27 v0.2 University of Pretoria dissertation styles]
+
+% Package includes
+
+% Font encoding and changing
+% \usepackage[T1]{fontenc} % Use T1 fonts
+% \usepackage{pxfonts} % or txfonts for Palantino or Times based font packs
+% Useful for an Afrikaans sinopsis
+\usepackage[afrikaans, english]{babel}
+\selectlanguage{english}
+
+\usepackage{setspace}
+        \onehalfspacing
+%\usepackage{pandora} % optima pandora times
+\usepackage[margin={1in, 1in}]{geometry}
+
+\usepackage{natbib}
+  \bibpunct[: ]{(}{)}{;}{a}{,}{,} 
+
+\usepackage{graphicx}
+% Typeset numbers with fancynum with spaces (thinspaces) for thousands seperators 
+% and commas for decimals (french)
+\usepackage[french, thinspaces]{fancynum}
+%\usepackage[english, tight]{fancynum}
+
+% Typeset units correctly.  Default tight spacing inserts halfword
+% space between number and unit.  Use loose for full word.
+\usepackage{units}
+
+%\usepackage{xspace}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\usepackage{color}
+
+\usepackage{subfigure}
+
+% Display captions with the Figure text in boldface (bf), hanging indents and 
+% one size smaller than the rest of the text
+\usepackage[hang, bf, small]{caption}
+
+% There's a subtle interaction between hyperref and algorithm included below, 
+% which can be resolved by including float before hyperref and algorithm after it.
+\usepackage{float}
+
+% Enable hyperlink references in PDF file
+\usepackage[plainpages=false, pdfpagelabels]{hyperref}
+
+% enable typesetting of algorithm
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\renewcommand{\Return}[1]{\State \textbf{return}~#1}
+
+% For listing of code in the document
+\usepackage{listings}
+
+\usepackage{longtable}
+%\usepackage{dropping}
+
+% For nicer table rules 
+\usepackage{booktabs}
+
+% Set the length of space above \toprule (to stop the table head from colliding with the table):
+\setlength{\abovetopsep}{1em}
+
+% Fancy chapter headings
+\usepackage{fncychap}
+\ChNameUpperCase
+\ChNumVar{\Huge}
+%\ChTitleUpperCase
+\ChRuleWidth{2pt}
+\ChNameVar{\centering\Huge\rm\bfseries}
+\ChTitleVar{\centering\Huge\rm}
+%\ChTitleVar{\centering\Huge\mdseries\sffamily}
+\ChRuleWidth{1pt}
+\usepackage{fancyhdr}
+
+% Nomenclature list
+\usepackage{nomencl}
+\makenomenclature % required by nomencl -- used to be \makeglossary
+% For indexing of document
+
+\usepackage{makeidx}
+\makeindex % required by makeidx
+% For rotated figures and tables
+
+\usepackage{rotating}
+\usepackage{lscape}
+
+% Text mode symbols (for \textdegree and \textcelsius}
+\usepackage{textcomp}
+
+% Enable the default extensions for PDFTeX
+\DeclareGraphicsExtensions{.jpg, .pdf, .mps, .png}
+% Define a default graphics path as graph
+\graphicspath{{graph/}}
+
+% commands 
+% Additional options for typesetting the degree and department seperately
+\newcommand*{\degree}[1]{\gdef\@degree{#1}}
+\newcommand*{\department}[1]{\gdef\@department{#1}}
+%       graphics
+%   Use these widths for full and halfwidth figures.  
+%       Renew them in your document to change them
+\newcommand{\fullwidth}{0.8\textwidth}
+\newcommand{\halfwidth}{0.4\textwidth}
+
+%       text
+\newcommand{\matlab}{{\scshape Matlab}}
+
+% Typeset a differential fraction (dx/dy)
+\newcommand\dxdy[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
+
+% Typeset a vector variable 
+%\newcommand\vec[1]{\ensuremath{\mathbf{#1}}} %(upright and bold)
+
+% Enviroments
+% overview environment for an overview of each chapter
+\newenvironment{overview}{\sffamily\begin{quote}}{\end{quote}}
+
+% redefine maketitle to use a default logo and make the text look prettier
+\renewcommand{\maketitle}{
+  \begingroup
+  % Avoid duplicate page names:
+  \renewcommand{\thepage}{Title 1}
+  \begin{titlepage}
+    \begin{center}%
+      \null
+      %\includegraphics[width=\textwidth]{logo}
+      \vfil
+      {\huge\scshape \@title \par}%
+      \vskip 3em%
+      {\large
+        \@author
+        %  \vskip 1.5em%
+        % {\large \today \par}%       % Set date in \large size.
+      }
+    \end{center}\par
+    \vfil\null
+  \end{titlepage}
+  \endgroup
+}
+
+% Standard coverpage for the 
+\newcommand{\makecoverpage}{% Standard University of Pretoria coverpage
+  \begingroup
+  % Avoid duplicate page names:
+  \renewcommand{\thepage}{Title 2}
+  \begin{titlepage}
+    \newpage%
+    \null\vfil%
+    \begin{center}%
+      \textbf{\LARGE \@title}%
+      \vfil%
+      by \par%
+      \vfil%
+      \textbf{\large \@author}%
+      \vskip 3em
+      A thesis submitted in partial fulfillment \\
+      of the requirements for the degree
+      \vskip 3em
+      \textbf{\Large \@degree}
+      \vfil
+      in the
+      \vskip 3em
+      {\large \@department \\
+Faculty of Engineering, the Built Environment and Information Technology}
+      \vskip 3em
+      {\large University of Pretoria \\
+        Pretoria}
+      \vskip 3em
+      \textbf{\@date}
+    \end{center}
+    \vfil\null
+  \end{titlepage}
+  \endgroup
+}
