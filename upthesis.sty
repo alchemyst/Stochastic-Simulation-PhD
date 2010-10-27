@@ -4,7 +4,12 @@
 % - Automatically detect pdfTeX (or lack thereof) and change graphics filetypes accordingly
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{upthesis}[2010/07/27 v0.2 University of Pretoria dissertation styles]
+\ProvidesPackage{upthesis}[2010/10/02 v0.3 University of Pretoria dissertation styles]
+
+% Revision notes:
+% 0.1 Original form
+% 0.2 2010-07-27 Strange error when using the "conny" style in fncychap found and fixed
+% 0.3 2010-10-02 A proper vector macro produced, dfrac renamed.
 
 % Package includes
 
@@ -71,6 +76,9 @@
 
 % Fancy chapter headings
 \usepackage{fncychap}
+% The conny option was originally used, but the ChTitleUpperCase
+% command commented out below caused a strange error in newer versions
+% of TeXLive.  The following commands seem to work fine.
 \ChNameUpperCase
 \ChNumVar{\Huge}
 %\ChTitleUpperCase
@@ -114,11 +122,16 @@
 %       text
 \newcommand{\matlab}{{\scshape Matlab}}
 
+\newcommand\dd{\mathrm{d}}
 % Typeset a differential fraction (dx/dy)
-\newcommand\dxdy[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
+\newcommand\dxdy[2]{\frac{\dd#1}{\dd#2}}
 
 % Typeset a vector variable 
-%\newcommand\vec[1]{\ensuremath{\mathbf{#1}}} %(upright and bold)
+\newcommand\vect[1]{\ensuremath{\boldsymbol{#1}}} %(upright and bold)
+% enumerated vector (first, second etc) as per Deb
+\newcommand\varx[1]{\ensuremath{\vect{x}^{(#1)}}}
+\newcommand\dominates{\ensuremath{\preceq}}
+\newcommand\strongdominates{\ensuremath{\prec}}
 
 % Enviroments
 % overview environment for an overview of each chapter

@@ -1,4 +1,19 @@
 \chapter{Software}
+\label{chap:software}
+\begin{overview}
+  Even though solving a set of model equations by hand can also be
+  seen as simulation~\citehere, modern simulation will almost certainly
+  involve using computers.  The act of simulation (ie the actual
+  solution of the modelling equations) is also not the only process
+  which benefits by using computers.  Simulation generates data, which
+  need to be stored and analysed in some way.  The model descriptions
+  themselves need to be encoded and stored.  This chapter reviews
+  simulation-related software in this larger context, discussing
+  current technology for developing models, solving the model
+  equations and storing the resulting data.  The choices that have
+  been made for the modelling framework are interspersed in this
+  discussion.
+\end{overview}
 
 \section{Model representations}
 
@@ -26,10 +41,9 @@ NSF
 % ~/Downloads/Documents/workflow
 % ~/Downloads/Documents/workflow/scientific
 
-http://wiki.cogkit.org/index.php/Scientific_Workflow_Survey
+\url{http://wiki.cogkit.org/index.php/Scientific_Workflow_Survey}
 
-
-wftk http://www.vivtek.com/wftk/perl_tutorial/08-workflow.html
+wftk \url{http://www.vivtek.com/wftk/perl_tutorial/08-workflow.html}
 Perl-based single developer toolkit.  Good documentation about what
 should go into a workflow tool.
 
@@ -52,9 +66,108 @@ Also for business.
 \section{Concurrency}
 \subsection{Local parallalism}
 
-\section{Data requirements}
-\subsection{Timeseries data}
-Input and output timeseries
+\section{Property packages}
+
+
+\section{Simulators}
+\subsection{Proprietary chemical systems}
+
+\subsection{Modelica}
+The Modelica project was spearheaded by \xxx, who started research on
+modelling languages during his PhD studies in \xxx.  ``Modelica is a modern, strongly typed, declarative, and object-oriented language for modeling and simulation of complex systems.'' (\url{http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.139.7209})
+
+\subsection{Stochastic simulation}
+
+\subsection{Proprietary simulators}
+\subsubsection{gPROMS}
+\subsubsection{SPEEDUP}
+\subsubsection{HYSIS}
+\subsubsection{CHEMCAD}
+
+\subsection{Zero cost}
+\subsubsection{Model.la}
+% Model.la_Jerry_Bieszczad_phd.pdf
+By a student of Stephanopolous. \url{http://web.mit.edu/modella/}
+
+\subsubsection{COCO}
+COCO simulator - Based on the Cape Open standard.  \url{http://cocosimulator.org/}
+
+\subsection{Open source}
+
+\subsubsection{ASCEND}
+ASCEND from Carnegie Mellon university.  From the ASCEND website: \url{http://ascend.cheme.cmu.edu/}
+\begin{quote}
+  ASCEND is a system for solving systems of equations, aimed at engineers and scientists. It allows you to build up complex models as as systems constructed from simpler sub-models. Using ASCEND it is simple to play around with your model, examine its behaviour, and work out how it can best be solved. You can easily change which variables are fixed and which are to be solved, and you can examine the way in which the model is being solved.
+\end{quote}
+\subsubsection{EMSO}
+%TODO: Check out EML the EMSO model library
+EMSO process simulator from ALSOC (\url{http://www.enq.ufrgs.br/trac/alsoc}).
+
+From the EMSO website:
+\begin{quote}
+EMSO is the acronym for Environment for Modeling, Simulation, and Optimization. 
+EMSO is a graphical environment where the user can model complex processes simply selecting and connecting the equipment models. 
+
+The main features of EMSO follows: 
+
+\begin{itemize}
+\item Entirely written in C++
+\item A fairly portable code, currently
+  available for Windows and Linux but can be compiled for other
+  platforms if desired
+\item It is an Equation-Oriented simulator The unique
+  Equation-Oriented simulator with units-of-measurement checking for
+  the equations
+\item A large set of built-in functions
+\item Models are written
+  in a modeling language, the user does not need to be a programmer
+
+\item Models are converted to system of equations in memory, no
+  compilation or linking is needed
+\item An open library of models, called
+  EML
+\item Built-in code for symbolic differentiation which enables the
+  system to solve high-index problems
+\item Built-in code for automatic
+  differentiation which makes the system very efficient
+\item Can make use
+  of machine optimize BLAS routines
+\item Currently support: 
+  \begin{itemize}
+  \item static simulation
+  \item dynamic simulation
+  \item static optimization
+  \item parameter estimation of static models
+  \item parameter estimation of
+    dynamic models
+  \end{itemize}
+\item A
+  graphical user interface which can be used to model development,
+  simulation execution, and results visualizing
+\item A system of PlugIns where the user can embed code written in C,
+  C++ or FORTRAN into the models A very modular system - all solvers
+  are DLL's and the user can even write their own NewSolver Models
+\end{itemize}
+\end{quote}
+
+\subsubsection{DWSIM}
+\label{sec:dwsim}
+
+From the DWSIM website: \url{http://dwsim.inforside.com.br/}
+\begin{quote}
+DWSIM is a Chemical Process Simulator for Windows. Built on the Microsoft .NET 2.0 Platform and featuring a rich Graphical User Interface (GUI), DWSIM allows chemical engineering students and chemical engineers to better understand the behavior of their chemical systems by using rigorous thermodynamic and unit operations' models with no cost at all. Even better, they can see how the calculations are actually being done - DWSIM is open source, that is, its code is available to anyone who wishes to discover the "magic" behind it or just do some code browsing. 
+\end{quote}
+
+\subsubsection{OPSIM}
+\label{sec:opsim}
+Windows-only.  \url{http://sourceforge.net/projects/opsim/}
+
+\section{Programming languages}
+\cite{chaves.nehrbass.ea2006octave}
+
+\section{Data formats}
+\subsection{Time-series data}
+Input and output time-series
 
 \subsection{Properties}
 See CAPE-Open
@@ -62,7 +175,7 @@ See CAPE-Open
 \subsection{Object data}
 Data requirements of each unit/storage
 
-\section{Data tecnologies}
+\section{Data technologies}
 \subsection{Relational databases}
 \subsection{HDF5}
 

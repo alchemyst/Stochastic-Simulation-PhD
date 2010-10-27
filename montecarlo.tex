@@ -199,12 +199,12 @@ dependence of the process, but the initial state can not be determined
 using the transition probabilities alone.  The probability of the
 process starting out in a given state $i$ is denoted $\pi_i, i \in S$,
 and the vector of initial state probabilities is called
-$\boldsymbol{\pi}$. It can be seen that a discrete time Markov process
+$\vect{\pi}$. It can be seen that a discrete time Markov process
 is completely described by its state space $S$, its state transition matrix
-$P$ and its initial state probability vector $\boldsymbol{\pi}$.  If
+$P$ and its initial state probability vector $\vect{\pi}$.  If
 $S$ is countable and has $N$ elements, $N^2 + N$ probabilities have to
 be known to fully characterise the process.  For convenience, the
-model is written $\lambda = (P, \boldsymbol{\pi})$.
+model is written $\lambda = (P, \vect{\pi})$.
 
 \subsection{Hidden Markov Models} 
 It is not always possible to observe the state (in the state space
@@ -237,7 +237,7 @@ associated with the $N$ states of the Markov process and $M$ columns
 associated with the observation space. An HMM as described here can
 therefore be characterised by the same $N^2+N$ probabilities describing
 the Markov process in addition to $MN$ observation probabilities.  The
-model description can be abbreviated to $\lambda = (P, B, \boldsymbol{\pi})$.
+model description can be abbreviated to $\lambda = (P, B, \vect{\pi})$.
 
 There are three main problems associated with HMMs \citep{gamerman_markov_2006}:
 \begin{itemize}
@@ -274,27 +274,6 @@ $P$ matrix), such that
 
 The idea is that, having changed to a particular state the probability of moving to the next one approaches one over time, but at different rates.
 
-
-\subsubsection{Results}
-To illustrate the type of result that is obtained using the technique,
-we show the results on a a signal consisting of 6 events, attempting
-to fit 4 events.  Figure~\ref{fig:front_evolution} shows the evolution
-of the Pareto front in terms of fit complexity and RMS error for
-different numbers of iterations.
-
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.7\textwidth]{front_evolution}
-  \caption{Evolution of Pareto Front for 6 events being fit by 4 events.}
-  \label{fig:front_evolution}
-\end{figure}
-
-It should be noted that, although the front seems to be converging,
-population based multi-objective optimisation algorithms can not
-guarantee convergence with a finite archive.  This is due to the
-pruning that must inevitably be done when the archive is full.
-Figure~\ref{fig:front_evolution} does, however, show that the front has not
-receded.
 
 \subsection{Optimisation with variable numbers of events}
 The optimisation methods discussed so far have a significant

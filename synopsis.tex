@@ -1,11 +1,52 @@
 \chapter*{Synopsis}\addcontentsline{toc}{section}{Synopsis}
 
+Chemical engineering process modelling and simulation pose significant challenges to the computer program developer.
+Chemical processes are invariably described by non-linear equations such as chemical reaction kinetics, flow-pressure relationships and physical properties.
+Dynamic simulation of such systems involves the solution of sets of non-linear differential and algebraic equations.
+There is also uncertainty associated with the model equations themselves (model uncertainty), their parameters (parametric uncertainty) and the inputs into the model (input uncertainty).
+Tools that aid chemical engineers in the solution of these problems have been successfully commercialised and enjoy a measure of success, although the adoption of dynamic and stochastic simulation packages is lagging behind the steady-state flowsheeting tools.
 
+Commercial software solutions can be prohibitively expensive in addition to confining users to adhere to proprietary standards.
+ The Free Software and Open Source movements have made inroads into providing non-proprietary alternatives to many commercial software packages, which has encouraged the adoption of open standards.
+ Pressure from the commercial users of simulation software also led to the development of the CAPE-Open standards to ensure interoperability between proprietary platforms.
+
+This work presents a framework for the development of stochastic dynamic simulations of chemical processes using only free and open source software.
+ The large problem of stochastic dynamic simulation has been broken down into stages:
+\begin{enumerate}
+\item Input modelling using Markov chain models trained on process data or seeded by hand in addition to stationary distribution models. This enables dynamic scenarios to be handled with the minimum of special case code generation.
+\item Process modelling using an object-oriented approach in the Modelica language. Modelica has an open source implementation called OpenModelica and is an open standard modelling language.
+\item Monte Carlo simulation using extensions to the OpenModelica compiler that ease parallel simulations
+\item Postprocessing, including visualisation and statistical analysis. Statistics that are generated can be used for control or validation purposes.
+\end{enumerate}
 
 \noindent \textbf{KEYWORDS:} 
 
 \begin{otherlanguage}{afrikaans}
 \chapter*{Sinopsis}\addcontentsline{toc}{section}{Sinopsis}
+%TODO: reTranslate (current one by google translate)
+Chemiese ingenieurswese proses modellering en simulasie inhou groot uitdagings aan die rekenaar program ontwikkelaar. 
+Chemiese prosesse is altyd beskryf deur nie-lineêre vergelykings soos chemiese reaksie kinetika, vloei-druk verhoudings en fisiese eienskappe. 
+Dinamiese simulasie van sodanige stelsels behels die oplossing van stelle van nie-lineêre differensiaal-en algebraïese vergelykings. 
+Daar is ook onsekerheid in verband met die model vergelykings hulself (model onsekerheid), hul parameters (parametriese onsekerheid) en die insette in die model (insette onsekerheid). 
+Instrumente wat steun chemiese ingenieurs in die oplossing van hierdie probleme suksesvol is gekommersialiseer en geniet 'n mate van sukses, hoewel die aanneming van' n dinamiese en stogastiese simulasie pakkette is agter die stabiele toestand flowsheeting tools. 
+
+Kommersiële sagteware oplossings kan word onbetaalbaar bykomend tot beperk gebruikers om te voldoen aan eie standaarde. 
+ Die Vrye Sagteware en Open Source bewegings het het vordering in die verskaffing van nie-eie alternatiewe vir baie kommersiële sagteware pakkette, wat aangemoedig om die goedkeuring van oop standaarde. 
+ Druk van die kommersiële gebruikers van simulasie sagteware ook gelei tot die ontwikkeling van die Kaapse-Open standaarde interoperabiliteit te verseker tussen die eie platforms. 
+
+Hierdie werk bied 'n raamwerk vir die ontwikkeling van stogastiese dinamiese simulasies van chemiese net gratis en open source sagteware prosesse gebruik. 
+Die groot probleem van stogastiese simulasie dinamiese is afgebreek in fases:
+\begin{enumerate}
+  \item Input modelle gebruik Markovketting modelle opgelei oor die proses data
+   of gekeur per hand benewens stasion\^ere verdeling modelle. Dit stel
+   dinamiese scenario's te hanteer word met die minimum van spesiale geval code generasie. 
+  \item Prosesmodellering met behulp van 'n objek-georiënteerde benadering in
+  die Modelica taal. Modelica het 'n oop bron implementering genoem OpenModelica
+  en is 'n oop standaard model taal.
+  \item Monte Carlo-simulasie met uitbreidings aan die OpenModelica samesteller dat gemak parallel simulasies
+  \item Post Processing, insluitend visualisering en statistiese analise.
+  Statistiek wat gegenereer kan gebruik word vir die beheer of validering voorgelê.
+\end{enumerate}
 
 \bigskip 
 

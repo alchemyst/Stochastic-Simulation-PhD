@@ -1,0 +1,29 @@
+%    Nomenclature style file for makeindex. Based on the file
+%    nomencl.ist distributed with the LaTeX package nomencl version 2.2
+%
+%
+%    Written by Brian Elmegaard be@et.dtu.dk
+%    (Original file by Boris Veytsman)
+%
+%    The output has been changed to a (LaTeX-style) longtable to have two
+%    columns with starting at the same horizontal position.
+%
+
+
+actual '@'
+quote '%'
+delim_0   ""
+delim_1   ""
+delim_2   ""
+delim_3   ""
+item_0    ""
+delim_t   " \\\\"
+line_max  1000
+heading_prefix   "\n\\multicolumn{3}{l}{\\nomgroup{"
+heading_suffix   "}}\\\\\n\\nopagebreak\\\\[\\parskip]\\nopagebreak"
+headings_flag       1
+group_skip        "\\\\[\\parskip]"
+preamble "\\begin{theglossary}\n\\begin{longtable}[l]{lp{0.65\\textwidth}l}"
+postamble "\n\\end{longtable}\n\\end{theglossary}"
+keyword "\\glossaryentry"
+%%

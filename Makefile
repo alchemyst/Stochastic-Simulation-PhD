@@ -25,11 +25,15 @@ thesis.pdf: *.tex $(graphfiles) upthesis.sty thesis.bib
 thesis.bib: zotero_export.bib
 	bibtool -f "%-n(author)%4d(year)%-T(title)" $< -o $@
 
-activity.png: activity.gp activity.dat
+activity.png: activity.gp activity.dat targets.dat
 	gnuplot activity.gp
 
+targets.dat: targets.base activity.db
+	sqlite3 -column activity.db "select date('now'), max(words), max(words) from activity" > $@
+	cat targets.base >> $@
+
 activity.dat: activity.db
-	sqlite3 -column $< "select date(timestamp) as date,max(words) from activity group by date;"  > $@
+	sqlite3 -column $< "select date(timestamp) as date,max(words) from activity where date > '2010-09-15' group by date;"  > $@
 
 activity.db: *.tex *.sty *.bib
 	./activity $@

@@ -3,16 +3,16 @@
 
 \end{overview}
 
-\section{Event identification}
-\subsection{Application}
+\section{Segmentation}\label{sec:imp:segmentation}
+\subsection{The Segmentation module}
+The techniques described in section \ref{sec:lit:segmentation} were all implemented in a Python module called \modulename{Python}{segmentation}.
+
+\subsection{Multi-objective fitting}
+% TODO: Replace the reference to raquel with a cross-reference to the optimization chapter
 As an example of the results obtainable using multi-objective
-optimisation, the MOPSO-CD (Multi-Objective Particle Swarm
-Optimisation with Crowding Distance) algorithm proposed
-by\cite{raquel_effective_2005}was used to fit a first-order response
-prototype to input signals.  The algorithm is a modification of
-Particle Swarm Optimisation that adds an archive of nondominated
-solutions and uses a crowding distance measure to prevent many similar
-Pareto optimal solutions from being retained in the archive.
+optimisation, the MOPSO-CD algorithm discussed in
+section~\ref{sec:mopso} was used to fit a first-order response
+prototype to input signals.
 
 A problem description based on a prototypical first order response was
 used in this study. Figure~\ref{fig:definition} shows the prototype
@@ -116,7 +116,106 @@ The values of $\epsilon_c$ and $\tau_c$ are problem-dependant and
 should be chosen to represent an insignificant change in $y$ and a
 large time constant (in the chosen time units) respectively.
 
+\section{Model library}
+\subsection{Stream type}
+A key element in the development of a Modelica chemical engineering simulation
+library is the encoding of the stream data in a stream type.  
 
+%NOTE: Design only - replace by what was actually implemented - this probably
+% needs to be in a separate file.
+
+Intensive properties:
+\begin{itemize}
+  \item Pressure
+  \item Temperature
+\end{itemize}
+
+Exensive properties:
+\begin{itemize}
+  \item Component mass flow rates (compositions come from flowrates)
+\end{itemize}
+
+To start building the simulation, the components have to be chosen and the
+initialiser has to be run.  This creates the stream types that can be used in
+the rest of the unit operations.  Simulation will fail if the component list is
+changed without re-running the initialiser.	
+
+\subsection{Connector philiosophy}
+%NOTE: This is rambling, but I'm getting my thoughts on paper
+Blocks in Modelica are connected by connector types.  The variables in the
+connectors can connect as ``flow-type'' variables or ``potential-type''
+variables.  The difference is in how the sign of equality is handled when the
+model is constructed.  Flow-type variables are connected with a negative sign
+(so that flow out of one block is equal to the flow into another, but in the
+opposite direction), while potential-type variables are simply set equal to one
+another (this works well for things like pressure).
+
+It was decided to bundle the extensive properties of the stream and the
+intensive properties of the stream seperately.
+
+\section{CORBA support}
+There are two popular patterns for the use of CAPE-OPEN when
+developing custom simulation codes.  The first is to make use of the
+Unit Operation support to embed a unit operation into an existing
+flowsheeting package, which then handles the simulation calculations.
+The second is to use a stand-alone modelling environment, but to
+interface with various packages for information like thermodynamic
+properties, equilibrium and/reaction kinetics.  It was decided to
+abstract the property and equilibrium calculations into a class
+(SimulationStream) which is specified as a connector type for the
+column components.  The SimulationStream objects that are instantiated
+when the components are simulated communicate with a host using the
+ICapeThermoPropertyPackage methods CalcProp and CalcEquilibrium.  The
+interfacing is done using CORBA.  Mico CORBA was used on the client
+(Linux) machine, accessed using the support for external C routines in
+OpenModelica.  On the host (Windows) machine, the Unisim CORBA Server
+was used to interface with Unisim.
+
+Figure~\ref{fig:dataflow} shows the data flow conceptually.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{dataflow}
+  \caption{Simulation data flow for multiple computers}
+  \label{fig:dataflow}
+\end{figure}
+
+It should be noted that, although this implementation has used CORBA
+due to the lack of support of COM on the Linux platform, CO-LaN
+supplies a COM-to-CORBA bridge as part of the CAPE-OPEN effort, so
+using CORBA is not a significant problem.
+
+\section{Column model}
+\label{sec:column-model}
+The distillation column modelled is a lab-scale glass distillation
+column fitted with a water-cooled total condenser and a steam
+thermosyphon boiler.  It separates a mixture of ethanol and water.
+
+The Modelica components developed for modelling the distillation
+column are shown schematically in Figure~\ref{fig:components}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{components}
+  \caption{Distillation column components}
+  \label{fig:components}
+\end{figure}
+
+A single generic plate model was developed that allows for a material
+and energy stream (both of which could be incoming or outgoing,
+labelled F and Q in the diagram) in addition to the normal vapour and
+liquid arrangement (two vapour streams and two liquid streams).  This
+allows multiple feed columns to be modelled easily, even when the
+feeds are intermittend during the simulation.  It also allows for
+energy losses or additions.  The physical column that was modelled
+exhibits significant heat losses.
+
+The plate model assumes negligible vapour dynamics, with per-component
+hold-up on the liquid side.  The pressure drop between the input and
+output vapour streams is estimated using the height of liquid on the
+plate.  The Wilson thermodynamic model was used as it accurately describes the ethanol-water equilibrium.
+
+The material streams these components are specified as
+SimulationStreams, allowing the material properties and equilibrium to
+be calculated by the external thermo host.
 
 
 % Local Variables:

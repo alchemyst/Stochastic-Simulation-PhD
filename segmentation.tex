@@ -1,4 +1,4 @@
-\section{Segmentation}
+\section{Segmentation}\label{sec:lit:segmentation}
 Segmentation aims to approximate an input signal of length $N$ by
 $n<N$ events. Segmentation can be used as a compression measure, as a
 method of smoothing the data or to investigate underlying structure in
@@ -50,15 +50,12 @@ has been reduced below a threshold.
   \begin{algorithmic}
     \Function{topdown}{$T, \epsilon$}
     \If{approximationerror($T$) $< \epsilon$}
-       
-    \Return{approximate($T$)}
+      \Return{approximate($T$)}
     \Else
       \State $N \gets $ length($T$)
-      \State $b \gets \min_i{\mathrm{splitcost}(T,i)}$ \Comment{Find
-    best split point}
-  
+      \State $b \gets \min_i{\mathrm{splitcost}(T,i)}$ \Comment{Find best split point}
       \Return topdown($T[1\dots b]$) + topdown($T[b+1\dots N]$) 
-      \EndIf
+    \EndIf
     \EndFunction
 \end{algorithmic}
 \end{algorithm}

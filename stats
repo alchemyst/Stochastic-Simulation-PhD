@@ -9,3 +9,6 @@ echo Detexed words:"     "`detex thesis.tex | wc -w`
 echo LaTeX files:"       "`ls *.tex | wc -l`
 echo Total dir size:"    "`du -sh . | cut -f 1`
 echo 5 most used words:" "`detex thesis.tex | tr " "[:punct:] "\n" | tr [:upper:] [:lower:] | sort | uniq -c | sort -rn | awk 'length($NF)>4 {print $NF"("$1")"}' | head -n 5`
+
+echo "Since last activity:"
+sqlite3 activity.db < progresstoday.sql

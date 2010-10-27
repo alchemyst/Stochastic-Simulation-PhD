@@ -1,0 +1,238 @@
+\chapter{Theoretical background}\label{chap:lit}
+\begin{overview} 
+  This chapter explores existing developments in modelling and
+  simulating steady-state and dynamic systems with and without
+  uncertainty.
+\end{overview}
+
+\subsection{IEC 61131-3}
+IEC 61131-3 is a standard that defines
+
+\url{http://en.wikipedia.org/wiki/IEC_61131-3}
+
+\section{Basic modelling equations}
+Several equations are used in many different pieces of equipment
+\subsection{Conservation of mass}
+\subsection{Conservation of energy}
+\subsection{Reaction kinetics}
+
+
+
+\subsection{Equilibrium}
+\subsection{Transport equations}
+\subsubsection{Heat transfer}
+\subsubsection{Mass transfer}
+
+\section{Simulation}
+
+\subsection{Modelling}
+\subsubsection{Microscopic}
+
+\subsubsection{Macroscopic}
+Macroscopic modelling 
+
+\subsubsection{Lumped models}
+
+\subsection{Input identification}
+Stochastic simulation of systems, especially those using Monte Carlo
+methods, require good input scenarios to generate good output data.
+It is common to make use of Markov processes to generate realistic
+inputs based on historic data.  However, identification of ``events''
+within historic data can be troublesome.  Much work has been done on
+identification of events or trends in data (\citet{maurya.rengaswamy.ea2007fault}
+give a good overview of trend analysis techniques).  Reducing process
+signals to symbols representing qualitative event types rather than
+quantitative data allows patterns to be found in events, or what
+\citet{Cheung1990Representation} refer to as
+episodes.  In this seminal work, the authors define a formal language
+in terms of the 7 primitives shown in
+figure~\ref{fig:stephanopoulosprimitives}.
+
+\begin{figure}[htbp]
+  \centering
+  \setlength{\unitlength}{0.7em}
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \put(7,1){D}
+    \put(4,4){$(+,-)$}
+    \thicklines
+    \qbezier(1,1)(2,7)(7,7)
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \put(7,1){B}
+    \put(1,4){$(+,+)$}
+    \thicklines
+    \qbezier(1,1)(7,2)(7,7)
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \thicklines
+    \qbezier(1,1)(2,2)(7,7)
+    \put(7,1){C}
+    \put(1,5){$(+,0)$}
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \thicklines
+    \qbezier(1,7)(6,7)(6.7,1)
+    \put(7,1){G}
+    \put(1,4){$(-,-)$}
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \thicklines
+    \qbezier(1,7)(2,2)(6.7,1)
+    \put(7,1){E}
+    \put(4,4){$(-,+)$}
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \thicklines
+    \qbezier(1,7)(4,4)(7,1)
+    \put(7,1){F}
+    \put(5,5){$(+,-)$}
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \thicklines
+    \qbezier(1,4)(3,4)(7,4)
+    \put(7,1){A}
+    \put(4,6){$(0,0)$}
+  \end{picture}
+  }
+  \caption[Episodic analysis primitives]{Episodic analysis primitives according to \citet{cheung.stephanopoulos1990representation}.}
+  \label{fig:stephanopoulosprimitives}
+\end{figure}
+
+One problem with event-based approaches is that, to estimate the
+likelihood of a state transition, at least one such a transition has
+to be identified in the training data.  This means that such processes
+are usually very data-intensive.  The same holds for episodic analysis
+-- some patterns may go unnoticed because of misfitting.
+Furthermore, it is difficult to determine an objective function for
+fitting, as attempts to fit the data too accurately usually
+lead to a loss of generality (the over-fitting problem,
+described by \citet{arora.khot2003fitting} and others).
+
+\section{Uncertainty}
+The reason for stochastic simulation is the existence of uncertainty in
+one or more aspects of the model.  If the model was perfect, a single
+deterministic simulation would be a complete exploration of the
+model.  In the steady state case, this means that solving the steady
+state equations yield a single, reliable result.  
+
+Uncertainty can be classified according its location as follows.
+
+\subsection{Input uncertainty}
+Input uncertainty refers to uncertainty about the values of the inputs
+into the model.  In control problems and when processing natural
+products, the properties of input streams may not be known in more
+detail than expected ranges.
+
+Input uncertainties are further subdivided into quantities that have
+known distributions rather than fixed values and quantities that vary
+over time, exhibiting known events.
+
+\subsubsection{Input types}
+
+\subsection{Parametric}
+Parametric uncertainty is uncertainty in parameters of the model.  It
+is usually assumed that the model shape is correct, but that
+differences between simulated values and experimental data can be
+explained by inaccurate parameter values.  Parametric uncertainty can
+be due to incorrect models, which do not model variations accurately,
+or to inaccurate measurements.  If model parameters change over time
+in predictable ways, it is more proper to model these changes by
+introducing more model equations than to mask them by assuming
+parametric uncertainty.  The specific combination of parameters for a
+simulation must therefore remain constant for that simulation.
+
+A process for which the parameters remain constant in this way is
+called an ergodic process
+% http://en.wikipedia.org/wiki/Ergodic_process
+
+It is possible to estimate the mean of an ergodic process by 
+\begin{equation}
+  \hat{\mu_T} = \frac{1}{2T} \int_{-T}^{T} x(t) \dd t
+\end{equation}
+
+
+\subsection{Model uncertainty}
+Model uncertainty is the hardest to handle during simulations, as this
+refers to uncertainty in the form of the model equations.  Model
+uncertainty is different from parametric uncertainty as it implies
+that no combination of parameters in the model can accurately capture
+the behaviour of the system.  The boundary between model and
+parametric uncertainty is often blurred by the fact that models are
+often developed with additional parameters designed to make the model
+more flexible.  This work does not address model uncertainty.
+
+
+
+\section{CAPE-OPEN}
+The CO-lan describes CAPE-OPEN as follows:
+\quote{CAPE-OPEN standards are the uniform standards for interfacing
+  process modelling software components developed specifically for the
+  design and operation of chemical processes. They are based on
+  universally recognized software technologies such as COM and
+  CORBA. CAPE-OPEN standards are open, multiplatform, uniform and
+  available free of charge. They are described in a formal
+  documentation set.}
+
+The documentation set comprises the following items:
+\subsection{Thermodynamics and Physical Properties Interface Specification}
+
+\subsection{Unit Operations Interface Specification}
+
+\subsection{Chemical Reactions Interface Specification}
+
+\subsection{Methods \& Tools Integrated Guidelines}
+
+\subsection{Optimisation Interface Specification}
+
+\subsection{Parameter Estimation and Data Reconciliation Interface Spec}
+This document defines the interfaces required to do parameter estimation and data reconciliation.  The parameter estimation problem is to find the parameters that correspond with the best match between the model and the data, while the data reconciliation problem is to find data that does not correspond to the model.  Both of these activities require a model of the system or the ability to run the model and data from the system.  
+
+\subsection{Partial Differential Algebraic Equations Interface Specification}
+
+\subsection{Petroleum Fractions Interface Specification}
+
+\subsection{Physical Properties Data Bases Interface Specification}
+
+\subsection{Planning and Scheduling Interface Specification}
+
+\subsection{Simulation Context COSE Interface}
+
+
+\subsection{Identification Common Interface}
+\subsection{Parameter Common Interface}
+\subsection{Collection Common Interface}
+\subsection{Error Common Interface}
+\subsection{Persistence Common Interface}
+\subsection{Utilities Common Interface}
+
+% Local Variables:
+% TeX-master: "thesis"
+% End:
+
