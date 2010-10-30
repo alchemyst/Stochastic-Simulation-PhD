@@ -38,6 +38,9 @@ different values they attain.
 % FIXME: Create a figure showing the taxonamy of variables.
 
 \section{Pseudo-random number generation}
+% TODO: Heavily rewrite with reference to Saucier's ``Computer Generation of Statistical Distributions''
+% ~/Downloads/Documents/random_number_generation/random.pdf
+
 As modern computers are deterministic devices, it is theoretically
 impossible to use them to generate a sequence of truly random numbers
 \citehere.  However, it is possible to generate a (periodic) sequence
@@ -45,16 +48,22 @@ of numbers that are not significantly different from a random number
 sequence.  Such a sequence is termed pseudo-random.
 
 One of the more active researchers in the field, George Marsaglia, has
-proposed several popular schemes for generating such sequences.\citehere
+proposed several popular schemes for generating such sequences. \citehere
+% TODO: Find a good reference for George Marsaglia
+% http://en.wikipedia.org/wiki/Diehard_tests
+% http://en.wikipedia.org/wiki/George_Marsaglia
+% http://www.phy.duke.edu/~rgb/General/dieharder.php
 
 \subsection{Uniformly distributed}
 The most commonly used distribution for RNGs is the uniform distribution. 
-Numbers are usually generated in the range of $[0, N)]$ where $N$ is some large
-number.  Continuously distributed values in the range $[0,1]$ are generated from
+Numbers are usually generated in the range of $[0, N)$ where $N$ is some large
+number.  Continuously distributed values in the range $[0,1)$ are generated from
 the discrete variable by dividing  by  $N$. The most popular generators are the
-congruential generators.
+linear congruential generators, which take the form 
 
-
+\begin{equation}
+X_{i+1} = (aX_i +c) (\mod N)
+\end{equation}
 
 Marsaglia suggests the use of XOR-based generators for normal
 applications where efficiency is important \citehere.
@@ -66,9 +75,26 @@ distributed values and manipulating them, but some purpose-built
 algorithms exist~\citehere.
 
 \subsection{Arbitrary distributions}
-\subsubsection{Given a CDF}
 
-\subsubsection{Given a number of bins}
+\subsubsection{Given a CDF}
+If the CDF is invertable, it is a simple matter to generate the distribution if one has access to a uniformly random number.
+Simply choose this number and calculate the inverse, as shown in figure~\ref{fig:random_inverse}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{random_inverse}
+  \caption[Generating an arbitrary distribution via the inverse of the CDF]{Generating an arbitrary distribution via the inverse of the CDF \citep{saucier}}
+  \label{fig:random_inverse}
+\end{figure}
+
+Therefore, to generate a number distributed with distribution $f(x)$ and invertible cumulative distribution $F(x)$, simply return $F^{-1}(U(0, 1))$.
+
+If the inverse does not exist or is difficult to calculate, it may be necessary to use an acceptance rejection technique.
+Such techniques are based on the observation that the probability of generating a point which falls under $f(x)$ is distributed similarly to $f(x)$.
+The procedure is to generate two uniform random numbers $X \leftarrow U(x_{\min}, x_{\max})$ and $Y \leftarrow U(y_{\min}, y_{\max})$ then to return $X$ if $X<F(Y)$.
+
+\subsubsection{From data}
+
 
 \section{Sequence generation}
 \subsection{Sequence probabilities}
