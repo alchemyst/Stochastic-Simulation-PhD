@@ -10,18 +10,19 @@ set grid
 set key outside bottom horizontal reverse Left
 
 set xdata time
-set format x '%y-%m'
+set format x '%m-%d'
 set timefmt '%Y-%m-%d'
-set xrange ["2010-01-01":"2010-11-01"]
-
+set xrange ["2010-09-25":"2010-11-30"]
+#set yrange [0:7000]
 # fit trendline
+a = 0.05
+b = 1284501600 - 946677600 # (date +%s --date="2010-09-15") - (date +%s --date="2000-01-01")
 f(x) = a*(x-b)
-a = 0.0005
-b = 2.7e8+8e5
 
-fit f(x) 'activity.dat' using 1:2 via a
+fit f(x) 'activity.dat' using 1:2 via a, b
 
 plot 'activity.dat' using 1:2 title "detex words", \
      f(x) title sprintf("%.1f words per day", a*24*3600), \
-     18234 title "Carl Masters", \
-     41734 title "Ruanne Masters"
+    'targets.dat' using 1:2 title "Carl Masters", \
+     'targets.dat' using 1:3 title "Ruanne Masters"
+     
