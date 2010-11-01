@@ -1,18 +1,14 @@
 \chapter{Software}
 \label{chap:software}
 \begin{overview}
-  Even though solving a set of model equations by hand can also be
-  seen as simulation~\citehere, modern simulation will almost certainly
-  involve using computers.  The act of simulation (ie the actual
-  solution of the modelling equations) is also not the only process
-  which benefits by using computers.  Simulation generates data, which
-  need to be stored and analysed in some way.  The model descriptions
-  themselves need to be encoded and stored.  This chapter reviews
-  simulation-related software in this larger context, discussing
-  current technology for developing models, solving the model
-  equations and storing the resulting data.  The choices that have
-  been made for the modelling framework are interspersed in this
-  discussion.
+  Even though solving a set of model equations by hand can also be seen as simulation~\citehere, modern simulation will almost certainly involve using computers and computer programs.
+  The act of simulation (ie the actual solution of the modelling equations) is also not the only process which benefits by using computers.
+  Simulation generates data, which need to be stored and analysed in some way.
+  The model descriptions themselves need to be encoded and stored.  
+  This chapter reviews simulation-related software in this larger context, discussing current technology for developing models, solving the model
+  equations and storing the resulting data.
+  More attention is given to open-source software than to commercial software, as the framework is to use open source tools.
+  The choices that have  been made for the modelling framework are interspersed in this discussion.
 \end{overview}
 
 \section{Model representations}
@@ -70,6 +66,9 @@ Also for business.
 
 
 \section{Simulators}
+\subsection{Circuit simulators}
+Spice
+Gnu cap \url{http://www.gnu.org/software/gnucap/}
 \subsection{Proprietary chemical systems}
 
 \subsection{Modelica}
@@ -77,11 +76,22 @@ The Modelica project was spearheaded by \xxx, who started research on
 modelling languages during his PhD studies in \xxx.  ``Modelica is a modern, strongly typed, declarative, and object-oriented language for modeling and simulation of complex systems.'' (\url{http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.139.7209})
 
 \subsection{Stochastic simulation}
+\subsubsection{Gnu MCsim}
+From the MCSim users manual (\url{http://www.gnu.org/software/mcsim/mcsim.html}):
+\begin{quote}
+MCSim is a general purpose modeling and simulation program which can performs "standard" or "Markov chain" Monte Carlo simulations.
+It allows you to specify a set of linear or nonlinear algebraic equations or ordinary differential equations. 
+They are solved numerically using parameter values you choose or parameter values sampled from statistical distributions. 
+Simulation outputs can be compared to experimental data for Bayesian parameter estimation (model calibration).
+\end{quote}
 
 \subsection{Proprietary simulators}
 \subsubsection{gPROMS}
+
 \subsubsection{SPEEDUP}
+
 \subsubsection{HYSIS}
+
 \subsubsection{CHEMCAD}
 
 \subsection{Zero cost}
@@ -163,7 +173,7 @@ DWSIM is a Chemical Process Simulator for Windows. Built on the Microsoft .NET 2
 Windows-only.  \url{http://sourceforge.net/projects/opsim/}
 
 \section{Programming languages}
-\cite{chaves.nehrbass.ea2006octave}
+\citep{chaves.nehrbass.ea2006octave}
 
 \section{Data formats}
 \subsection{Time-series data}

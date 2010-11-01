@@ -1,39 +1,40 @@
 \chapter{Monte Carlo simulation}
 
 \begin{overview}
-  Monte Carlo simulation entails running a deterministic simulation
-  many times with variables chosen from the correct distributions.
-  For valid results, the random numbers must be generated correctly,
-  the simulation run correctly and the results collected with correct
-  calculation of the output distributions.  This chapter explores
-  these aspects of Monte Carlo simulation.
+  Monte Carlo simulation entails running a deterministic simulation many times with variables chosen from the correct distributions.
+  For valid results, the random numbers must be generated correctly, the simulation run correctly and the results collected with correct calculation of the output distributions.
+  This chapter explores these aspects of Monte Carlo simulation.
 \end{overview}
 
 \section{Introduction}
-Monte Carlo simulation is the brute-force algorithm of the statistical world. At
-the heart of the method is the idea that it is often much easier to develop a
-high-fidelity deterministic model of a process than characterising a stochastic
-process.  Using these deterministic models, one can estimate the distribution of
-output variables using input variables generated to conform to a known input
-distribution.  For this process to work, we need realistic inputs, a good
-deterministic model and a reliable way of interpreting the results.
+Monte Carlo simulation is the brute-force algorithm of the statistical world. 
+At the heart of the method is the idea that it is often much easier to develop a high-fidelity deterministic model of a process than characterising a stochastic process.  
+Using these deterministic models, one can estimate the distribution of output variables using input variables generated to conform to a known input distribution.
+For this process to work, we need realistic inputs, a good deterministic model and a reliable way of interpreting the results.
 
 % FIXME: We need a nice figure here illustrating the concept and a better
 % reference than moody
 
+\citet{sawilowsky2003you} lists the characteristics of a high quality Monte Carlo simulation as follows:
+
+\begin{itemize}
+\item the pseudo-random number generator has certain characteristics  (e.g. a long “period” before repeating values)
+\item the pseudo-random number generator produces values that pass tests for randomness 
+\item the number of repetitions of the experiment is sufficiently large to
+  ensure accuracy of results 
+\item the proper sampling technique is used 
+\item the algorithm used is valid for what is being modeled 
+\item the study simulates the phenomenon in question.
+\end{itemize}
+
 \section{Input generation}
-Within the context of MC simulation, ``inputs'' are sources of variance. Variance
-can be characterised as ``real'' variance, or external variance and uncertainty,
-which is inherent in the model, but does not exist in the real
-process\footnote{We assume here that deterministic models are able to capture the
-process behaviour}.  In a sense, the variability of the inputs captures our
-uncertainty about their behaviour.  We therefore distinguish between  varibles 
-that remain fixed during a simulation, but could assume different values for any
-given simulation, and those that would be expected to assume many values over a
-given simulation time.  In the first case we simply have to generate values
-conforming to a known distribution.  In the first case, we need to generate
-realistic input sequences, typically including  realistic transitions between the
-different values they attain.
+Within the context of MC simulation, ``inputs'' are sources of variance.
+Variance can be characterised as ``real'' variance, or external variance and uncertainty, which is inherent in the model, but does not exist in the real process\footnote{We assume here that deterministic models are able to capture the
+process behaviour}.  
+In a sense, the variability of the inputs captures our uncertainty about their behaviour.  
+We therefore distinguish between varibles that remain fixed during a simulation, but could assume different values for any given simulation, and those that would be expected to assume many values over a given simulation time.  
+In the first case we simply have to generate values conforming to a known distribution.  
+In the second, we need to generate realistic input sequences, typically including  realistic transitions between the different values they attain.
 
 % FIXME: Create a figure showing the taxonamy of variables.
 
@@ -41,14 +42,10 @@ different values they attain.
 % TODO: Heavily rewrite with reference to Saucier's ``Computer Generation of Statistical Distributions''
 % ~/Downloads/Documents/random_number_generation/random.pdf
 
-As modern computers are deterministic devices, it is theoretically
-impossible to use them to generate a sequence of truly random numbers
-\citehere.  However, it is possible to generate a (periodic) sequence
-of numbers that are not significantly different from a random number
-sequence.  Such a sequence is termed pseudo-random.
+As modern computers are deterministic devices, it is theoretically impossible to use them to generate a sequence of truly random numbers~\citep{neumann1951various}.
+However, it is possible to generate a (periodic) sequence of numbers that are not significantly different from a random number sequence.
+Such a sequence is termed pseudo-random.
 
-One of the more active researchers in the field, George Marsaglia, has
-proposed several popular schemes for generating such sequences. \citehere
 % TODO: Find a good reference for George Marsaglia
 % http://en.wikipedia.org/wiki/Diehard_tests
 % http://en.wikipedia.org/wiki/George_Marsaglia
@@ -56,23 +53,29 @@ proposed several popular schemes for generating such sequences. \citehere
 
 \subsection{Uniformly distributed}
 The most commonly used distribution for RNGs is the uniform distribution. 
-Numbers are usually generated in the range of $[0, N)$ where $N$ is some large
-number.  Continuously distributed values in the range $[0,1)$ are generated from
-the discrete variable by dividing  by  $N$. The most popular generators are the
-linear congruential generators, which take the form 
+Numbers are usually generated in the range of $[0, N)$ where $N$ is some large number.  
+Continuously distributed values in the range $[0,1)$ are generated from the discrete variable by dividing  by  $N$.
 
+\subsubsection{Linear congruential generators}
+The most popular generators are the linear congruential generators, which take the form \citep[10]{knuth1997art}
 \begin{equation}
 X_{i+1} = (aX_i +c) (\mod N)
 \end{equation}
+
+% TODO: Refer to the use of the Mersenne Twister algorithm
+\begin{quote}
+The 1997 invention of the Mersenne twister algorithm, by Makoto Matsumoto and Takuji Nishimura, avoids many of the problems with earlier generators.
+It has the colossal period of 219937−1 iterations (>43 × 106,000), is proven to be equidistributed in (up to) 623 dimensions (for 32-bit values), and runs faster than other statistically reasonable generators. 
+It is now increasingly becoming the random number generator of choice for statistical simulations and generative modeling. 
+SFMT, SIMD-oriented Fast Mersenne Twister, a variant of Mersenne twister, is faster even if it's not compiled with SIMD support.
+\end{quote}
 
 Marsaglia suggests the use of XOR-based generators for normal
 applications where efficiency is important \citehere.
 
 \subsection{Normally distributed}
-Several routines exist to generate normally distributed pseudo-random
-values.  Most of them involve drawing a number of uniformly
-distributed values and manipulating them, but some purpose-built
-algorithms exist~\citehere.
+Several routines exist to generate normally distributed pseudo-random values.  
+Most of them involve drawing a number of uniformly distributed values and manipulating them, but some purpose-built algorithms exist~\citehere.
 
 \subsection{Arbitrary distributions}
 
@@ -193,7 +196,7 @@ stochastic matrices.
 The orientation of $P$ is not unique. The arrangement with the current
 state in the rows and next state in the columns is known as a right
 transition matrix. The transpose arrangement has also been used (see
-for instance \citet{bhar_hidden_2004}) and is then described as a left
+for instance \citet{bhar.hamori2004hidden}) and is then described as a left
 transition matrix. Modern engineering usage leans toward the
 description used in this work.
 
@@ -220,17 +223,24 @@ customary to neglect edges with zero probabilities.
   \label{fig:markovgraph}
 \end{figure}
 
-The state transition probabilities sufficiently describe the time
-dependence of the process, but the initial state can not be determined
-using the transition probabilities alone.  The probability of the
-process starting out in a given state $i$ is denoted $\pi_i, i \in S$,
-and the vector of initial state probabilities is called
-$\vect{\pi}$. It can be seen that a discrete time Markov process
-is completely described by its state space $S$, its state transition matrix
-$P$ and its initial state probability vector $\vect{\pi}$.  If
-$S$ is countable and has $N$ elements, $N^2 + N$ probabilities have to
-be known to fully characterise the process.  For convenience, the
-model is written $\lambda = (P, \vect{\pi})$.
+Figure~\ref{fig:markovtimeseries} shows the result of simulation of the Markov process shown in figure~\ref{fig:markovgraph} over 100 iterations.  
+It is clear that the second and third states are more likely than the first.
+One might reasonably enquire what the overall likelihood of a particular state would be. 
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{simplemarkov_100_states}
+  %TODO: Convert to PGF
+  \caption{Time series generated by the simulation of a discrete-time Markov Model}
+  \label{fig:markovtimeseries}
+\end{figure}
+
+The state transition probabilities sufficiently describe the time dependence of the process, but the initial state can not be determined using the transition probabilities alone.
+The probability of the process starting out in a given state $i$ is denoted $\pi_i, i \in S$, and the vector of initial state probabilities is called
+$\vect{\pi}$.
+It can be seen that a discrete time Markov process is completely described by its state space $S$, its state transition matrix $P$ and its initial state probability vector $\vect{\pi}$.  
+If $S$ is countable and has $N$ elements, $N^2 + N$ probabilities have to be known to fully characterise the process.
+For convenience, the model is written $\lambda = (P, \vect{\pi})$.
 
 \subsection{Hidden Markov Models} 
 It is not always possible to observe the state (in the state space
@@ -265,7 +275,7 @@ therefore be characterised by the same $N^2+N$ probabilities describing
 the Markov process in addition to $MN$ observation probabilities.  The
 model description can be abbreviated to $\lambda = (P, B, \vect{\pi})$.
 
-There are three main problems associated with HMMs \citep{gamerman_markov_2006}:
+There are three main problems associated with HMMs \citep{gamerman.lopes2006markov}:
 \begin{itemize}
 \item What is the probability of generating a specific output sequence
   from a particular model?
@@ -300,65 +310,38 @@ $P$ matrix), such that
 
 The idea is that, having changed to a particular state the probability of moving to the next one approaches one over time, but at different rates.
 
-
-\subsection{Optimisation with variable numbers of events}
-The optimisation methods discussed so far have a significant
-disadvantage: it is not possible for them to choose the ``optimal''
-number of segments as one of the design variables, as their design space
-needs to have constant dimension. It is, however, possible to use
-genetic algorithms (GAs) for this purpose, by using a crossover
-operator allowing varying chromosome lengths.  One such operator is
-the simple ``cut and splice'' operator, which chooses a crossover
-point on the chromosome of each parent independently before exchanging
-material.  The application of multi-objective GAs with varying
-chromosome lengths may yield the first fully-automated optimisation
-for fitting events, as it allows the number of events to be included
-in the objective set.
-
-Finding the Pareto-optimal set of fits in this way will enable much
-richer analysis of time series.
-
 \section{Estimating state transition probabilities}
-The most direct method of estimating the state transition
-probabilities of a Markov process is to count the number of
-transitions in an input signal.  This strategy has some problems:
+The most direct method of estimating the state transition probabilities of a Markov process is to count the number of transitions in an input signal.
+This strategy has some problems:
 \begin{enumerate}
-\item Certain transitions may not occur in the input signal, so that
-  these transitions will never be simulated by the identified model
-\item Segmentation of the input signal may bias the event types or
-  transitions -- if a certain event is more often fit by the
-  segmentation algorithm, that event will be over-represented in the
-  transition matrix.
+\item Certain transitions may not occur in the input signal, so that these transitions will never be simulated by the identified model
+\item Segmentation of the input signal may bias the event types or transitions -- if a certain event is more often fit by the segmentation algorithm, that event will be over-represented in the transition matrix.
 \end{enumerate}
 
-If transitions between some events are very rare, it may be advisable
-to introduce a small artificial probability into the matrix to ensure
-that the event has a chance of  getting generated during the
-simulation.  This is especially true if the repercussions of a certain
-event combination are significant.  
+If transitions between some events are very rare, it may be advisable to introduce a small artificial probability into the matrix to ensure that the event has a chance of  getting generated during the simulation.
+This is especially true if the repercussions of a certain event combination are significant.  
 
-Segmentation bias can be combated by generating a large unbiased test
-set and testing the segmentation algorithm on it.  If a segmentation
-bias is detected, the transition probabilities can be modified to take
-these into account.
+Segmentation bias can be combated by generating a large unbiased test set and testing the segmentation algorithm on it.
+If a segmentation bias is detected, the transition probabilities can be modified to take these into account.
 
-% \section{Simulation}
-% At the heart of any computer-based stochastic simulation is the
-% generation of pseudo-random numbers.  It is customary to have a good
-% source of uniformly distributed random numbers and to derive other
-% distributions from them using either transformation or rejection
-% methods.
+\section{Simulation}
+% TODO: these paragraphs are duplicated in the statistics area
+At the heart of any computer-based stochastic simulation is the
+generation of pseudo-random numbers.  It is customary to have a good
+source of uniformly distributed random numbers and to derive other
+distributions from them using either transformation or rejection
+methods.
 
-% Most modern computer programming languages have at least this source
-% of randomness, and some may include sources for normally distributed
-% random values.  Commonly encountered transform methods can generate
-% normally distributed, Poisson and logarithmically distributed vales
-% from uniformly distributed values.~\citep{ripley_stochastic_2006}
+Most modern computer programming languages have at least this source
+of randomness, and some may include sources for normally distributed
+random values.  Commonly encountered transform methods can generate
+normally distributed, Poisson and logarithmically distributed vales
+from uniformly distributed values.~\citep{gamerman.lopes2006markov}
 
-% Direct simulation of Markov processes boils down to moving from state
-% to state with the prescribed probabilities.  A simple way to choose
-% values with specific probabilities is to use the cumulative sum of the
-% probability vector associated with the current state.  When a 
+Direct simulation of Markov processes boils down to moving from state
+to state with the prescribed probabilities.  A simple way to choose
+values with specific probabilities is to use the cumulative sum of the
+probability vector associated with the current state.  When a 
 
 \section{Conclusions}
 Markov processes provide a simple yet powerful method for generating
