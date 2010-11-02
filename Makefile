@@ -1,5 +1,4 @@
-tempfiles = *.aux *.toc *.log *.glo *.gls *.ind *.ilg *.lof *.out \
-	*.bbl *.idx *~ *.blg *.lot \#*\# *.nlo *.rel
+tempfiles = *~ \#*\#
 
 TARGET = thesis
 
@@ -18,8 +17,8 @@ xfigfiles = $(wildcard $(xfigdir)/*.fig)
 grpfiles = $(wildcard $(grpdir)/*.grp)
 graphfiles = $(wildcard $(graphdir)/*.pdf)
 
-thesis.pdf: *.tex $(graphfiles) upthesis.sty thesis.bib
-	rubber -d thesis.tex
+$(TARGET).pdf: *.tex $(graphfiles) upthesis.sty thesis.bib
+	rubber -d $(TARGET).tex
 
 # regularise the references from zotero database
 thesis.bib: zotero_export.bib
@@ -47,4 +46,5 @@ stats.txt: *.tex *.bib
 # The - in the command line causes make to continue in spite of errors
 # (like file not found for rm)
 clean:
+	rubber -d --clean $(TARGET).tex
 	-rm $(tempfiles)
