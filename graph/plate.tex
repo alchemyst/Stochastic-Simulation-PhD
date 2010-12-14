@@ -1,0 +1,66 @@
+%%Created by jPicEdt 1.4.1: mixed JPIC-XML/LaTeX format
+%%Sat Oct 25 17:34:59 SAST 2008
+%%Begin JPIC-XML
+%<?xml version="1.0" standalone="yes"?>
+%<jpic x-min="0" x-max="65" y-min="40" y-max="60" auto-bounding="true">
+%<multicurve fill-style= "none"
+%	 points= "(45,50);(45,50);(20,50);(20,50);(20,50);(20,60);
+%	(20,60);(20,60);(45,60);(45,60);(45,60);(45,50)"
+%	 />
+%<multicurve fill-style= "hlines"
+%	 fill-color= "#33ffff"
+%	 points= "(20,50);(20,50);(45,50);(45,50);(45,50);(45,40);
+%	(45,40);(45,40);(20,40);(20,40);(20,40);(20,50)"
+%	 />
+%<multicurve fill-style= "none"
+%	 right-arrow= "head"
+%	 points= "(0,50);(0,50);(20,50);(20,50)"
+%	 />
+%<multicurve fill-style= "none"
+%	 right-arrow= "head"
+%	 points= "(45,50);(45,50);(65,50);(65,50)"
+%	 />
+%<text text-vert-align= "center-v"
+%	 anchor-point= "(55,55)"
+%	 text-hor-align= "center-h"
+%	 text-frame= "noframe"
+%	 fill-style= "none"
+%	 >
+%Q
+%</text>
+%<text text-vert-align= "center-v"
+%	 anchor-point= "(10,55)"
+%	 text-hor-align= "center-h"
+%	 text-frame= "noframe"
+%	 fill-style= "none"
+%	 >
+%F
+%</text>
+%</jpic>
+%%End JPIC-XML
+%LaTeX-picture environment using emulated lines and arcs
+%You can rescale the whole picture (to 80% for instance) by using the command \def\JPicScale{0.8}
+\ifx\JPicScale\undefined\def\JPicScale{1}\fi
+\unitlength \JPicScale mm
+\begin{picture}(65,60)(0,0)
+\linethickness{0.3mm}
+\put(20,50){\line(1,0){25}}
+\put(20,50){\line(0,1){10}}
+\put(20,60){\line(1,0){25}}
+\put(45,50){\line(0,1){10}}
+\linethickness{0.3mm}
+\put(20,50){\line(1,0){25}}
+\put(45,40){\line(0,1){10}}
+\put(20,40){\line(1,0){25}}
+\put(20,40){\line(0,1){10}}
+\linethickness{0.3mm}
+\put(0,50){\line(1,0){20}}
+\put(20,50){\vector(1,0){0.12}}
+\linethickness{0.3mm}
+\put(45,50){\line(1,0){20}}
+\put(65,50){\vector(1,0){0.12}}
+\put(55,55){\makebox(0,0)[cc]{Q}}
+
+\put(10,55){\makebox(0,0)[cc]{F}}
+
+\end{picture}

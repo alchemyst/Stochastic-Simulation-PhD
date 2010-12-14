@@ -47,8 +47,17 @@ The deliverables of this work are:
 
 \section{Limitations}
 Although this work aims to provide the groundwork for an end-to-end stochastic simulation environment, it should be noted that much of what is presented here is at most a proof of concept.
-The unit opterations library has several omissions, most notably a functional PFR block and a component-aware pipe including delays.  
+Some limitations are worth spelling out as they may be expected to have been overcome.
+
+Cross-correlation of input signals is not considered: each input is assumed to be independant and uncorrelated.
+
+The unit operations library has several omissions, most notably a functional PFR block and a component-aware pipe including delays.  
 This is due to the lack of spacial derivative support in Modelica.
+
+Postprocessing of the results is limited to visualisation.
+Originally, the scope of the work was to develop postprocessing methods that could use the simulations sensibly for feedback control.
+Unfortunately the constraints of time and space are real even in an academic environment.
+
 There is much scope for further research, and several topics have been identified in section~\ref{sec:furtherresearch}.
 Any of these topics would make a good Masters or PhD research topic.
 

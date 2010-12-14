@@ -12,7 +12,7 @@ set key outside bottom horizontal reverse Left
 set xdata time
 set format x '%m-%d'
 set timefmt '%Y-%m-%d'
-set xrange ["2010-09-25":"2010-11-30"]
+set xrange ["2010-09-25":"2010-12-30"]
 #set yrange [0:7000]
 # fit trendline
 a = 0.05

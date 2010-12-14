@@ -19,7 +19,7 @@ practice.  Diagrams describing the flow of material and energy through a plant a
 design and several packages exist that solve the associated equations.
 Steady state flowsheeting is accepted in industry to such an extent
 that it is unlikely that a chemical plant of any size is designed
-without the use of at least one such tool.~\citep{glasscock_simulation}
+without the use of at least one such tool.~\citep{glasscock.hale1994process}
 
 Market penetration of dynamic simulation is lagging behind that of
 steady state simulations, partly due to the computational requirements
@@ -34,7 +34,7 @@ modelling dynamic processes.  Ascend and gPROMS are two examples of
 this approach (see \ref{chap:software} for more discussion of simulation
 software). On another front, modelling systems have been developed for
 multi-discipline simulation.  Modelica was specifically designed as a standard
-for such simulation, incorporating aspects from other languages~\citep{elmqvist97,tillerbook}.  Modelica is a language,
+for such simulation, incorporating aspects from other languages~\citep{elmqvist.ab1997modelica,tiller.ph-d-2001introduction}.  Modelica is a language,
 but is supported by graphical tools like Dymola, which allows a blend
 of graphical model-building and traditional programming.
 
@@ -50,19 +50,13 @@ The proprietary system gPROMS already has CAPE-OPEN support, and
 adding support for some CAPE-OPEN interfaces to OpenModelica may speed
 adoption of this open standard in the Process Engineering field.
 
-Simulation of a distillation column has been done before in
-Modelica~\cite{citeulike:3660679}.  However, the modelling strategy
-followed here is more modular, and abstracts the thermodynamics to the
-streams, allowing easy interfacing with an external thermodynamics package.
+Simulation of a distillation column has been done before in Modelica~\citep{duro.morilla2003modelling}.
+However, the modelling strategy followed here is more modular, and abstracts the thermodynamics to the streams, allowing easy interfacing with an external thermodynamics package.
 
 \section{Unit operations}
-The concept of unit operations has been embedded in Chemical
-Engineers' psyche since Arthur D. Little coined the phrase in
-1915~\citep{hougen1972seven}.  Unit operations lend themselves to an
-object-oriented programming style, with their main functions
-encapsulated in a ``black box'', with narrow interfaces between them.
-The following main unit operations are identified, following the
-sequence used in~\citet{msh}.
+The concept of unit operations has been embedded in Chemical Engineers' psyche since Arthur D. Little coined the phrase in 1915~\citep{hougen1972seven}.  
+Unit operations lend themselves to an object-oriented programming style, with their main functions encapsulated in a ``black box'', with narrow interfaces between them.
+The following main unit operations are identified, following the sequence used in~\citet{msh}.
 
 \subsection{Fluid flow operations}
 These operations are further subdivided based on the nature of the
@@ -146,6 +140,8 @@ drum unit already discussed, with some coupling between the plates.
 The amount of liquid on a column plate is called the holdup.
 
 The following needs to be taken into account:
+
+
 
 The flow of liquid down the column is a hydraulic prolem, involving
 the flow over a weir.  The Francis weir formula describes this flow.
