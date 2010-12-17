@@ -16,6 +16,7 @@ pdftex]{report} % make report->book for two sided final publishing.
 \newcommand{\num}[1]{\ensuremath{\fnum{#1}}}
 \newcommand{\units}[1]{\ensuremath{\mathrm{#1}}}
 \newcommand{\xxx}{\fbox{\bf XX Check XX}}
+\newcommand{\prob}[1]{\ensuremath{\mathrm{P}(#1)}}
 % TODO: Typeset different code modules seperately, reference code documentation!
 \newcommand{\modulename}[2]{{\tiny #1}\fbox{#2}} % typeset module name - language, modulename
 
@@ -60,11 +61,11 @@ back
 
 \include{introduction}
 \part{Literature}
+\include{flowsheeting}
 \include{statistics}
 \include{optimisation}
 \include{segmentation}
 \include{montecarlo}
-\include{flowsheeting}
 \include{software}
 \include{testproblems}
 \part{Design and implementation}

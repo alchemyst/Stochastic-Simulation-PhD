@@ -1,41 +1,58 @@
-\chapter{Statistics and signal analysis}\label{chap:stats}
+\chapter{Stationary and signal statistics}\label{chap:stats}
 \begin{overview} 
-  This chapter explores existing developments in modelling and
-  simulating steady-state and dynamic systems with and without
-  uncertainty.
+  Deterministic models of chemical engineering systems assume that all the variables are known exactly.
+  However, uncertainty typically exists in the model paramters, the inputs to the model or the measurements from the model.
+  This chapter summarises the nomenclature used in the rest of the work in addition to covering the theory used to incorporate uncertainty into models.
 \end{overview}
 
-\section{Stationary statistics}
+\section{Probability}
+Simple random phenomena are commonly described using a model consisting of the following elements:\citep[1]{kulkarni1999modeling}
+\begin{description}
+\item[Sample space] Denoted $\Omega$, giving the set of all possible outcomes of the random phenomenon.  
+  Particular outcomes are denoted $\omega$.
+\item[Events] An event (typically denoted $E_i$) is a subset of the sample space.
+\item[Event probabilities] Are written as $\prob{E}$ and are numbers between $0$ and $1$ representing the likelihood of occurrence of the event $E$.
+\end{description}
+
+Additionally, $\prob{E_2|E_1}$  represents the \emph{conditional probability} of event $E_2$ given that $E_1$ has indeed occurred.
+
+It is clear that $\prob{\Omega}=1$, that is that there is a 100\% probability of something in the set of all possible outcomes occurs.
+Also, $0 \leq \prob{E_i} \leq 1$ for any $E_i$ that is a subset of $\Omega$.
+
+\section{Univariate random variables}
+\label{sec:univ-rand-vari}
+Random variables are typically defined as the functions that map the sample space of a random phenomenon to a real number.
+Examples are the value of a particular temperature or pressure or the total number of heads shown after flipping a certain number of coins.
+
+\subsection{Cumulative distribution function}
+It is often useful to refer to the cumulative distribution function of a random variable, defined as 
+\begin{equation}
+  F(x) = \prob{X \leq x}, x \in (-\infty,\infty)
+\end{equation}
+
+Due to the fact that a random variable must take on a particular value in $(-\infty,\infty)$, $\lim_{x \to -\infty} F(x) = 0$ and $\lim_{x \to \infty} F(x) = 1$.
+$F$ must also be nondecreasing ($x \leq y \implies F(x) \leq F(y)$) and right continuous ($\lim{\epsilon \to 0+} F(x+\epsilon) = F(x)$).
+
+Random variables are called discrete if they have CDFs that contain discrete steps.
+
+\subsection{Probability distribution function}
+Random variables with for which a function $f$ exist such that 
+\begin{equation}
+  \label{eq:cdffrompdf}
+  F(x) = \int_{-\infty}^xf(u)\dd u \quad \forall x \in (-\infty, \infty)
+\end{equation}
+are called continuous random variables.
+If $F$ is continuous and piecewise differentiable, then $f$ completely determines $F$ and is called the probability distribution function (PDF) of the variable $X$.
+Important properties of PDFs include $f(x) \geq 0 \quad \forall x \in \mathbb{R}$ (as no negative probability integrals are allowed) and $\int_{-\infty}^{\infty} f(u) \dd u = 1$ (due to the limit on $F$).  
+It is however important to note there is no upper bound on $f$.
 
 \section{Signal statistics}
+
 
 \subsection{IEC 61131-3}
 IEC 61131-3 is a standard that defines
 
 \url{http://en.wikipedia.org/wiki/IEC_61131-3}
-
-\section{Basic modelling equations}
-Several equations are used in many different pieces of equipment
-\subsection{Conservation of mass}
-\subsection{Conservation of energy}
-\subsection{Reaction kinetics}
-
-
-
-\subsection{Equilibrium}
-\subsection{Transport equations}
-\subsubsection{Heat transfer}
-\subsubsection{Mass transfer}
-
-\section{Simulation}
-
-\subsection{Modelling}
-\subsubsection{Microscopic}
-
-\subsubsection{Macroscopic}
-Macroscopic modelling 
-
-\subsubsection{Lumped models}
 
 \subsection{Input identification}
 Stochastic simulation of systems, especially those using Monte Carlo
