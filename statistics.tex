@@ -5,7 +5,8 @@
   This chapter summarises the nomenclature used in the rest of the work in addition to covering the theory used to incorporate uncertainty into models.
 \end{overview}
 
-\section{Probability}
+\section{Random Phenomena}
+\label{sec:statistisc:probability}
 Simple random phenomena are commonly described using a model consisting of the following elements:\citep[1]{kulkarni1999modeling}
 \begin{description}
 \item[Sample space] Denoted $\Omega$, giving the set of all possible outcomes of the random phenomenon.  
@@ -16,7 +17,7 @@ Simple random phenomena are commonly described using a model consisting of the f
 
 Additionally, $\prob{E_2|E_1}$  represents the \emph{conditional probability} of event $E_2$ given that $E_1$ has indeed occurred.
 
-It is clear that $\prob{\Omega}=1$, that is that there is a 100\% probability of something in the set of all possible outcomes occurs.
+It is clear that $\prob{\Omega}=1$, that is there is a 100\% probability of something in the set of all possible outcomes occurs.
 Also, $0 \leq \prob{E_i} \leq 1$ for any $E_i$ that is a subset of $\Omega$.
 
 \section{Univariate random variables}
@@ -27,24 +28,217 @@ Examples are the value of a particular temperature or pressure or the total numb
 \subsection{Cumulative distribution function}
 It is often useful to refer to the cumulative distribution function of a random variable, defined as 
 \begin{equation}
+  \label{eq:cdf}
   F(x) = \prob{X \leq x}, x \in (-\infty,\infty)
 \end{equation}
 
 Due to the fact that a random variable must take on a particular value in $(-\infty,\infty)$, $\lim_{x \to -\infty} F(x) = 0$ and $\lim_{x \to \infty} F(x) = 1$.
 $F$ must also be nondecreasing ($x \leq y \implies F(x) \leq F(y)$) and right continuous ($\lim{\epsilon \to 0+} F(x+\epsilon) = F(x)$).
 
-Random variables are called discrete if they have CDFs that contain discrete steps.
+Random variables are called discrete if they have CDFs that contain discrete steps.  
+Such discrete random variables can be characterise by their state space $S = {x_0, x_1, x_2, \dots}$.
 
-\subsection{Probability distribution function}
+\subsection{Probability functions}
+For discrete random variables, the function $p_k = \prob{X=x_k}$ for $k \geq 0$, with $x_k \in S$ is called the probability mass function (PMF).
+
 Random variables with for which a function $f$ exist such that 
 \begin{equation}
   \label{eq:cdffrompdf}
-  F(x) = \int_{-\infty}^xf(u)\dd u \quad \forall x \in (-\infty, \infty)
+  F(x) = \int_{-\infty}^xf(u)\dd u \quad \forall x \in \mathbb{R}
 \end{equation}
 are called continuous random variables.
 If $F$ is continuous and piecewise differentiable, then $f$ completely determines $F$ and is called the probability distribution function (PDF) of the variable $X$.
 Important properties of PDFs include $f(x) \geq 0 \quad \forall x \in \mathbb{R}$ (as no negative probability integrals are allowed) and $\int_{-\infty}^{\infty} f(u) \dd u = 1$ (due to the limit on $F$).  
 It is however important to note there is no upper bound on $f$.
+
+\subsection{Expectation}
+The expected value of a random variable $X$, denoted $\expect{X}$ is calculated similarly for discrete and continuous variables by summing over probability functions.  
+For discrete variables, a sum is taken over the probability mass function as follows:
+\begin{equation}
+  \label{eq:discreteexpectation}
+  \expect{X} = \sum_{k=0}^{\infty} x_k\prob{X = x_k} = \sum_{k=0}^{\infty} x_kp_k
+\end{equation}
+while for continuous variables,
+\begin{equation}
+  \label{eq:continuousexpectation}
+  \expect{X} = \int_{-\infty}^{\infty}xf(x) \dd x
+\end{equation}
+
+By analogy to weighted means, the expected value of a random variable is often also called the mean of its PDF, denoted $\mu$.
+
+\subsubsection{Median and mode}
+The expectation or mean is one characterisation of a measure of central tendency of the PDF.
+% http://statistics.laerd.com/statistical-guides/measures-central-tendency-mean-mode-median.php
+Other measures are the median and the mode.
+The median can be defined as the value $m$ such that $\prob{x<m}=\frac{1}{2}$ and interpreted as the value that splits the PDF into two equal area parts.
+The mode is a value that maximises $f(x)$, loosely the peak of $f(x)$ or the most likely value.
+
+There is no restriction on these values being the same, but many commonly used distributions are symmetrical about the median and feature modes equal to their means.
+
+%TODO: Picture showing a PDF with mean, median, mode.
+
+\subsubsection{Moments}
+Equation~\ref{eq:expectation} can be seen as a specific case of a more general concept called the moment.
+\begin{quote} % wikipedia
+The $n$\textsuperscript{th} moment of a real-valued continuous function $f(x)$ of a real variable $x$ about a value $c$ is
+\begin{equation}
+\label{eq:moment}
+\mu'_n = \expect{X^n} = \int_{-\infty}^\infty (x - c)^n f(x) \dd x
+\end{equation}
+\end{quote}
+
+Usually when no additional information is given, ``the moment of a function'' means the moment about $c=0$.
+Thus, the first moment ($n=1$) of a PDF gives the expected value of a random variable with that PDF.
+
+Moments that do not converge to a real value are said not to exist.
+If the $n$\textsuperscript{th} moment exists, the lower-order moments are guaranteed to exist.\citehere
+
+Moments about the mean of a PDF are called central moments and have special interpretations.  
+The zeroth central moment must be 1 due to the requirements of the CDF, while the first central moment must be zero per definition.
+
+The second central moment is the also called the variance, which is a measure of how wide the PDF is.
+The positive square root of the variance is the standard deviation, $\sigma$.
+The standardised or normalised moment is the central moment divided by $\sigma^n$.
+
+The third and fourth central moments are usually reported in standardised form and given the names skewness ($\gamma$) and kurtis ($\kappa$).
+\nomenclature[ga]{$\gamma$}{Skewness}
+\nomenclature[ga]{$\kappa$}{Kurtosis}
+
+The skewness is a measure of how far the median is away from the mean.
+Kurtosis is a measure of how closely the distribution is spread around the mean value.
+
+\subsection{Multivariate random variables}
+All the properties discussed in section~\ref{sec:univ-rand-vari} can be extended to handle more than one value \cite[65]{kulkarni1999modeling}.
+A vector can be formed from several random variables $X_i$ to form a multivariate random variable $\vect{X}$.
+Variables that are related in this way are called jointly distributed random variables.
+
+The cumulative distribution function and probability distribution functions are defined in similar ways, as 
+\begin{equation}
+  \label{eq:mvcdf}
+  F(\vect{x}) = \prob{X_1=x_1, X_2=x_2,\dots, X_n = x_n}
+\end{equation}
+and
+\begin{align}
+  \label{eq:mvpdf}
+  F(\vect{x}) &= \int_{-\infty}{x_n}\cdots\int_{-\infty}{x_2}\int_{-\infty}{x_1} f(x \dd \vect{x_1} \dd \vect{x_2} \dots \dd \vect{x_n} \\
+              &= \int_V f(\vect{x}) \dd \vect{x}
+\end{align}
+where $V$ represents the volume in the state space where the first integral is evaluated.
+
+\section{Stochastic processes}
+\label{sec:stochastic-processes}
+
+\section{Sample Statistics}
+All the properties discussed up to now have been assumed to be known values or directly calculable from known values.
+In practice, however, it is common to come across data thought to be the particular values that random variables have taken on or the evolution of a stochastic process.
+In such cases, it is desirable to estimate the properties discussed based on a (hopefully representative) sample.
+The sampled values available will be written $\theta_i$.
+
+The problems that present themselves are therefore
+\begin{itemize}
+\item Estimation of each of the stationary statistics discussed in sections~\ref{sec:univ-rand-vari} and \ref{sec:stochastic-processes}.
+\item Determination of the validity of these estimates
+\end{itemize}
+
+\subsection{Estimation}
+\subsubsection{Bias}
+% http://en.wikipedia.org/wiki/Bias_of_an_estimator
+When a small sample is taken from a distribution, the properties of this sample are likely to deviate from the from the properties of the distribution.
+Different methods of calculation can attempt to make the estimates better with regards to some criterion.
+Systematic deviations from the true values are described as bias and estimates that have been developed to counter a particular deviation are called unbiased estimators.
+
+\subsubsection{Mean}
+The mean $\bar{\theta}$ of a distribution may be estimated from samples $\theta_i$ by computing the arithmetic mean
+\begin{equation}
+  \label{eq:mean}
+  \bar{\theta} = \frac{\displaystyle \sum_{i=0}^N \theta_i}{N}
+\end{equation}
+This is an unbiased estimator of the mean.
+
+\subsubsection{Variance or standard deviation}
+The sample standard deviation (written $s_N$ for a sample size of $N$) can be naively calculated by analogy to the defintion of the variance as
+\begin{equation}
+  \label{eq:samplestandardeviation}
+  s_N = \sqrt{}
+\end{equation}
+
+\subsubsection{Skewness}
+The skewness estimator is given by \citet{mooney1997monte} as:
+\begin{equation} 
+  \sqrt{\beta_1} =
+  \frac{\displaystyle\sum_{i=1}^t \left ( \theta_i - \bar{\theta} \right
+    )^3/t} { \left [ \displaystyle\sum_{i=1}^t \left (
+        \theta_i-\bar{\theta} \right )^2/t \right ]^\frac{3}{2}} 
+\end{equation}
+\nomenclature[ga]{$\beta_1$}{Skew estimator} 
+\nomenclature[ga]{$\theta$}{Vector of samples for statistical tests}
+
+\subsubsection{Kurtosis}
+The skewness estimator is usually combined with a kurtosis estimator 
+\begin{equation} 
+  \beta_2 =
+  \frac{\displaystyle\sum_{i=1}^t \left ( \theta_i - \bar{\theta} \right
+    )^4/t} { \left [ \displaystyle\sum_{i=1}^t \left(
+        \theta_i-\bar{\theta} \right)^3/t \right]^2} 
+\end{equation}
+\nomenclature[ga]{$\beta_2$}{Kurtosis estimator}
+%
+In both these equations, $\bar{\theta}$ is the arithmetic mean of the
+samples (ie, the sum of the elements divided by $t$).  Values of 0 and
+3 for the skewness and kurtosis respectively are expected for a normal
+distribution~\citep{kleijnen1975statistical}.
+
+\subsection{Verification}
+It is often desired to test whether a particular sample has properties that one would expect of one were to sample a random variable with a particular CDF or PDF.
+The most common tests are for normality, in other words whether the sample seems to have been drawn from a normal distribution.
+
+\subsubsection{Shapiro-Wilk test for normality}\label{sec:shapiro-wilk-test}
+The Shapiro-Wilk test~\citep{shapirowilk}, calculates a W statistic
+that tests whether a random sample, $\theta_1, \theta_2, \dots,
+\theta_n$ comes from (specifically) a normal distribution.  Small
+values of W are evidence of departure from normality.  This test has
+done very well in comparison studies with other goodness of fit tests.
+
+The W statistic is calculated as follows: 
+\begin{equation} 
+  \label{eq:shipirowilk} 
+  W = \frac{
+    \left( \displaystyle \sum_{i=1}^n {a_i \times \theta_i} \right)^2}
+  {\displaystyle \sum_{i=1}^n 
+    \left ( \theta_i - \bar{\theta} \right )^2}
+\end{equation}
+where the $\theta_i$ are the ordered sample values ($\theta_1$ is the
+smallest) and the $a_i$ are constants generated from the means,
+variances and covariances of the order statistics of a sample of size
+$n$ from a normal distribution.
+
+\subsubsection{Kolmogorov-Smirnov test}\label{sec:kolm-smirn-test}
+Further checking of normality can be done by using the
+Kolmogorov-Smirnov test~\citep[392--394]{chakravartistat} to compare
+the distribution to a normal distribution with the same mean and
+standard deviation.  This is not a specific test of normality, but
+rather a general goodness-of-fit test for any probability
+distribution.
+
+The cumulative probability distribution curves for both distributions
+are plotted, and the maximum distance between them determined.  This
+distance (the Kolmogorov-Smirnov distance or the KS statistic) is then
+compared to tables for the number of samples in the test distribution
+to determine the goodness of fit.  The critical distance is also
+affected by the level of confidence, $\alpha$.  It is customary to set
+$\alpha=\num{0.05}$, corresponding to a 5\% chance of mistakenly
+discarding the assumption that the test distribution is indeed
+normally distributed.
+\nomenclature[ga]{$\alpha$}{Level of confidence in normality tests}
+
+For samples larger than 20, the critical distance is found by
+calculating an asymptotic solution to an $n$\textsuperscript{th} order
+polynomial.  This task is usually handled by computer software.
+
+The Kolmogorov-Smirnov test was favoured for confirming normality of
+the test results as it lends itself well to graphical interpretation,
+enabling the tester to interpret the normality results more
+meaningfully than a simple number.
 
 \section{Signal statistics}
 

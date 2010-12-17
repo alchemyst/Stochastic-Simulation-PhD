@@ -1,0 +1,293 @@
+\message{ !name(thesis.tex)}\documentclass[a4paper, 12pt, %
+%draft,%
+pdftex]{report} % make report->book for two sided final publishing.
+%\fussy
+\sloppy
+
+\usepackage{upthesis}
+% Cause floats to always be below  where they are inserted as per
+% Prof. de Vaal.
+% \usepackage{flafter}
+\usepackage{fancybox}
+\usepackage{pgf}
+\usepackage{pgfplots}
+\usepackage{sparklines}
+\newcommand{\citehere}{\fbox{\bf Citation needed!}}
+\newcommand{\num}[1]{\ensuremath{\fnum{#1}}}
+\newcommand{\units}[1]{\ensuremath{\mathrm{#1}}}
+\newcommand{\xxx}{\fbox{\bf XX Check XX}}
+
+\newcommand{\prob}[1]{\ensuremath{\mathrm{P}(#1)}} % probability of event
+\newcommand{\expect}[1]{\ensuremath{\mathrm{E}(#1)}} % Expectation of variable
+
+% TODO: Typeset different code modules seperately, reference code documentation!
+\newcommand{\modulename}[2]{{\tiny #1}\fbox{#2}} % typeset module name - language, modulename
+
+% Title and author definitions
+\title{Generic Framework for Chemical Process Modelling with Stochastic Inputs} 
+\author{Carl Sandrock} 
+\degree{Philosophiae Doctor (Control Engineering)} 
+\department{Department of Chemical Engineering} 
+\date{November 2010}
+
+% Include directives
+\includeonly{
+front,
+% -- Text Starts --
+introduction,
+statistics,
+optimisation,
+flowsheeting,
+segmentation,
+montecarlo,
+software,
+design,
+testproblems,
+implementation,
+results,
+conclusion,
+% -- Appendix Entries --
+%programmingdetails,
+% -- Back matter --
+back
+}
+
+\begin{document}
+
+\message{ !name(statistics.tex) !offset(-57) }
+\chapter{Stationary and signal statistics}\label{chap:stats}
+\begin{overview} 
+  Deterministic models of chemical engineering systems assume that all the variables are known exactly.
+  However, uncertainty typically exists in the model paramters, the inputs to the model or the measurements from the model.
+  This chapter summarises the nomenclature used in the rest of the work in addition to covering the theory used to incorporate uncertainty into models.
+\end{overview}
+
+\section{Probability}
+Simple random phenomena are commonly described using a model consisting of the following elements:\citep[1]{kulkarni1999modeling}
+\begin{description}
+\item[Sample space] Denoted $\Omega$, giving the set of all possible outcomes of the random phenomenon.  
+  Particular outcomes are denoted $\omega$.
+\item[Events] An event (typically denoted $E_i$) is a subset of the sample space.
+\item[Event probabilities] Are written as $\prob{E}$ and are numbers between $0$ and $1$ representing the likelihood of occurrence of the event $E$.
+\end{description}
+
+Additionally, $\prob{E_2|E_1}$  represents the \emph{conditional probability} of event $E_2$ given that $E_1$ has indeed occurred.
+
+It is clear that $\prob{\Omega}=1$, that is that there is a 100\% probability of something in the set of all possible outcomes occurs.
+Also, $0 \leq \prob{E_i} \leq 1$ for any $E_i$ that is a subset of $\Omega$.
+
+\section{Univariate random variables}
+\label{sec:univ-rand-vari}
+Random variables are typically defined as the functions that map the sample space of a random phenomenon to a real number.
+Examples are the value of a particular temperature or pressure or the total number of heads shown after flipping a certain number of coins.
+
+\subsection{Cumulative distribution function}
+It is often useful to refer to the cumulative distribution function of a random variable, defined as 
+\begin{equation}
+  \label{eq:cdf}
+  F(x) = \prob{X \leq x}, x \in (-\infty,\infty)
+\end{equation}
+
+Due to the fact that a random variable must take on a particular value in $(-\infty,\infty)$, $\lim_{x \to -\infty} F(x) = 0$ and $\lim_{x \to \infty} F(x) = 1$.
+$F$ must also be nondecreasing ($x \leq y \implies F(x) \leq F(y)$) and right continuous ($\lim{\epsilon \to 0+} F(x+\epsilon) = F(x)$).
+
+Random variables are called discrete if they have CDFs that contain discrete steps.  
+Such discrete random variables can be characterise by their state space $S = {x_0, x_1, x_2, \dots}$.
+
+\subsection{Probability functions}
+For discrete random variables, the function $p_k = \prob{X=x_k}$ for $k \geq 0$, with $x_k \in S$ is called the probability mass function (PMF).
+
+Random variables with for which a function $f$ exist such that 
+\begin{equation}
+  \label{eq:cdffrompdf}
+  F(x) = \int_{-\infty}^xf(u)\dd u \quad \forall x \in (-\infty, \infty)
+\end{equation}
+are called continuous random variables.
+If $F$ is continuous and piecewise differentiable, then $f$ completely determines $F$ and is called the probability distribution function (PDF) of the variable $X$.
+Important properties of PDFs include $f(x) \geq 0 \quad \forall x \in \mathbb{R}$ (as no negative probability integrals are allowed) and $\int_{-\infty}^{\infty} f(u) \dd u = 1$ (due to the limit on $F$).  
+It is however important to note there is no upper bound on $f$.
+
+\subsection{Expectation}
+The expected value of a random variable $X$, denoted $\expect{X}$ is calculated similarly for discrete and continuous variables by summing over probability functions.  
+For discrete variables, a sum is taken over the probability mass function as follows:
+\begin{equation}
+  \label{eq:discreteexpectation}
+  \expect{X} = \sum_{k=0}^{\infty} x_k\prob{X = x_k} = \sum_{k=0}^{\infty} x_kp_k
+\end{equation}
+while for continuous variables,
+\begin{equation}
+  \label{eq:continuousexpectation}
+  \expect{X} = \int_{-\infty}^{\infty}
+\end{equation}
+
+\section{Signal statistics}
+
+
+\subsection{IEC 61131-3}
+IEC 61131-3 is a standard that defines
+
+\url{http://en.wikipedia.org/wiki/IEC_61131-3}
+
+\subsection{Input identification}
+Stochastic simulation of systems, especially those using Monte Carlo
+methods, require good input scenarios to generate good output data.
+It is common to make use of Markov processes to generate realistic
+inputs based on historic data.  However, identification of ``events''
+within historic data can be troublesome.  Much work has been done on
+identification of events or trends in data (\citet{maurya.rengaswamy.ea2007fault}
+give a good overview of trend analysis techniques).  Reducing process
+signals to symbols representing qualitative event types rather than
+quantitative data allows patterns to be found in events, or what
+\citet{cheung.stephanopoulos1990representation} refer to as
+episodes.  In this seminal work, the authors define a formal language
+in terms of the 7 primitives shown in
+figure~\ref{fig:stephanopoulosprimitives}.
+
+\begin{figure}[htbp]
+  \centering
+  \setlength{\unitlength}{0.7em}
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \put(7,1){D}
+    \put(4,4){$(+,-)$}
+    \thicklines
+    \qbezier(1,1)(2,7)(7,7)
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \put(7,1){B}
+    \put(1,4){$(+,+)$}
+    \thicklines
+    \qbezier(1,1)(7,2)(7,7)
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \thicklines
+    \qbezier(1,1)(2,2)(7,7)
+    \put(7,1){C}
+    \put(1,5){$(+,0)$}
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \thicklines
+    \qbezier(1,7)(6,7)(6.7,1)
+    \put(7,1){G}
+    \put(1,4){$(-,-)$}
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \thicklines
+    \qbezier(1,7)(2,2)(6.7,1)
+    \put(7,1){E}
+    \put(4,4){$(-,+)$}
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \thicklines
+    \qbezier(1,7)(4,4)(7,1)
+    \put(7,1){F}
+    \put(5,5){$(+,-)$}
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \thicklines
+    \qbezier(1,4)(3,4)(7,4)
+    \put(7,1){A}
+    \put(4,6){$(0,0)$}
+  \end{picture}
+  }
+  \caption[Episodic analysis primitives]{Episodic analysis primitives according to \citet{cheung.stephanopoulos1990representation}.}
+  \label{fig:stephanopoulosprimitives}
+\end{figure}
+
+One problem with event-based approaches is that, to estimate the
+likelihood of a state transition, at least one such a transition has
+to be identified in the training data.  This means that such processes
+are usually very data-intensive.  The same holds for episodic analysis
+-- some patterns may go unnoticed because of misfitting.
+Furthermore, it is difficult to determine an objective function for
+fitting, as attempts to fit the data too accurately usually
+lead to a loss of generality (the over-fitting problem,
+described by \citet{arora.khot2003fitting} and others).
+
+\section{Uncertainty}
+The reason for stochastic simulation is the existence of uncertainty in
+one or more aspects of the model.  If the model was perfect, a single
+deterministic simulation would be a complete exploration of the
+model.  In the steady state case, this means that solving the steady
+state equations yield a single, reliable result.  
+
+Uncertainty can be classified according its location as follows.
+
+\subsection{Input uncertainty}
+Input uncertainty refers to uncertainty about the values of the inputs
+into the model.  In control problems and when processing natural
+products, the properties of input streams may not be known in more
+detail than expected ranges.
+
+Input uncertainties are further subdivided into quantities that have
+known distributions rather than fixed values and quantities that vary
+over time, exhibiting known events.
+
+\subsubsection{Input types}
+
+\subsection{Parametric}
+Parametric uncertainty is uncertainty in parameters of the model.  It
+is usually assumed that the model shape is correct, but that
+differences between simulated values and experimental data can be
+explained by inaccurate parameter values.  Parametric uncertainty can
+be due to incorrect models, which do not model variations accurately,
+or to inaccurate measurements.  If model parameters change over time
+in predictable ways, it is more proper to model these changes by
+introducing more model equations than to mask them by assuming
+parametric uncertainty.  The specific combination of parameters for a
+simulation must therefore remain constant for that simulation.
+
+A process for which the parameters remain constant in this way is
+called an ergodic process
+% http://en.wikipedia.org/wiki/Ergodic_process
+
+It is possible to estimate the mean of an ergodic process by 
+\begin{equation}
+  \hat{\mu_T} = \frac{1}{2T} \int_{-T}^{T} x(t) \dd t
+\end{equation}
+
+
+\subsection{Model uncertainty}
+Model uncertainty is the hardest to handle during simulations, as this
+refers to uncertainty in the form of the model equations.  Model
+uncertainty is different from parametric uncertainty as it implies
+that no combination of parameters in the model can accurately capture
+the behaviour of the system.  The boundary between model and
+parametric uncertainty is often blurred by the fact that models are
+often developed with additional parameters designed to make the model
+more flexible.  This work does not address model uncertainty.
+
+% Local Variables:
+% TeX-master: "thesis"
+% End:
+
+
+\message{ !name(thesis.tex) !offset(-203) }
+
+\end{document}

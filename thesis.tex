@@ -1,7 +1,7 @@
 \documentclass[a4paper, 12pt, %
-%draft,%
+draft,%
 pdftex]{report} % make report->book for two sided final publishing.
-%\fussy
+\fussy
 \sloppy
 
 \usepackage{upthesis}
@@ -12,11 +12,15 @@ pdftex]{report} % make report->book for two sided final publishing.
 \usepackage{pgf}
 \usepackage{pgfplots}
 \usepackage{sparklines}
+\usepackage{microtype}
 \newcommand{\citehere}{\fbox{\bf Citation needed!}}
 \newcommand{\num}[1]{\ensuremath{\fnum{#1}}}
 \newcommand{\units}[1]{\ensuremath{\mathrm{#1}}}
 \newcommand{\xxx}{\fbox{\bf XX Check XX}}
-\newcommand{\prob}[1]{\ensuremath{\mathrm{P}(#1)}}
+
+\newcommand{\prob}[1]{\ensuremath{\mathrm{P}(#1)}} % probability of event
+\newcommand{\expect}[1]{\ensuremath{\mathrm{E}(#1)}} % Expectation of variable
+
 % TODO: Typeset different code modules seperately, reference code documentation!
 \newcommand{\modulename}[2]{{\tiny #1}\fbox{#2}} % typeset module name - language, modulename
 
