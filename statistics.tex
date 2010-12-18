@@ -157,42 +157,26 @@ or equivalently in matrix form:
 
 %TODO: find some references
 There is some difference in notation, as $\Sigma(\vect{X})$ is called either the variance or the covariance matrix.
+It should be clear that the diagonal elements of $\Sigma$ correspond to $\sigma_i^2$, the variance of the individual 
 
 \section{Stochastic processes}
 \label{sec:stochastic-processes}
-
-\section{Markov Processes}
-\subsection{Markov chains}
-A markov process can be described as a stochastic process posessing the
-property that the probability of moving to a particular new state $i$ from an
-old state $j$ is only dependant on $i$ and $j$, but not on the states that had
-previously been attained.  It is common to express the probabilities of the
-transitions in matrices as follows:
-\begin{equation}
-X = \left [ \begin{array}{cccc}
-            p_{11} & p_{12}	& \ldots & p_{1n} \\
-            & \vdots & \\
-            p_{n1} & p_{n2} & \ldots & p_{nn}\\ 
-            \end{array}\right]
-\end{equation}
+Stochastic processes can be defined as the sequence of random variables ${X_0, X_1,\dots}$ that are measured as a process evolves over time \citep[107]{kulkarni1999modeling}.
+For discrete time, the sequence of variables is also called a time series.
+The state space of the process, $S$, is the set of values that $X_n$ can take for any $n$.
 
 \subsection{Discrete-time Markov Processes}
-A stochastic process with state space $S$ has the Markov
-property if the current state completely determines the probability of
-the following state.  A sequence $X_1,X_2, \dots ,X_t$ having this
-property is known as a Markov chain.
+A stochastic process with state space $S$ has the Markov property if the current state completely determines the probability of the following state.
+A sequence $X_1,X_2, \dots ,X_t$ having this property is known as a Markov chain.
 
 Stated mathematically, a Markov chain obeys the property
 \begin{equation}
   \label{eq:markovproperty}
-  \Pr(X_{t+1} = j|X_{t}=i) = \Pr(X_{m+1}=j|X_{m}=i)=p_{ij}
+  \prob(X_{t+1} = j|X_{t}=i) = \prob(X_{m+1}=j|X_{m}=i)=p_{ij}
 \end{equation}
-in words, the probability that the next state will be equal to $j$ given
-that the current state is $i$ is only dependant on the current state.
+in words, the probability that the next state will be equal to $j$ given that the current state is $i$ is only dependant on the current state.
 
-When $S$ is a countable set, the state transition probabilities can be written 
-as a state transition matrix $P$ as shown for a 3 state process in
-equation~\ref{eq:markovmatrix}
+When $S$ is a countable set, the state transition probabilities can be written  as a state transition matrix $P$ as shown for a 3 state process in equation~\ref{eq:markovmatrix}
 \begin{equation}
 \label{eq:markovmatrix}
 P = \left[ 
@@ -203,29 +187,21 @@ P = \left[
   \end{array} \right ]
 \end{equation}
 
-The probability of remaining within the state space must be unity,
-hence we may write 
+The probability of remaining within the state space must be unity, hence we may write 
 \begin{equation}
   \label{eq:rowsumone}
   \sum_{j\in S} p_{ij}=1~\forall~i \in S.
 \end{equation}
 
-Matrices with this property as well as the common-sense property
-that $0 \leq p_{ij} \leq 1$ (as they are probabilities) are called
-stochastic matrices.
+Matrices with this property as well as the common-sense property that $0 \leq p_{ij} \leq 1$ (as they are probabilities) are called stochastic matrices.
 
-The orientation of $P$ is not unique. The arrangement with the current
-state in the rows and next state in the columns is known as a right
-transition matrix. The transpose arrangement has also been used (see
-for instance \citet{bhar.hamori2004hidden}) and is then described as a left
-transition matrix. Modern engineering usage leans toward the
-description used in this work.
+The orientation of $P$ is not unique. 
+The arrangement with the current state in the rows and next state in the columns is known as a right transition matrix. 
+The transpose arrangement has also been used (see for instance \citet{bhar.hamori2004hidden}) and is then described as a left transition matrix. 
+Modern engineering usage leans toward the description used in this work.
 
-A common way of visualising a Markov process with countable state
-space is by showing a directed graph with the states in the nodes and
-the transition probabilities on the edges as shown in
-Figure~\ref{fig:markovgraph}. In these representations, it is
-customary to neglect edges with zero probabilities.
+A common way of visualising a Markov process with countable state space is by showing a directed graph with the states in the nodes and the transition probabilities on the edges as shown in Figure~\ref{fig:markovgraph}.
+In these representations, it is customary to neglect edges with zero probabilities.
 
 \begin{figure}[htbp]
   \centering
@@ -263,20 +239,18 @@ It can be seen that a discrete time Markov process is completely described by it
 If $S$ is countable and has $N$ elements, $N^2 + N$ probabilities have to be known to fully characterise the process.
 For convenience, the model is written $\lambda = (P, \vect{\pi})$.
 
-\subsection{Hidden Markov Models} 
-It is not always possible to observe the state (in the state space
-$S$) of a Markov process directly. It may, however, be possible to
-make observations from an observation space $O$ related to the state
-of the process. If the probability of making a particular observation
-is only related to the current state of the process, the process may
-be described by a hidden Markov model (HMM). What is ``hidden'' in
-this case are the true values of the Markov process states.
+\subsection{Transient and limiting behaviour}
 
-Figure~\ref{fig:hiddenmarkov} shows the situation graphically. If the
-Markov process is in state 1, there are even odds that observation 2
-or 3 will be made. In state 2, only observation 2 is made and state 3
-is associated with observation 1 80\% of the time and observation 2
-20\% of the time.
+
+\subsection{Hidden Markov Models} 
+It is not always possible to observe the state (in the state space $S$) of a Markov process directly. 
+It may, however, be possible to make observations from an observation space $O$ related to the state of the process.
+If the probability of making a particular observation is only related to the current state of the process, the process may be described by a hidden Markov model (HMM).
+What is ``hidden'' in this case are the true values of the Markov process states.
+
+Figure~\ref{fig:hiddenmarkov} shows the situation graphically.
+If the Markov process is in state 1, there are even odds that observation 2 or 3 will be made.
+In state 2, only observation 2 is made and state 3 is associated with observation 1 80\% of the time and observation 2 20\% of the time.
 
 \begin{figure}[htbp]
   \centering
@@ -285,44 +259,28 @@ is associated with observation 1 80\% of the time and observation 2
   \label{fig:hiddenmarkov}
 \end{figure}
 
-The probabilities associated with a observation $k$ being made when
-the process is in state $i$ may be written $b_{ik}$ and can be
-arranged into an observation probability matrix $B$ in a similar
-fashion as was previously done for $P$. One difference is that, while
-$P$ was an $N \times N$ square matrix, $B$ will have $N$ rows
-associated with the $N$ states of the Markov process and $M$ columns
-associated with the observation space. An HMM as described here can
-therefore be characterised by the same $N^2+N$ probabilities describing
-the Markov process in addition to $MN$ observation probabilities.  The
-model description can be abbreviated to $\lambda = (P, B, \vect{\pi})$.
+The probabilities associated with a observation $k$ being made when the process is in state $i$ may be written $b_{ik}$ and can be arranged into an observation probability matrix $B$ in a similar fashion as was previously done for $P$. 
+One difference is that, while $P$ was an $N \times N$ square matrix, $B$ will have $N$ rows associated with the $N$ states of the Markov process and $M$ columns associated with the observation space. 
+An HMM as described here can therefore be characterised by the same $N^2+N$ probabilities describing the Markov process in addition to $MN$ observation probabilities.  
+The model description can be abbreviated to $\lambda = (P, B, \vect{\pi})$.
 
 There are three main problems associated with HMMs \citep{gamerman.lopes2006markov}:
 \begin{itemize}
-\item What is the probability of generating a specific output sequence
-  from a particular model?
-\item What is the most likely sequence of states that would lead to a
-  particular output sequence?
-\item How do we identify the model that corresponds to a given output
-  sequence?
+\item What is the probability of generating a specific output sequence from a particular model?
+\item What is the most likely sequence of states that would lead to a particular output sequence? 
+\item How do we identify the model that corresponds to a given output sequence?
 \end{itemize}
 
 \subsection{Continuous-time Markov Processes}
-The description of discrete-time Markov processes assumed that the
-transition time was known or unimportant and one could imagine
-simulating the process by picking a state $i$ and moving to the next
-state with probability $p_{ij}$.  One shortcoming of such a
-description is that there is no information about the amount of time a
-process remains in a particular state before moving to the next (or
-possibly same) state.  
+The description of discrete-time Markov processes assumed that the transition time was known or unimportant and one could imagine simulating the process by picking a state $i$ and moving to the next state with probability $p_{ij}$.  
+One shortcoming of such a description is that there is no information about the amount of time a process remains in a particular state before moving to the next (or possibly same) state.  
 
 % TODO: Flesh out this description
 % look at perhaps http://www.stat.sfu.ca/~lockhart/richard/380/00_3/lectures/19/web.html
-Continuous-time Markov processes encode the transition probabilities as
-transition rates $q_{ij}$ (forming a $Q$ matrix as $p_{ij}$ formed a
-$P$ matrix), such that
+Continuous-time Markov processes encode the transition probabilities as transition rates $q_{ij}$ (forming a $Q$ matrix as $p_{ij}$ formed a $P$ matrix), such that
 \begin{equation}
   \label{eq:contmarkov}
-  \Pr(X(t+\Delta t) = j | X(t) = i) = 
+  \prob(X(t+\Delta t) = j | X(t) = i) = 
   \begin{cases}
     1 - q_{ii}\Delta t + o(\Delta t) & \text{for } i = j \\
     q_{ij}\Delta t + o(\Delta t) & \text{otherwise}
@@ -330,8 +288,6 @@ $P$ matrix), such that
 \end{equation}
 
 The idea is that, having changed to a particular state the probability of moving to the next one approaches one over time, but at different rates.
-
-
 
 \section{Sample Statistics}
 All the properties discussed up to now have been assumed to be known values or directly calculable from known values.
@@ -469,19 +425,12 @@ IEC 61131-3 is a standard that defines
 \url{http://en.wikipedia.org/wiki/IEC_61131-3}
 
 \subsection{Input identification}
-Stochastic simulation of systems, especially those using Monte Carlo
-methods, require good input scenarios to generate good output data.
-It is common to make use of Markov processes to generate realistic
-inputs based on historic data.  However, identification of ``events''
-within historic data can be troublesome.  Much work has been done on
-identification of events or trends in data (\citet{maurya.rengaswamy.ea2007fault}
-give a good overview of trend analysis techniques).  Reducing process
-signals to symbols representing qualitative event types rather than
-quantitative data allows patterns to be found in events, or what
-\citet{cheung.stephanopoulos1990representation} refer to as
-episodes.  In this seminal work, the authors define a formal language
-in terms of the 7 primitives shown in
-figure~\ref{fig:stephanopoulosprimitives}.
+Stochastic simulation of systems, especially those using Monte Carlo methods, require good input scenarios to generate good output data.
+It is common to make use of Markov processes to generate realistic inputs based on historic data.
+However, identification of ``events'' within historic data can be troublesome.  
+Much work has been done on identification of events or trends in data (\citet{maurya.rengaswamy.ea2007fault} give a good overview of trend analysis techniques).  
+Reducing process signals to symbols representing qualitative event types rather than quantitative data allows patterns to be found in events, or what \citet{cheung.stephanopoulos1990representation} refer to as episodes.  
+In this seminal work, the authors define a formal language in terms of the 7 primitives shown in figure~\ref{fig:stephanopoulosprimitives}.
 
 \begin{figure}[htbp]
   \centering
@@ -560,51 +509,34 @@ figure~\ref{fig:stephanopoulosprimitives}.
   \label{fig:stephanopoulosprimitives}
 \end{figure}
 
-One problem with event-based approaches is that, to estimate the
-likelihood of a state transition, at least one such a transition has
-to be identified in the training data.  This means that such processes
-are usually very data-intensive.  The same holds for episodic analysis
--- some patterns may go unnoticed because of misfitting.
-Furthermore, it is difficult to determine an objective function for
-fitting, as attempts to fit the data too accurately usually
-lead to a loss of generality (the over-fitting problem,
-described by \citet{arora.khot2003fitting} and others).
+One problem with event-based approaches is that, to estimate the likelihood of a state transition, at least one such a transition has to be identified in the training data.  
+This means that such processes are usually very data-intensive.  
+The same holds for episodic analysis -- some patterns may go unnoticed because of misfitting. 
+Furthermore, it is difficult to determine an objective function for fitting, as attempts to fit the data too accurately usually lead to a loss of generality (the over-fitting problem, described by \citet{arora.khot2003fitting} and others).
 
 \section{Uncertainty}
-The reason for stochastic simulation is the existence of uncertainty in
-one or more aspects of the model.  If the model was perfect, a single
-deterministic simulation would be a complete exploration of the
-model.  In the steady state case, this means that solving the steady
-state equations yield a single, reliable result.  
+The reason for stochastic simulation is the existence of uncertainty in one or more aspects of the model.  
+If the model was perfect, a single deterministic simulation would be a complete exploration of the model.  
+In the steady state case, this means that solving the steady state equations yield a single, reliable result.  
 
 Uncertainty can be classified according its location as follows.
 
 \subsection{Input uncertainty}
-Input uncertainty refers to uncertainty about the values of the inputs
-into the model.  In control problems and when processing natural
-products, the properties of input streams may not be known in more
-detail than expected ranges.
+Input uncertainty refers to uncertainty about the values of the inputs into the model.  
+In control problems and when processing natural products, the properties of input streams may not be known in more detail than expected ranges.
 
-Input uncertainties are further subdivided into quantities that have
-known distributions rather than fixed values and quantities that vary
-over time, exhibiting known events.
+Input uncertainties are further subdivided into quantities that have known distributions rather than fixed values and quantities that vary over time, exhibiting known events.
 
 \subsubsection{Input types}
 
 \subsection{Parametric}
-Parametric uncertainty is uncertainty in parameters of the model.  It
-is usually assumed that the model shape is correct, but that
-differences between simulated values and experimental data can be
-explained by inaccurate parameter values.  Parametric uncertainty can
-be due to incorrect models, which do not model variations accurately,
-or to inaccurate measurements.  If model parameters change over time
-in predictable ways, it is more proper to model these changes by
-introducing more model equations than to mask them by assuming
-parametric uncertainty.  The specific combination of parameters for a
-simulation must therefore remain constant for that simulation.
+Parametric uncertainty is uncertainty in parameters of the model.  
+It is usually assumed that the model shape is correct, but that differences between simulated values and experimental data can be explained by inaccurate parameter values.  
+Parametric uncertainty can be due to incorrect models, which do not model variations accurately, or to inaccurate measurements.  
+If model parameters change over time in predictable ways, it is more proper to model these changes by introducing more model equations than to mask them by assuming parametric uncertainty.  
+The specific combination of parameters for a simulation must therefore remain constant for that simulation.
 
-A process for which the parameters remain constant in this way is
-called an ergodic process
+A process for which the parameters remain constant in this way is called an ergodic process
 % http://en.wikipedia.org/wiki/Ergodic_process
 
 It is possible to estimate the mean of an ergodic process by 
@@ -614,14 +546,10 @@ It is possible to estimate the mean of an ergodic process by
 
 
 \subsection{Model uncertainty}
-Model uncertainty is the hardest to handle during simulations, as this
-refers to uncertainty in the form of the model equations.  Model
-uncertainty is different from parametric uncertainty as it implies
-that no combination of parameters in the model can accurately capture
-the behaviour of the system.  The boundary between model and
-parametric uncertainty is often blurred by the fact that models are
-often developed with additional parameters designed to make the model
-more flexible.  This work does not address model uncertainty.
+Model uncertainty is the hardest to handle during simulations, as this refers to uncertainty in the form of the model equations.  
+Model uncertainty is different from parametric uncertainty as it implies that no combination of parameters in the model can accurately capture the behaviour of the system.  
+The boundary between model and parametric uncertainty is often blurred by the fact that models are often developed with additional parameters designed to make the model more flexible.  
+This work does not address model uncertainty.
 
 % Local Variables:
 % TeX-master: "thesis"
