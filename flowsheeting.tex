@@ -14,41 +14,22 @@
 
 \section{Background}
 %TODO: This is from the ESCAPE-19 article - incorporate
-Flowsheeting has assumed a central position in modern process engineering
-practice.  Diagrams describing the flow of material and energy through a plant are the main mode of communicating process
-design and several packages exist that solve the associated equations.
-Steady state flowsheeting is accepted in industry to such an extent
-that it is unlikely that a chemical plant of any size is designed
-without the use of at least one such tool.~\citep{glasscock.hale1994process}
+Flowsheeting has assumed a central position in modern process engineering practice.  
+Diagrams describing the flow of material and energy through a plant are the main mode of communicating process design and several packages exist that solve the associated equations.
+Steady state flowsheeting is accepted in industry to such an extent that it is unlikely that a chemical plant of any size is designed without the use of at least one such tool.~\citep{glasscock.hale1994process}
 
-Market penetration of dynamic simulation is lagging behind that of
-steady state simulations, partly due to the computational requirements
-associated with such simulation and partly due to the considerable
-additional effort involved in developing dynamic simulations.
-However, interest has increased in the development of dynamic plant
-simulations.  In addition to dedicated process engineering tools like
-Aspen, ChemCAD, HYSYS/Unisim (Honeywell's Unisim software is
-  based on HYSYS), ProSim and SimSci, several modelling languages have
-emerged in the last 15 years that aim to provide an environment for
-modelling dynamic processes.  Ascend and gPROMS are two examples of
-this approach (see \ref{chap:software} for more discussion of simulation
-software). On another front, modelling systems have been developed for
-multi-discipline simulation.  Modelica was specifically designed as a standard
-for such simulation, incorporating aspects from other languages~\citep{elmqvist.ab1997modelica,tiller.ph-d-2001introduction}.  Modelica is a language,
-but is supported by graphical tools like Dymola, which allows a blend
-of graphical model-building and traditional programming.
+Market penetration of dynamic simulation is lagging behind that of steady state simulations, partly due to the computational requirements associated with such simulation and partly due to the considerable additional effort involved in developing dynamic simulations.
+However, interest has increased in the development of dynamic plant simulations.  
+In addition to dedicated process engineering tools like Aspen, ChemCAD, HYSYS/Unisim (Honeywell's Unisim software is based on HYSYS), ProSim and SimSci, several modelling languages have emerged in the last 15 years that aim to provide an environment for modelling dynamic processes.  
+Ascend and gPROMS are two examples of this approach (see~chapter\ref{chap:software} for more discussion of simulation software). 
+On another front, modelling systems have been developed for multi-discipline simulation.  
+Modelica was specifically designed as a standard for such simulation, incorporating aspects from other languages~\citep{elmqvist.ab1997modelica,tiller.ph-d-2001introduction}.  
+Modelica is a language, but is supported by graphical tools like Dymola, which allows a blend of graphical model-building and traditional programming.
 
-The OpenModelica project provides an Open Source implementation of a
-Modelica compiler and environment, allowing researchers in the field
-of simulation to access and tinker with the underlying simulation code
-instead of only working on models.  This allows flexibility beyond
-that afforded by commercial simulation packages which are primarily
-focused on providing a stable environment for simulation of new
-processes rather than new simulation approaches for existing processes.
+The OpenModelica project provides an Open Source implementation of a Modelica compiler and environment, allowing researchers in the field of simulation to access and tinker with the underlying simulation code instead of only working on models.  
+This allows flexibility beyond that afforded by commercial simulation packages which are primarily focused on providing a stable environment for simulation of new processes rather than new simulation approaches for existing processes.
 
-The proprietary system gPROMS already has CAPE-OPEN support, and
-adding support for some CAPE-OPEN interfaces to OpenModelica may speed
-adoption of this open standard in the Process Engineering field.
+The proprietary system gPROMS already has CAPE-OPEN support, and adding support for some CAPE-OPEN interfaces to OpenModelica may speed adoption of this open standard in the Process Engineering field.
 
 Simulation of a distillation column has been done before in Modelica~\citep{duro.morilla2003modelling}.
 However, the modelling strategy followed here is more modular, and abstracts the thermodynamics to the streams, allowing easy interfacing with an external thermodynamics package.
@@ -136,15 +117,15 @@ Under these assumptions, the equations describing the dynamic
 behaviour of a standard flash drum are given below (from \citet{eich-soellner.lory.ea1997stationary}):
 
 \begin{align}
-  \dxdy{M}{t} &= F - V - L \\
-  \dxdy{M\vec{x}}{t} &= Fx_j - Vy_j - Lx_j \text{ for } j = 1,\dots,n_c-1  \\
-  \sum_{j=1}^{n_c} x_j &= 1 \\
-  \sum_{j=1}^{n_c} y_j &= 1 \\
-  y_j &= K_j(T, P, x, y)x_j \text{ for } j = 1,\dots,n_c-1  \\
-  L &= \Phi(M) \\
-  \dxdy{Mh_L}{t} &= Fh_F - Vh_V - Lh_L + Q \\
-  h_p &= h_p(T_p, P_p, x) \text{ for } i \in {L, V} \\
-  P_V &= P_L = P
+  \dxdy{M}{t}          & = F - V - L                                         \\
+  \dxdy{M\vec{x}}{t}   & = Fx_j - Vy_j - Lx_j \text{ for } j = 1,\dots,n_c-1 \\
+  \sum_{j=1}^{n_c} x_j & = 1                                                 \\
+  \sum_{j=1}^{n_c} y_j & = 1                                                 \\
+  y_j                  & = K_j(T, P, x, y)x_j \text{ for } j = 1,\dots,n_c-1 \\
+  L                    & = \Phi(M)                                           \\
+  \dxdy{Mh_L}{t}       & = Fh_F - Vh_V - Lh_L + Q                            \\
+  h_p                  & = h_p(T_p, P_p, x) \text{ for } i \in {L, V}        \\
+  P_V                  & = P_L = P                                           \\
   T_V=T_L=T
 \end{align}
 
@@ -229,17 +210,14 @@ flowsheeting.(Husain, 1986, Mallja et al, 2000):
 \end{description}
 
 \section{Solving flowsheeting problems}
-``Solving'' a flowsheet means solving for unknown variables given the
-knowns, either for a particular steady state value or over time given
-a dynamic model.  This is also commonly called \emph{simulation} of
-the flow sheet.
+``Solving'' a flowsheet means solving for unknown variables given the knowns, either for a particular steady state value or over time given a dynamic model.  
+This is also commonly called \emph{simulation} of the flow sheet.
 
 \subsection{Specification}
 \subsection{Static data requirements}
 These properties are part of the setup of the problem
 \begin{itemize}
-\item Connections between units (unit input/outputs and mass or heat
-  connections)
+\item Connections between units (unit input/outputs and mass or heat connections)
 \item Physical properties of all pure substances
 \item Macroscopic mixture properties - VLE, heat of solution, etc
 \item Enough known values to satisfy a degrees of freedom analysis
@@ -248,107 +226,68 @@ These properties are part of the setup of the problem
 Additional static data requirements for dynamic control
 \begin{itemize}
 \item Pure dead time as a separate characteristic.
-\item Dead time of connections (effects of piping on control can be
-  large).
+\item Dead time of connections (effects of piping on control can be large).
 \end{itemize}
 
 Equation requirements
 \begin{itemize}
-\item Steady state energy and mass balances for each block.  These
-  equations include links to other units that have to be resolved
-  using tear streams to isolate blocks or by combining the whole
-  problem into one matrix.
+\item Steady state energy and mass balances for each block.
+These equations include links to other units that have to be resolved using tear streams to isolate blocks or by combining the whole problem into one matrix.
 \item State equations using the constants defined in the static data.
 \end{itemize}
 
 Additional equation requirements
 \begin{itemize}
-\item Dynamic energy and mass balances for each block.  These may be
-  linear transfer functions or nonlinear differential equations.
-\item State equations include dynamics, such as phase changes.
-\item Microscopic state equations modelling dynamic changes in
-  properties.
+\item Dynamic energy and mass balances for each block.
+  These may be linear transfer functions or nonlinear differential equations.
+\item State equations include dynamics, such as phase changes. 
+\item Microscopic state equations modelling dynamic changes in properties.
 \end{itemize}
 
 \subsection{Steady state simulation}
-Since the advent of programmable computers, they have been employed to
-solve routine design problems like mass and energy balances and
-rudimentary mechanical design issues.  As the speed of these computers
-increased, programs were developed to include more complex problems.
-This led to the development of several flowsheeting programs.  These
-programs solve the steady state equations of a number of unit
-operations connected to one another.  This problem is also called
-steady state simulation (Westerberg et al, 1979).
+Since the advent of programmable computers, they have been employed to solve routine design problems like mass and energy balances and rudimentary mechanical design issues.  
+As the speed of these computers increased, programs were developed to include more complex problems. 
+This led to the development of several flowsheeting programs.  
+These programs solve the steady state equations of a number of unit operations connected to one another.  
+This problem is also called steady state simulation \citep{westerberg.hutchison.ea1979process}
 
-During the first years of flow sheeting, the main drive was towards a
-program that could solve the equations quickly.  Once methods had been
-developed to do this, the focus moved toward speeding up the process
-involved in defining the problem.  Interfaces progressed from simple
-parsers that forced the user to state the problem in a non-intuitive
-way using specific programming languages to the graphical user
-interfaces we know today.  While the redesign of the interface was
-underway, an expansion of the existing technology was proposed by
-widening the problem from steady state to dynamic simulation.
+During the first years of flow sheeting, the main drive was towards a program that could solve the equations quickly.  
+Once methods had been developed to do this, the focus moved toward speeding up the process involved in defining the problem.  
+Interfaces progressed from simple parsers that forced the user to state the problem in a non-intuitive way using specific programming languages to the graphical user interfaces we know today.  
+While the redesign of the interface was underway, an expansion of the existing technology was proposed by widening the problem from steady state to dynamic simulation.
 
 \subsection{Dynamic simulation}
-Computers were becoming more prevalent in the engineering community
-and several engineers concerned with process control were writing
-purpose-built dynamic simulations of unit processes to test control
-systems.  Up to the mid 60s, analog computers were used to model
-dynamic systems (Husain, 1986), but as digital computers became more
-advanced, it seemed natural to expand the existing steady state
-flow-sheeting programs, to include dynamic behaviour. The problems
-involved in the expansion can be classified into three general
-classes: static data requirements, dynamic equation requirements and
-solution methodology.
+Computers were becoming more prevalent in the engineering community and several engineers concerned with process control were writing purpose-built dynamic simulations of unit processes to test control systems.  
+Up to the mid 60s, analog computers were used to model dynamic systems \citep{husain1986chemical}, but as digital computers became more advanced, it seemed natural to expand the existing steady state flow-sheeting programs, to include dynamic behaviour. 
+The problems involved in the expansion can be classified into three general classes: static data requirements, dynamic equation requirements and solution methodology.
 
 \subsection{Solution methods}
-Simulation of dynamic models usually begins with solution of the steady
-state problem by the normal methods employed in the steady state
-software.  The solution of these equations supplies the program with
-the starting values needed to integrate the describing differential
-equations numerically.  For a simply connected (non-cyclic) problem,
-numerical methods may be employed to integrate the equations in the
-order that the units are connected.  When there is recycle of
-materials or heat integration between units, care must be taken to
-ensure that the interconnected quantity is consistently solved.  In
-other words, units must be reconciled in some way to ensure that
-shared quantities are the same.  Different solution methods solve this
-problem in different ways.
+Simulation of dynamic models usually begins with solution of the steady state problem by the normal methods employed in the steady state software.  
+The solution of these equations supplies the program with the starting values needed to integrate the describing differential equations numerically.  
+For a simply connected (non-cyclic) problem, numerical methods may be employed to integrate the equations in the order that the units are connected.  
+When there is recycle of materials or heat integration between units, care must be taken to ensure that the interconnected quantity is consistently solved.  
+In other words, units must be reconciled in some way to ensure that shared quantities are the same.  
+Different solution methods solve this problem in different ways.
 
-In the first approach, units are coupled at each solution step.  This
-method has good accuracy but the extra time needed in each integration
-time step to reconcile units increases solution time dramatically.
-Secondly, units may be separately solved and reconciled at the end of
-each integration time step.  This method has very low accuracy for
-large time steps periods, but the increase in calculation speed also
-allows lower integration time steps (Husain, 1986).  Both of these
-methods follow a modular approach: each module is solved independently
-and then reconciled with the other units.
+In the first approach, units are coupled at each solution step.  
+This method has good accuracy but the extra time needed in each integration time step to reconcile units increases solution time dramatically.
+Secondly, units may be separately solved and reconciled at the end of each integration time step.  
+This method has very low accuracy for large time steps periods, but the increase in calculation speed also allows lower integration time steps~\citep{husain1986chemical}.  
+Both of these methods follow a modular approach: each module is solved independently and then reconciled with the other units.
 
-The third method involves setting up a total set of equations based on
-the module equations and integrating the total system.  This method is
-currently favoured by the simulation community, as there are several
-applications of parallel processing and large vector computers and
-networks for the solution of these systems, which are usually large
-but sparse (Malja et al, 2000).
+The third method involves setting up a total set of equations based on the module equations and integrating the total system.  
+This method is currently favoured by the simulation community, as there are several applications of parallel processing and large vector computers and networks for the solution of these systems, which are usually large but sparse (Malja et al, 2000).
 
-The extension to the solution methodology is so great that it may not
-seem an extension, but rather a new problem altogether.  Many of the
-traditional methods used to solve the steady state problem are no
-longer relevant as computer speed improves.  Tear stream
-identification and similar techniques to decouple units have been
-largely replaced by the method mentioned above.
+The extension to the solution methodology is so great that it may not seem an extension, but rather a new problem altogether.  
+Many of the traditional methods used to solve the steady state problem are no longer relevant as computer speed improves.  
+Tear stream identification and similar techniques to decouple units have been largely replaced by the method mentioned above.
 
 \section{Modelling}
-%\usepackage{graphics} is needed for \includegraphics
 \begin{figure}[htp]
-\begin{center}
+  \centering
   \includegraphics[width=0.5\textwidth]{modelling_flow}
-  \caption[Modelling process]{Modelling process as explained by
-  \citet{biezczad}}
+  \caption[Modelling process]{Modelling process as explained by \citet{biezczad}}
   \label{fig:modellingprocess}
-\end{center}
 \end{figure}
 
 % Local Variables:
