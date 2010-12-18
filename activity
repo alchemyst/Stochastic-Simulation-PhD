@@ -1,3 +1,4 @@
 #!/bin/bash
-words=`ps2ascii thesis.pdf | wc -w`
-sqlite3 $1 "insert into activity values (datetime('now'),"$words");"
+words=$(ps2ascii thesis.pdf | wc -w)
+query=$(printf "insert into activity values (datetime('now'),%i);" $words)
+sqlite3 $1 "$query"
