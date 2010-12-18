@@ -5,13 +5,31 @@
 \end{overview}
 
 \section{Conclusion}
+Open source software has matured to the point where it can provide the basis for a project like this one.
 
 \section{Recommendations for further research}
 \label{sec:furtherresearch}
 \subsection{Input characterisation}
-One problem with the PSO based algorithm proposed here is that it does not handle an arbitrary number of events smoothly.  Most optimisation algorithms treat the design space as a single metric space, with each design having the same number of design variables.  An interesting method of moving beyond this approach is Genetic Programming.  Some work has been done in this regard \citehere.  Development of a Genetic Programming based algorithm for Multiobjective optimisation of the piecewise curve fitting problem is recommended.  Particularly, the concept of Symbolic Regression should be addressed.
+One problem with the PSO based algorithm proposed here is that it does not handle an arbitrary number of events smoothly.  
+Most optimisation algorithms treat the design space as a single metric space, with each design having the same number of design variables.  
+An interesting method of moving beyond this approach is Genetic Programming.  
+Some work has been done in this regard \citehere.  
+Development of a Genetic Programming based algorithm for Multiobjective optimisation of the piecewise curve fitting problem is recommended.  
+Particularly, the concept of Symbolic Regression should be addressed.
+
+The optimisation methods discussed so far have a significant disadvantage: it is not possible for them to choose the ``optimal'' number of segments as one of the design variables, as their design space needs to have constant dimension. 
+It is, however, possible to use genetic algorithms (GAs) for this purpose, by using a crossover operator allowing varying chromosome lengths. 
+One such operator is the simple ``cut and splice'' operator, which chooses a crossover point on the chromosome of each parent independently before exchanging material.
+The application of multi-objective GAs with varying chromosome lengths may yield the first fully-automated optimisation for fitting events, as it allows the number of events to be included in the objective set.
+
+Finding the Pareto-optimal set of fits in this way will enable much richer analysis of time series.
 
 \subsection{Modelling}
+The lack of spacial derivatives in Modelica is an important restriction on the applicability to chemical engineering systems.  
+gPROMS supplies spacial derivatives in models~\citep[861]{tiller.ph-d-2001introduction}.
+Almost every real chemical engineering system can be described using spacial derivatives.
+Adding formal support for spacial derivatives would boost Modelica considerably, making it more comparable to systems such as gPROMS.
+This work has already been started by \citet{saldamli_pdemodelica_2006}.
 
 \subsection{Output processing}
 

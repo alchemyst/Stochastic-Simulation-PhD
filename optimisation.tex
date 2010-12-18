@@ -1,9 +1,7 @@
 \chapter{Optimisation}
 \begin{overview}
-  Optimisation is used  during segmentation of inputs to construct an
-  input model and to determine model parameters during model
-  construction.  This chapter introduces the nomenclature and concepts
-  that will be used when discussing optimisation.
+  Optimisation is used during segmentation of inputs to construct an input model and to determine model parameters during model construction.
+  This chapter introduces the nomenclature and concepts that will be used when discussing optimisation.
 \end{overview}
 
 \section{Background}
@@ -21,48 +19,28 @@ Karush-Kuh-Tucker conditions
 Wolpert and Macready \citehere:
 
 \begin{quote}
-  We show that all algorithms that search for an extremum of a cost
-  function perform exactly the same, when averaged over all possible
-  cost functions. In particular, if algorithm A outperforms algorithm
-  B on some cost functions, then loosely speaking there must exist
-  exactly as many other functions where B outperforms A. Starting from
-  this we analyze a number of the other a priori characteristics of
-  the search problem, like its geometry and its information-theoretic
-  aspects. This analysis allows us to derive mathematical benchmarks
-  for assessing a particular search algorithm's performance. We also
-  investigate minimax aspects of the search problem, the validity of
-  using characteristics of a partial search over a cost function to
-  predict future behavior of the search algorithm on that cost
-  function, and time-varying cost functions. We conclude with some
-  discussion of the justifiability of biologically-inspired search
-  methods.
+  We show that all algorithms that search for an extremum of a cost function perform exactly the same, when averaged over all possible cost functions. In particular, if algorithm A outperforms algorithm B on some cost functions, then loosely speaking there must exist exactly as many other functions where B outperforms A.
+Starting from this we analyze a number of the other a priori characteristics of the search problem, like its geometry and its information-theoretic aspects.
+This analysis allows us to derive mathematical benchmarks for assessing a particular search algorithm's performance.
+We also investigate minimax aspects of the search problem, the validity of using characteristics of a partial search over a cost function to predict future behavior of the search algorithm on that cost function, and time-varying cost functions.
+We conclude with some discussion of the justifiability of biologically-inspired search methods.
 \end{quote}
 
-It has also been proposed \citehere\ that NFL's corollary is that
-certain algorithms will be well-aligned to certain problems and that
-it is therefore proper for optimization researchers to focus their
-attention on finding which algorithms suit a particular problem rather
-than developing more general optimizers.  Of course, this is difficult
-to do a-priori, and there will always be demand for robust
-optimisation algorithms that can be set loose on an arbitrary
-optimisation problem and will find good results.
+It has also been proposed \citehere\ that NFL's corollary is that certain algorithms will be well-aligned to certain problems and that it is therefore proper for optimization researchers to focus their attention on finding which algorithms suit a particular problem rather than developing more general optimizers. Of course, this is difficult to do a-priori, and there will always be demand for robust optimisation algorithms that can be set loose on an arbitrary optimisation problem and will find good results.
+
+This can be seen as a full employment theorem for optimisation algorithm developers. \url{http://en.wikipedia.org/wiki/Full_employment_theorem}
 
 \subsection{Dominance}
 \citet[28]{deb.kalyanmoy2001multi-objective} defines (weak) dominance as follows:
 
 \begin{quote}
-  A solution \varx{1} is said to dominate the other solution \varx{2},
-  if both conditions 1 and 2 are true:
+  A solution \varx{1} is said to dominate the other solution \varx{2}, if both conditions 1 and 2 are true:
   \begin{enumerate}
-  \item The solution \varx{1} is no worse than \varx{2} in all
-    objectives, or $f_j(\varx{1}) \ntriangleright f_j(\varx{2})$ for
-    all $j = 1,2,\ldots,M$
-  \item The solution \varx{1} is strictly better than \varx{2} in at
-    least one objective, or $f_k(\varx{1}) \vartriangleleft
-    f_k(\varx{2})$ for at least one $k \in {1, 2,\ldots,M}$
-  \end{enumerate}
-  
-  If any of the above condition is violated, the solution \varx{1} does not dominate the solution \varx{2}.  
+  \item The solution \varx{1} is no worse than \varx{2} in all objectives, or $f_j(\varx{1}) \ntriangleright f_j(\varx{2})$ for all $j = 1,2,\ldots,M$
+  \item The solution \varx{1} is strictly better than \varx{2} in at least one objective, or $f_k(\varx{1}) \vartriangleleft f_k(\varx{2})$ for at least one $k \in {1, 2,\ldots,M}$
+\end{enumerate}
+
+  If any of the above condition is violated, the solution \varx{1} does not dominate the solution \varx{2}.
   If \varx{1} dominates the solution \varx{2} (or mathematically $\varx{1} \dominates \varx{2}$), it is also customary to write any of the following:
   \begin{itemize}
   \item \varx{2} is dominated by \varx{1};
@@ -78,173 +56,116 @@ My translation of this into formal math:
   \varx{1} \dominates \varx{2} \iff ( f_j(\varx{1}) \ntriangleright f_j(\varx{2}) \forall j \in J \textrm{~and~} \exists k \in J | f_k(\varx{1}) \vartriangleright f_k(\varx{2})
 \end{equation}
 
-This ``weak formulation'' may be contrasted witht the ``strong'' or
-``strict'' formulation.  The ``better in at least one objective, but
-no worse in any'' formulation is strengthened to ``better in all'', or
-$\varx{1} \strongdominates \varx{2} \iff f_j(\varx{1})
-\vartriangleleft f_j(\varx{2}) \forall j \in J$
+This ``weak formulation'' may be contrasted witht the ``strong'' or ``strict'' formulation.
+The ``better in at least one objective, but no worse in any'' formulation is strengthened to ``better in all'', or $\varx{1} \strongdominates \varx{2} \iff f_j(\varx{1}) \vartriangleleft f_j(\varx{2}) \forall j \in J$.
 
 \subsection{Pareto efficiency}
 From Wikipedia
 \begin{quote}
-  Consider a design space with $n$ real parameters, and for each
-  design-space point there are $m$ different criteria by which to
-  judge that point. Let $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ be
-  the function which assigns, to each design-space point $x$, a
-  criteria-space point $f$($x$). This represents the way of valuing
-  the designs. Now, it may be that some designs are infeasible; so let
-  $X$ be a set of feasible designs in ${\mathbb{R}}^n$, which must be
-  a [[compact space|compact set]]. Then the set which represents the
-  feasible criterion points is $f$($X$), the image of the set $X$
-  under the action of $f$. Call this image $Y$.
+  Consider a design space with $n$ real parameters, and for each design-space point there are $m$ different criteria by which to judge that point.
+  Let $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ be the function which assigns, to each design-space point $x$, a criteria-space point $f$($x$).
+  This represents the way of valuing the designs.
+  Now, it may be that some designs are infeasible; so let $X$ be a set of feasible designs in ${\mathbb{R}}^n$, which must be a [[compact space|compact set]].
+  Then the set which represents the feasible criterion points is $f$($X$), the image of the set $X$ under the action of $f$.
+  Call this image $Y$.
 
-  Now construct the Pareto frontier as a subset of $Y$, the feasible
-  criterion points. It can be assumed that the preferable values of
-  each criterion parameter are the lesser ones, thus minimizing each
-  dimension of the criterion vector. Then compare criterion vectors as
-  follows: One criterion vector $y$ $strictly dominates$ (or "is
-  preferred to") a vector $y*$ if each parameter of $y$ is no greater
-  than the corresponding parameter of $y*$ and at least one parameter
-  is strictly less: that is, $\mathbf{y}_i \le \mathbf{y*}_i$ for each
-  $i$ and $\mathbf{y}_i < \mathbf{y*}_i$ for some $i$. This is written
-  as $\mathbf{y} \succ \mathbf{y*}$ to mean that $y$ strictly
-  dominates $y*$. Then the Pareto frontier is the set of points from
-  $Y$ that are not strictly dominated by another point in $Y$.
+  Now construct the Pareto frontier as a subset of $Y$, the feasible criterion points.
+  It can be assumed that the preferable values of each criterion parameter are the lesser ones, thus minimizing each dimension of the criterion vector. Then compare criterion vectors as follows:
+  One criterion vector $y$ $strictly dominates$ (or "is preferred to") a vector $y*$ if each parameter of $y$ is no greater than the corresponding parameter of $y*$ and at least one parameter is strictly less: that is, $\mathbf{y}_i \le \mathbf{y*}_i$ for each $i$ and $\mathbf{y}_i < \mathbf{y*}_i$ for some $i$.
+This is written as $\mathbf{y} \succ \mathbf{y*}$ to mean that $y$ strictly dominates $y*$.
+Then the Pareto frontier is the set of points from $Y$ that are not strictly dominated by another point in $Y$.
 \end{quote}
 
 % see ~/Downloads/Documents/pareto_efficiency/original_paper_skyline_operator.pdf
-In 2001, B\"orzs\"onyi et al \citehere\ proposed an extension to SQL
-that they called the ``Skyline operator''.  This extention calculates
-the pareto frontier of a dataset and is worded for a set of tuples
-rather than the design variable --- objective function mapping used by
-\citet{deb.kalyanmoy2001multi-objective}.  This nomenclature has caught
-on in the computational arena, and efficient algorithms for
-calculation of a skyline have been explored, especially with
+In 2001, B\"orzs\"onyi et al \citehere\ proposed an extension to SQL that they called the ``Skyline operator''.
+This extention calculates the pareto frontier of a dataset and is worded for a set of tuples rather than the design variable --- objective function mapping used by \citet{deb.kalyanmoy2001multi-objective}.
+This nomenclature has caught on in the computational arena, and efficient algorithms for calculation of a skyline have been explored, especially with
 programmers of database systems.
 
 \subsection{Curve fitting and approximation}
 Here we introduce the general curve fitting problems.
 
-The curve fitting problem can be expressed as the problem of finding a
-function $f(x)$ which approximates a known dataset at points $x_i$.
-Several different senses of ``approximate'' are used, with varying
-levels of success in solving the general problem.
+The curve fitting problem can be expressed as the problem of finding a function $f(x)$ which approximates a known dataset at points $x_i$.
+Several different senses of ``approximate'' are used, with varying levels of success in solving the general problem.
 
-The fitting problem can be posed as 
+The fitting problem can be posed as
 
 \begin{equation}
   \label{eq:1}
   \min_{\alpha} \sum_i (f(x_i) - y_i)^2
 \end{equation}
 
-This is known as the least squares problem.  For linear $f$, this
-problem has an analytic solution that becomes clear when it is
-restated as an overdetermined set of linear equations, one for each
-data point.  At this point, one can rewrite the objective as $f(x) =
-y$, which for linear $f$ translates to $Ax=y$.  The optimal solution,
-in the sense of minimizing the norm of the residual (the difference
-vector between the data and the predictions) , can be found using the
-Moore-Penrose pseudoinverse, as $A = x^Ty^T$ XXX .
+This is known as the least squares problem. For linear $f$, this problem has an analytic solution that becomes clear when it is restated as an overdetermined set of linear equations, one for each data point.
+At this point, one can rewrite the objective as $f(x) = y$, which for linear $f$ translates to $Ax=y$.
+The optimal solution, in the sense of minimizing the norm of the residual (the difference vector between the data and the predictions), can be found using the Moore-Penrose pseudoinverse, as $A = x^Ty^T$ XXX .
 
 % TODO: Discuss Gauss's solution of the problem.
 
 \subsubsection{Least squares}
-Wikipedia: 
+Wikipedia:
 \begin{quote}
-  The method of least squares is a standard approach to the
-  approximate solution of overdetermined systems, i.e. sets of
-  equations in which there are more equations than unknowns. "Least
-  squares" means that the overall solution minimizes the sum of the
-  squares of the errors made in solving every single equation.  The
-  most important application is in data fitting. The best fit in the
-  least-squares sense minimizes the sum of squared residuals, a
-  residual being the difference between an observed value and the
-  fitted value provided by a model.  Least squares problems fall into
-  two categories: linear least squares and nonlinear least squares,
-  depending on whether or not the residuals are linear in all
-  unknowns. The linear least-squares problem occurs in statistical
-  regression analysis; it has a closed-form solution. The non-linear
-  problem has no closed solution and is usually solved by iterative
-  refinement; at each iteration the system is approximated by a linear
-  one, thus the core calculation is similar in both cases.  The
-  least-squares method was first described by Carl Friedrich Gauss
-  around 1794.[1] Least squares corresponds to the maximum likelihood
-  criterion if the experimental errors have a normal distribution and
-  can also be derived as a method of moments estimator.
+  The method of least squares is a standard approach to the approximate solution of overdetermined systems, i.e. sets of equations in which there are more equations than unknowns.
+ "Least squares" means that the overall solution minimizes the sum of the squares of the errors made in solving every single equation.
+ The most important application is in data fitting.
+ The best fit in the least-squares sense minimizes the sum of squared residuals, a residual being the difference between an observed value and the fitted value provided by a model.
+  Least squares problems fall into two categories: linear least squares and nonlinear least squares, depending on whether or not the residuals are linear in all unknowns.
+  The linear least-squares problem occurs in statistical regression analysis; it has a closed-form solution.
+  The non-linear problem has no closed solution and is usually solved by iterative refinement; at each iteration the system is approximated by a linear one, thus the core calculation is similar in both cases.
+  The least-squares method was first described by Carl Friedrich Gauss around 1794.[1]
+  Least squares corresponds to the maximum likelihood criterion if the experimental errors have a normal distribution and can also be derived as a method of moments estimator.
 \end{quote}
 
 \section{Population based methods}
 \subsection{Differential Evolution}
 \subsection{PSO}
-Kennedy and Eberhart developed the Particle Swarm algorithm in XXX
-(year) and it has been adopted
+Kennedy and Eberhart developed the Particle Swarm algorithm in XXX (year) and it has been adopted
 
-Wikipedia: 
+Wikipedia:
 \begin{quote}
-  Such methods are commonly known as metaheuristics as they make few
-  or no assumptions about the problem being optimized and can search
-  very large spaces of candidate solutions. However, metaheuristics
-  such as PSO do not guarantee an optimal solution is ever found.
-  More specifically, PSO does not use the gradient of the problem
-  being optimized, which means PSO does not require for the
-  optimization problem to be differentiable as is required by classic
-  optimization methods such as gradient descent and quasi-newton
-  methods. PSO can therefore also be used on optimization problems
-  that are partially irregular, noisy, change over time, etc.  PSO
-  optimizes a problem by having a population of candidate solutions,
-  here dubbed particles, and moving these particles around in the
-  search-space according to simple mathematical formulae. The
-  movements of the particles are guided by the best found positions in
-  the search-space which are updated as better positions are found by
-  the particles.  PSO is originally attributed to Kennedy, Eberhart
-  and Shi [1][2] and was first intended for simulating social
-  behaviour. The algorithm was simplified and it was observed to be
-  performing optimization. The book by Kennedy and Eberhart [3]
-  describes many philosophical aspects of PSO and swarm
-  intelligence. An extensive survey of PSO applications is made by
-  Poli [4][5].
+  Such methods are commonly known as metaheuristics as they make few or no assumptions about the problem being optimized and can search very large spaces of candidate solutions.
+  However, metaheuristics such as PSO do not guarantee an optimal solution is ever found.
+  More specifically, PSO does not use the gradient of the problem being optimized, which means PSO does not require for the optimization problem to be differentiable as is required by classic optimization methods such as gradient descent and quasi-newton methods.
+  PSO can therefore also be used on optimization problems that are partially irregular, noisy, change over time, etc.
+  PSO optimizes a problem by having a population of candidate solutions, here dubbed particles, and moving these particles around in the search-space according to simple mathematical formulae.
+  The movements of the particles are guided by the best found positions in the search-space which are updated as better positions are found by the particles.
+ PSO is originally attributed to Kennedy, Eberhart and Shi [1][2] and was first intended for simulating social behaviour.
+  The algorithm was simplified and it was observed to be performing optimization.
+  The book by Kennedy and Eberhart [3] describes many philosophical aspects of PSO and swarm intelligence.
+  An extensive survey of PSO applications is made by Poli [4][5].
 \end{quote}
 
 \section{Multiple objectives}
 MOPSO.
 
-\subsection{Multi-objective optimisation}
-The trade-off between accuracy and generality of a fit would
-traditionally be decided by the designer of an algorithm.  Perhaps
-some noise reduction would be done before identifying events, or
-constraints on the fitting functions would be enforced to avoid over
-fitting~\citep{arora.khot2003fitting,punskaya.andrieu.ea2002bayesian}.  
+\section{Multi-objective optimisation}
+\label{sec:multi-object-optim}
+The trade-off between accuracy and generality of a fit would traditionally be decided by the designer of an algorithm.
+Perhaps some noise reduction would be done before identifying events, or constraints on the fitting functions would be enforced to avoid over fitting~\citep{arora.khot2003fitting,punskaya.andrieu.ea2002bayesian}.
+One could specify an acceptable error bound before segmentation or one could specify a number of segments.
 
-Multi-objective optimisation provides a different approach.  All the
-objective function values are evaluated and a solution is retained if
-it is better in any way than all of the solutions already encountered.
-Such solutions are called Pareto optimal or nondominated
-solutions~\citep{steuer1986multiple}. The result of such an optimisation
-algorithm is a \emph{list} of Pareto optimal solutions, or more
-properly an approximation of the Pareto front.  This list is most
-commonly called the archive.
+Multi-objective optimisation provides a different approach.
+All the objective function values are evaluated and a solution is retained if it is better in any way than all of the solutions already encountered.
+Such solutions are called Pareto optimal or nondominated solutions \citep{steuer1986multiple}.
+The result of such an optimisation algorithm is a \emph{list} of Pareto optimal solutions, or more properly an approximation of the Pareto front.
+This list is most commonly called the archive.
+
+Evolutionary algorithms are a natural fit for multi-objective optimisation, as they are already population based.
+Genetic algorithms in particular have enjoyed popularity~\citep{deb.kalyanmoy2001multi-objective}.
+Recent work in Particle Swarm Optimisation has rekindled interest in using it for multi-objective optimisation.
 
 % TODO: Picture of Pareto Front
 
 \subsubsection{MOPSO}\label{sec:mopso}
-The algorithm used in this work is the MOPSO-CD (Multi-Objective
-Particle Swarm Optimisation with Crowding Distance) algorithm proposed
-by~\citet{raquel.naval2005effective}.  It is a modification of Particle Swarm
-Optimisation that adds an archive of nondominated solutions and uses a
-crowding distance measure to prevent many similar Pareto optimal
-solutions from being retained in the archive.
+The algorithm used in this work is the MOPSO-CD (Multi-Objective Particle Swarm Optimisation with Crowding Distance) algorithm proposed by~\citet{raquel.naval2005effective}.
+It is a modification of Particle Swarm Optimisation that adds an archive of nondominated solutions and uses a crowding distance measure to prevent many similar Pareto optimal solutions from being retained in the archive.
 
 
 \subsection{Evolutionary algorithms}
-Evolutionary algorithms are a natural fit for multi-objective
-optimisation, as they are already population based.  Genetic
-algorithms in particular have enjoyed
-popularity~\citep{deb.kalyanmoy2001multi-objective}.  Recent work in Particle
-Swarm Optimisation has rekindled interest in using it for
-multi-objective optimisation.
+Evolutionary algorithms are a natural fit for multi-objective optimisation, as they are already population based.
+Genetic algorithms in particular have enjoyed popularity~\citep{deb.kalyanmoy2001multi-objective}.
+Recent work in Particle Swarm Optimisation has rekindled interest in using it for multi-objective optimisation.
 
 
 % Local Variables:
 % TeX-master: "thesis"
 % End:
-

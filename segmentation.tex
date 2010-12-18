@@ -1,49 +1,39 @@
 \chapter{Segmentation}\label{chap:lit:segmentation}
-Segmentation aims to approximate an input signal of length $N$ by
-$n<N$ events. Segmentation can be used as a compression measure, as a
-method of smoothing the data or to investigate underlying structure in
-the signal. \citet{keogh.chu.ea1993segmenting} gives a good review of
-several segmentation algorithms applied to EKG time series.
-Segmentation is also used in a different sense in fields like speech
-recognition to mean identification of transitions in the data without
-explicit fitting of a curve or reduction of data. This usage will not
-be discussed here.
+\begin{overview}
+  Segmentation may be viewed as a generalisation of trend fitting with multiple curves.
+  This chapter provides an overview of segmentation techniques that are commonly deployed both in time series analysis and other fields.
+\end{overview}
 
-The most popular event type is straight line or piecewise-linear
-segmentation.  However, more interesting functions like general
-polynomials \citep{arora.khot2003fitting} have been proposed.
+Segmentation aims to approximate an input signal of length $N$ by $n<N$ events.
+Segmentation can be used as a compression measure, as a method of smoothing the data or to investigate underlying structure in the signal.
+\citet{keogh.chu.ea1993segmenting} gives a good review of several segmentation algorithms applied to EKG time series.
+Segmentation is also used in a different sense in fields like speech recognition to mean identification of transitions in the data without explicit fitting of a curve or reduction of data.
+This usage will not be discussed here.
+
+The most popular event type is straight line or piecewise-linear segmentation.
+However, more interesting functions like general polynomials \citep{arora.khot2003fitting} have been proposed.
 
 \section{Objectives}
 \label{sec:objectives}
 
 A good segmentation algorithm:
 \begin{enumerate}
-\item minimises the error of the segmented description (or at least
-  satisfies some upper bound on the error),
-\item uses the simplest description possible for the data (which may
-  be in terms of the number or complexity of the identified segments) and
+\item minimises the error of the segmented description (or at least satisfies some upper bound on the error),
+\item uses the simplest description possible for the data (which may be in terms of the number or complexity of the identified segments) and
 \item is efficient in computer time and space requirements.
 \end{enumerate}
-If the algorithm is to be used on-line to segment signals as they are
-read, it is also beneficial if the algorithm works can incorporate new
+If the algorithm is to be used on-line to segment signals as they are read, it is also beneficial if the algorithm works can incorporate new
 data efficiently.
 
-Some of these objectives are contradictory -- a more complex
-description will almost always allow a lower segmentation error than a
-simpler one, for instance.  Also, it is always possible to segment
-with zero error by simply dividing the segmented data at every single
-sample point, so direct minimisation of the fitting error is clearly
-insufficient on its own.
+Some of these objectives are contradictory -- a more complex description will almost always allow a lower segmentation error than a simpler one, for instance.
+Also, it is always possible to segment with zero error by simply dividing the segmented data at every single sample point, so direct minimisation of the fitting error is clearly insufficient on its own.
 
-The next sections summarise commonly employed algorithms.  The details
-are taken largely from~\citet{keogh.chu.ea1993segmenting}, with some
-reinterpretation to fit within the structure of this chapter.  Note
-that the algorithms have been significantly reworked.
+The next sections summarise commonly employed algorithms.
+The details are taken largely from~\citet{keogh.chu.ea1993segmenting}, with some reinterpretation to fit within the structure of this chapter.
+Note that the algorithms have been significantly reworked.
 
 \section{Top-down methods}
-These methods can also be described as subdivision methods and feature
-a recursive subdivision of the signal that stops when an error measure
-has been reduced below a threshold.
+These methods can also be described as subdivision methods and feature a recursive subdivision of the signal that stops when an error measure has been reduced below a threshold.
 \begin{algorithm}
   \caption{Top-down algorithm}
   \label{alg:topdown}
@@ -54,23 +44,16 @@ has been reduced below a threshold.
     \Else
       \State $N \gets $ length($T$)
       \State $b \gets \min_i{\mathrm{splitcost}(T,i)}$ \Comment{Find best split point}
-      \Return topdown($T[1\dots b]$) + topdown($T[b+1\dots N]$) 
+      \Return topdown($T[1\dots b]$) + topdown($T[b+1\dots N]$)
     \EndIf
     \EndFunction
 \end{algorithmic}
 \end{algorithm}
-The algorithm described in Algorithm~\ref{alg:topdown} lends itself to
-optimisation by dynamic programming, as the optimal subdivisions of
-smaller sequences can be stored as partial solutions to the larger
-problem.  The Douglas-Peuker algorithm \citep{douglas.peucker1973algorithms}
-is also an example of a top-down algorithm, although it does not
-search for optimal breaks recursively -- it simply uses the node with
-the maximum perpendicular distance from the line as the break point.
+The algorithm described in Algorithm~\ref{alg:topdown} lends itself to optimisation by dynamic programming, as the optimal subdivisions of smaller sequences can be stored as partial solutions to the larger problem.
+The Douglas-Peuker algorithm \citep{douglas.peucker1973algorithms} is also an example of a top-down algorithm, although it does not search for optimal breaks recursively -- it simply uses the node with the maximum perpendicular distance from the line as the break point.
 
 \section{Bottom-up methods}
-Bottom-up or composition methods start with segments between
-all data points and merge similar segments until there are no segment
-pairs to merge without violating an error measure.
+Bottom-up or composition methods start with segments between all data points and merge similar segments until there are no segment pairs to merge without violating an error measure.
 
 \begin{algorithm}
   \caption{Bottom-up algorithm}
@@ -90,8 +73,8 @@ pairs to merge without violating an error measure.
       pair to merge}
     \State segments[$i$] $\gets$ merge(segments[$i$],segments[$i+1$]) \Comment{Merge them}
     \State delete(segments[$i+1$]) \Comment{Update records}
-    \State $c(i) \gets $error(merge(segments[$i$],segments[$i+1$]); 
-    \State $c(i-1) \gets $ error(merge(segments[$i-1$], segments[$i$])); 
+    \State $c(i) \gets $error(merge(segments[$i$],segments[$i+1$]);
+    \State $c(i-1) \gets $ error(merge(segments[$i-1$], segments[$i$]));
     \EndWhile
     \EndFunction
   \end{algorithmic}
@@ -100,15 +83,11 @@ pairs to merge without violating an error measure.
 Algorithm~\ref{alg:bottomup} shows a sample algorithm for a bottom-up
 method.
 
-If properly implemented, both bottom-up and top-down methods should
-give similar results.
+If properly implemented, both bottom-up and top-down methods should give similar results.
 
 \section{Methods employing sliding windows}
-Sliding window or incremental methods process the signal to be
-segmented sequentially, in one pass.  This means that they can be
-employed on-line, in contrast to the recursive methods discussed
-before, which require the entire data set to be loaded into memory
-before being started.
+Sliding window or incremental methods process the signal to be segmented sequentially, in one pass.
+This means that they can be employed on-line, in contrast to the recursive methods discussed before, which require the entire data set to be loaded into memory before being started.
 
 \begin{algorithm}
   \caption{Sliding window algorithm}
@@ -116,7 +95,7 @@ before being started.
   \begin{algorithmic}
     \Function{slidingwindow}{$T, \epsilon$}
     \State $a \gets 1$
-    \State segments $\gets\emptyset$ 
+    \State segments $\gets\emptyset$
     \While{$b<N$}
     \State $b\gets a+1$
     \While{error(T[a$\dots$b]) $ < \epsilon$}
@@ -130,76 +109,22 @@ before being started.
   \end{algorithmic}
 \end{algorithm}
 
-Algorithm~\ref{alg:slidingwindow} shows a possible sliding window
-algorithm.
+Algorithm~\ref{alg:slidingwindow} shows a possible sliding window algorithm.
 
 \section{Optimisation-based methods}
-Any one of the objectives mentioned in Section~\ref{sec:objectives}
-can be rewritten as an objective function for an optimisation
-algorithm.  This objective function could then be minimised by
-choosing the number of parameters, the number of segments and the
-parameter values for each of the identified segments.  Application of
-this reasoning can be seen in the direct fitting of line segments to
-data described in~\citet{cantoni1971optimal}, which leads to a direct
-analytical solution via the pseudo-inverse, or in where numerical
-optimisation is employed to fit more complicated segmentation
-functions.
+Any one of the objectives mentioned in Section~\ref{sec:objectives} can be rewritten as an objective function for an optimisation algorithm.
+This objective function could then be minimised by choosing the number of parameters, the number of segments and the parameter values for each of the identified segments.
+Application of this reasoning can be seen in the direct fitting of line segments to data described in~\citet{cantoni1971optimal}, which leads to a direct analytical solution via the pseudo-inverse, or in where numerical optimisation is employed to fit more complicated segmentation functions.
 
-A common thread in the optimisation-based methods is that the number
-of line segments must be known in advance.  This is required when
-using derivative-based optimisation, as the number of design variables
-fixes the dimensions of the derivative and the current position in the
-design space.  This is a disadvantage when compared to the previous
-methods, which would automatically fit varying numbers of segments
-given different data set.  Recall, however, that these methods would
-terminate when a certain error bound had been met, and that this bound
-had to be set in advance.  When the error is reduced using
-optimisation, this bound is not required.
+A common thread in the optimisation-based methods is that the number of line segments must be known in advance.
+This is required when using derivative-based optimisation, as the number of design variables fixes the dimensions of the derivative and the current position in the design space.
+This is a disadvantage when compared to the previous methods, which would automatically fit varying numbers of segments given different data set.
+Recall, however, that these methods would terminate when a certain error bound had been met, and that this bound had to be set in advance.
+When the error is reduced using optimisation, this bound is not required.
 
-Another, more significant, benefit of using optimisation rather than
-the direct methods, is that it enables a more general description of a
-segment to be used with very little additional effort beyond deciding
-on the parameters of the description.  While it is clear how to
-approach subdivision for line segments, it is not as simple to adjust
-the algorithms for other functions~\citep{waibel.lee1990readings}
-
-\section{Multi-objective optimisation}
-\label{sec:multi-object-optim}
-The trade-off between accuracy and generality of a fit would
-traditionally be decided by the designer of an algorithm.  Perhaps
-some noise reduction would be done before identifying events, or
-constraints on the fitting functions would be enforced to avoid over
-fitting~\citep{arora.khot2003fitting,punskaya.andrieu.ea2002bayesian}.  One could
-specify an acceptable error bound before segmentation or one could
-specify a number of segments.
-
-Multi-objective optimisation provides a different approach.  All the
-objective function values are evaluated and a solution is retained if
-it is better in any way than all of the solutions already encountered.
-Such solutions are called Pareto optimal or nondominated
-solutions \citep{steuer1986multiple}. The result of such an optimisation
-algorithm is a \emph{list} of Pareto optimal solutions, or more
-properly an approximation of the Pareto front.  This list is most
-commonly called the archive.
-
-Evolutionary algorithms are a natural fit for multi-objective
-optimisation, as they are already population based.  Genetic
-algorithms in particular have enjoyed
-popularity~\citep{deb.kalyanmoy2001multi-objective}.  Recent work in Particle
-Swarm Optimisation has rekindled interest in using it for
-multi-objective optimisation.
-
-\section{Optimisation with variable numbers of events}
-The optimisation methods discussed so far have a significant disadvantage: it is not possible for them to choose the ``optimal''
-number of segments as one of the design variables, as their design space
-needs to have constant dimension. 
-It is, however, possible to use genetic algorithms (GAs) for this purpose, by using a crossover operator allowing varying chromosome lengths. 
-One such operator is the simple ``cut and splice'' operator, which chooses a crossover point on the chromosome of each parent independently before exchanging material.
-The application of multi-objective GAs with varying chromosome lengths may yield the first fully-automated optimisation for fitting events, as it allows the number of events to be included in the objective set.
-
-Finding the Pareto-optimal set of fits in this way will enable much richer analysis of time series.
+Another, more significant, benefit of using optimisation rather than the direct methods, is that it enables a more general description of a segment to be used with very little additional effort beyond deciding on the parameters of the description.
+While it is clear how to approach subdivision for line segments, it is not as simple to adjust the algorithms for other functions~\citep{waibel.lee1990readings}
 
 % Local Variables:
 % TeX-master: "thesis"
 % End:
-
