@@ -1,5 +1,5 @@
 \documentclass[a4paper, 12pt, %
-draft,%
+%draft,%
 pdftex]{report} % make report->book for two sided final publishing.
 \fussy
 \sloppy
@@ -20,6 +20,9 @@ pdftex]{report} % make report->book for two sided final publishing.
 
 \newcommand{\prob}[1]{\ensuremath{\mathrm{P}(#1)}} % probability of event
 \newcommand{\expect}[1]{\ensuremath{\mathrm{E}(#1)}} % Expectation of variable
+\newcommand{\cov}{\textrm{cov}}
+%FIXME: This transpose is ugly
+\newcommand{\transpose}{\ensuremath{^T}}
 
 % TODO: Typeset different code modules seperately, reference code documentation!
 \newcommand{\modulename}[2]{{\tiny #1}\fbox{#2}} % typeset module name - language, modulename

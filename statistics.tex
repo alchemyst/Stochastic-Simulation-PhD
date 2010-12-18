@@ -107,11 +107,12 @@ The third and fourth central moments are usually reported in standardised form a
 The skewness is a measure of how far the median is away from the mean.
 Kurtosis is a measure of how closely the distribution is spread around the mean value.
 
-\subsection{Multivariate random variables}
+\section{Multivariate random variables}
 All the properties discussed in section~\ref{sec:univ-rand-vari} can be extended to handle more than one value \cite[65]{kulkarni1999modeling}.
 A vector can be formed from several random variables $X_i$ to form a multivariate random variable $\vect{X}$.
 Variables that are related in this way are called jointly distributed random variables.
 
+\subsection{Distribution functions}
 The cumulative distribution function and probability distribution functions are defined in similar ways, as 
 \begin{equation}
   \label{eq:mvcdf}
@@ -120,13 +121,217 @@ The cumulative distribution function and probability distribution functions are 
 and
 \begin{align}
   \label{eq:mvpdf}
-  F(\vect{x}) &= \int_{-\infty}{x_n}\cdots\int_{-\infty}{x_2}\int_{-\infty}{x_1} f(x \dd \vect{x_1} \dd \vect{x_2} \dots \dd \vect{x_n} \\
+  F(\vect{x}) &= \int_{-\infty}^{x_n}\cdots\int_{-\infty}^{x_2}\int_{-\infty}^{x_1} f(x \dd x_1 \dd x_2 \dots \dd x_n \\
               &= \int_V f(\vect{x}) \dd \vect{x}
 \end{align}
 where $V$ represents the volume in the state space where the first integral is evaluated.
+%FIXME: Discrete distributions aren't discussed.
+
+It is useful to define a marginal distribution as the distribution of a particular random variable within a multivariate random variable.  
+The marginal CDF of a variable $X_i$ is written $F_{X_i}(x_i) = \prob{X_i \leq x_i}$ and can be derived from the joint CDF by evaluating $F_{X_i}(x_i) = F(\infty,\infty,\dots,x_i,\dots,\infty,\infty)$
+
+\subsection{Independance}
+The jointly distributed random variables $\vect{X}$ are said to be independant if 
+\begin{equation}
+  \label{eq:independance}
+  F(\vect{x}) = \prod_i^n F_{X_i}(x_i)
+\end{equation}
+
+If in addition to being independant, the random variables share the same marginal distributions, they are said to be independantly identically distributed (IID) variables.
+
+\subsection{Mean}
+The mean or expectation of a multivariate random variable is simply a vector, $\vect{mu}$, containing the means of the marginal distributions.
+
+\subsection{Variance and covariance}
+Generalising the scalar definition of the variance is slightly more complicated.
+The covariance matrix can be defined as 
+\begin{equation}
+  \label{eq:covariance}
+  \Sigma_{ij} = \cov(X_i, X_j) = \expect{(X_i-\mu_i)(X_j-\mu_j)}
+\end{equation}
+or equivalently in matrix form:
+\begin{equation}
+  \label{eq:matrixcovariance}
+  \Sigma = \expect{(\vect{X} - \vect{\mu})(\vect{X}-\vect{\mu})\transpose}
+\end{equation}
+
+%TODO: find some references
+There is some difference in notation, as $\Sigma(\vect{X})$ is called either the variance or the covariance matrix.
 
 \section{Stochastic processes}
 \label{sec:stochastic-processes}
+
+\section{Markov Processes}
+\subsection{Markov chains}
+A markov process can be described as a stochastic process posessing the
+property that the probability of moving to a particular new state $i$ from an
+old state $j$ is only dependant on $i$ and $j$, but not on the states that had
+previously been attained.  It is common to express the probabilities of the
+transitions in matrices as follows:
+\begin{equation}
+X = \left [ \begin{array}{cccc}
+            p_{11} & p_{12}	& \ldots & p_{1n} \\
+            & \vdots & \\
+            p_{n1} & p_{n2} & \ldots & p_{nn}\\ 
+            \end{array}\right]
+\end{equation}
+
+\subsection{Discrete-time Markov Processes}
+A stochastic process with state space $S$ has the Markov
+property if the current state completely determines the probability of
+the following state.  A sequence $X_1,X_2, \dots ,X_t$ having this
+property is known as a Markov chain.
+
+Stated mathematically, a Markov chain obeys the property
+\begin{equation}
+  \label{eq:markovproperty}
+  \Pr(X_{t+1} = j|X_{t}=i) = \Pr(X_{m+1}=j|X_{m}=i)=p_{ij}
+\end{equation}
+in words, the probability that the next state will be equal to $j$ given
+that the current state is $i$ is only dependant on the current state.
+
+When $S$ is a countable set, the state transition probabilities can be written 
+as a state transition matrix $P$ as shown for a 3 state process in
+equation~\ref{eq:markovmatrix}
+\begin{equation}
+\label{eq:markovmatrix}
+P = \left[ 
+  \begin{array}{cccc}
+    p_{11} & p_{12} & p_{13}\\
+    p_{21} & p_{22} & p_{23}\\
+    p_{31} & p_{32} & p_{33}\\
+  \end{array} \right ]
+\end{equation}
+
+The probability of remaining within the state space must be unity,
+hence we may write 
+\begin{equation}
+  \label{eq:rowsumone}
+  \sum_{j\in S} p_{ij}=1~\forall~i \in S.
+\end{equation}
+
+Matrices with this property as well as the common-sense property
+that $0 \leq p_{ij} \leq 1$ (as they are probabilities) are called
+stochastic matrices.
+
+The orientation of $P$ is not unique. The arrangement with the current
+state in the rows and next state in the columns is known as a right
+transition matrix. The transpose arrangement has also been used (see
+for instance \citet{bhar.hamori2004hidden}) and is then described as a left
+transition matrix. Modern engineering usage leans toward the
+description used in this work.
+
+A common way of visualising a Markov process with countable state
+space is by showing a directed graph with the states in the nodes and
+the transition probabilities on the edges as shown in
+Figure~\ref{fig:markovgraph}. In these representations, it is
+customary to neglect edges with zero probabilities.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{minipage}{0.4\textwidth}
+    \includegraphics[scale=0.5]{smallmarkov}
+  \end{minipage}
+  \begin{minipage}{0.4\textwidth}
+   $\displaystyle P = \left [ 
+      \begin{array}{ccc} 
+        0.1 & 0.9 & 0 \\ 
+        0 & 0.1 & 0.9 \\ 
+        0.2 & 0.8 & 0 
+      \end{array} \right ]$
+  \end{minipage}
+  \caption{Markov process represented by a transition matrix and a graph}
+  \label{fig:markovgraph}
+\end{figure}
+
+Figure~\ref{fig:markovtimeseries} shows the result of simulation of the Markov process shown in figure~\ref{fig:markovgraph} over 100 iterations.  
+It is clear that the second and third states are more likely than the first.
+One might reasonably enquire what the overall likelihood of a particular state would be. 
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{simplemarkov_100_states}
+  %TODO: Convert to PGF
+  \caption{Time series generated by the simulation of a discrete-time Markov Model}
+  \label{fig:markovtimeseries}
+\end{figure}
+
+The state transition probabilities sufficiently describe the time dependence of the process, but the initial state can not be determined using the transition probabilities alone.
+The probability of the process starting out in a given state $i$ is denoted $\pi_i, i \in S$, and the vector of initial state probabilities is called
+$\vect{\pi}$.
+It can be seen that a discrete time Markov process is completely described by its state space $S$, its state transition matrix $P$ and its initial state probability vector $\vect{\pi}$.  
+If $S$ is countable and has $N$ elements, $N^2 + N$ probabilities have to be known to fully characterise the process.
+For convenience, the model is written $\lambda = (P, \vect{\pi})$.
+
+\subsection{Hidden Markov Models} 
+It is not always possible to observe the state (in the state space
+$S$) of a Markov process directly. It may, however, be possible to
+make observations from an observation space $O$ related to the state
+of the process. If the probability of making a particular observation
+is only related to the current state of the process, the process may
+be described by a hidden Markov model (HMM). What is ``hidden'' in
+this case are the true values of the Markov process states.
+
+Figure~\ref{fig:hiddenmarkov} shows the situation graphically. If the
+Markov process is in state 1, there are even odds that observation 2
+or 3 will be made. In state 2, only observation 2 is made and state 3
+is associated with observation 1 80\% of the time and observation 2
+20\% of the time.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[scale=0.5,clip,trim=0 4cm 0 0]{smallhiddenmarkov}
+  \caption{Graphical representation of a finite hidden Markov model}
+  \label{fig:hiddenmarkov}
+\end{figure}
+
+The probabilities associated with a observation $k$ being made when
+the process is in state $i$ may be written $b_{ik}$ and can be
+arranged into an observation probability matrix $B$ in a similar
+fashion as was previously done for $P$. One difference is that, while
+$P$ was an $N \times N$ square matrix, $B$ will have $N$ rows
+associated with the $N$ states of the Markov process and $M$ columns
+associated with the observation space. An HMM as described here can
+therefore be characterised by the same $N^2+N$ probabilities describing
+the Markov process in addition to $MN$ observation probabilities.  The
+model description can be abbreviated to $\lambda = (P, B, \vect{\pi})$.
+
+There are three main problems associated with HMMs \citep{gamerman.lopes2006markov}:
+\begin{itemize}
+\item What is the probability of generating a specific output sequence
+  from a particular model?
+\item What is the most likely sequence of states that would lead to a
+  particular output sequence?
+\item How do we identify the model that corresponds to a given output
+  sequence?
+\end{itemize}
+
+\subsection{Continuous-time Markov Processes}
+The description of discrete-time Markov processes assumed that the
+transition time was known or unimportant and one could imagine
+simulating the process by picking a state $i$ and moving to the next
+state with probability $p_{ij}$.  One shortcoming of such a
+description is that there is no information about the amount of time a
+process remains in a particular state before moving to the next (or
+possibly same) state.  
+
+% TODO: Flesh out this description
+% look at perhaps http://www.stat.sfu.ca/~lockhart/richard/380/00_3/lectures/19/web.html
+Continuous-time Markov processes encode the transition probabilities as
+transition rates $q_{ij}$ (forming a $Q$ matrix as $p_{ij}$ formed a
+$P$ matrix), such that
+\begin{equation}
+  \label{eq:contmarkov}
+  \Pr(X(t+\Delta t) = j | X(t) = i) = 
+  \begin{cases}
+    1 - q_{ii}\Delta t + o(\Delta t) & \text{for } i = j \\
+    q_{ij}\Delta t + o(\Delta t) & \text{otherwise}
+  \end{cases}
+\end{equation}
+
+The idea is that, having changed to a particular state the probability of moving to the next one approaches one over time, but at different rates.
+
+
 
 \section{Sample Statistics}
 All the properties discussed up to now have been assumed to be known values or directly calculable from known values.
@@ -187,6 +392,21 @@ In both these equations, $\bar{\theta}$ is the arithmetic mean of the
 samples (ie, the sum of the elements divided by $t$).  Values of 0 and
 3 for the skewness and kurtosis respectively are expected for a normal
 distribution~\citep{kleijnen1975statistical}.
+
+\section{Estimating state transition probabilities}
+The most direct method of estimating the state transition probabilities of a Markov process is to count the number of transitions in an input signal.
+This strategy has some problems:
+\begin{enumerate}
+\item Certain transitions may not occur in the input signal, so that these transitions will never be simulated by the identified model
+\item Segmentation of the input signal may bias the event types or transitions -- if a certain event is more often fit by the segmentation algorithm, that event will be over-represented in the transition matrix.
+\end{enumerate}
+
+If transitions between some events are very rare, it may be advisable to introduce a small artificial probability into the matrix to ensure that the event has a chance of  getting generated during the simulation.
+This is especially true if the repercussions of a certain event combination are significant.  
+
+Segmentation bias can be combated by generating a large unbiased test set and testing the segmentation algorithm on it.
+If a segmentation bias is detected, the transition probabilities can be modified to take these into account.
+
 
 \subsection{Verification}
 It is often desired to test whether a particular sample has properties that one would expect of one were to sample a random variable with a particular CDF or PDF.
