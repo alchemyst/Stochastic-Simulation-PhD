@@ -17,7 +17,6 @@ For this process to work, we need realistic inputs, a good deterministic model a
 % reference than moody
 
 \citet{sawilowsky2003you} lists the characteristics of a high quality Monte Carlo simulation as follows:
-
 \begin{itemize}
 \item the pseudo-random number generator has certain characteristics (e.g. a long “period” before repeating values)
 \item the pseudo-random number generator produces values that pass tests for randomness
@@ -41,6 +40,9 @@ In the second, we need to generate realistic input sequences, typically includin
 \section{Pseudo-random number generation}
 % TODO: Heavily rewrite with reference to Saucier's ``Computer Generation of Statistical Distributions''
 % ~/Downloads/Documents/random_number_generation/random.pdf
+
+% TODO: Flesh out this description
+Also see \citet[183]{giordano.fox.ea2009first} for a discussion on random number generation.
 
 As modern computers are deterministic devices, it is theoretically impossible to use them to generate a sequence of truly random numbers~\citep{neumann1951various}.
 However, it is possible to generate a (periodic) sequence of numbers that are not significantly different from a random number sequence.
@@ -85,7 +87,7 @@ Simply choose this number and calculate the inverse, as shown in figure~\ref{fig
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.7\textwidth]{random_inverse}
+  \includegraphics[width=0.5\textwidth]{random_inverse}
   \caption[Generating an arbitrary distribution via the inverse of the CDF]{Generating an arbitrary distribution via the inverse of the CDF \citep{saucier2000computer}}
   \label{fig:random_inverse}
 \end{figure}

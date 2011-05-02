@@ -2,10 +2,11 @@
 \begin{overview} 
   Deterministic models of chemical engineering systems assume that all the variables are known exactly.
   However, uncertainty typically exists in the model paramters, the inputs to the model or the measurements from the model.
-  This chapter summarises the nomenclature used in the rest of the work in addition to covering the theory used to incorporate uncertainty into models.
+  This chapter summarises the nomenclature used in the rest of the work.
+  The problem of estimation is also introduced briefly in addition to covering the theory used to incorporate uncertainty into models.
 \end{overview}
 
-\section{Random Phenomena}
+\section{Definitions of probability}
 \label{sec:statistisc:probability}
 Simple random phenomena are commonly described using a model consisting of the following elements:\citep[1]{kulkarni1999modeling}
 \begin{description}
@@ -17,8 +18,8 @@ Simple random phenomena are commonly described using a model consisting of the f
 
 Additionally, $\prob{E_2|E_1}$  represents the \emph{conditional probability} of event $E_2$ given that $E_1$ has indeed occurred.
 
-It is clear that $\prob{\Omega}=1$, that is there is a 100\% probability of something in the set of all possible outcomes occurs.
-Also, $0 \leq \prob{E_i} \leq 1$ for any $E_i$ that is a subset of $\Omega$.
+It is clear that $\prob{\Omega}=1$, that is there is a 100\% probability of something in the set of all possible outcomes occurring.
+Also, $0 \leq \prob{E_i} \leq 1 ~\forall E_i \in \Omega$ as they are probabilities.
 
 \section{Univariate random variables}
 \label{sec:univ-rand-vari}
@@ -26,14 +27,14 @@ Random variables are typically defined as the functions that map the sample spac
 Examples are the value of a particular temperature or pressure or the total number of heads shown after flipping a certain number of coins.
 
 \subsection{Cumulative distribution function}
-It is often useful to refer to the cumulative distribution function of a random variable, defined as 
+It is often useful to refer to the cumulative distribution function (CDF) of a random variable, defined as 
 \begin{equation}
   \label{eq:cdf}
   F(x) = \prob{X \leq x}, x \in (-\infty,\infty)
 \end{equation}
 
 Due to the fact that a random variable must take on a particular value in $(-\infty,\infty)$, $\lim_{x \to -\infty} F(x) = 0$ and $\lim_{x \to \infty} F(x) = 1$.
-$F$ must also be nondecreasing ($x \leq y \implies F(x) \leq F(y)$) and right continuous ($\lim{\epsilon \to 0+} F(x+\epsilon) = F(x)$).
+$F$ must also be nondecreasing ($x \leq y \implies F(x) \leq F(y)$) and right continuous ($\lim_{\epsilon \to 0^+} F(x+\epsilon) = F(x)$).
 
 Random variables are called discrete if they have CDFs that contain discrete steps.  
 Such discrete random variables can be characterise by their state space $S = {x_0, x_1, x_2, \dots}$.
@@ -41,7 +42,7 @@ Such discrete random variables can be characterise by their state space $S = {x_
 \subsection{Probability functions}
 For discrete random variables, the function $p_k = \prob{X=x_k}$ for $k \geq 0$, with $x_k \in S$ is called the probability mass function (PMF).
 
-Random variables with for which a function $f$ exist such that 
+Random variables for which a function $f$ exist such that 
 \begin{equation}
   \label{eq:cdffrompdf}
   F(x) = \int_{-\infty}^xf(u)\dd u \quad \forall x \in \mathbb{R}
@@ -78,20 +79,20 @@ There is no restriction on these values being the same, but many commonly used d
 %TODO: Picture showing a PDF with mean, median, mode.
 
 \subsubsection{Moments}
-Equation~\ref{eq:expectation} can be seen as a specific case of a more general concept called the moment.
-\begin{quote} % wikipedia
-The $n$\textsuperscript{th} moment of a real-valued continuous function $f(x)$ of a real variable $x$ about a value $c$ is
+Equation~\ref{eq:continuousexpectation} can be seen as a specific case of a more general concept called the moment.
+%TODO: Proper reference for the moment
+% This is from wikipedia
+The $n$\textsuperscript{th} moment of a real-valued continuous function $f(x)$ of a real variable $x$ about a value $c$ is \citehere{}
 \begin{equation}
 \label{eq:moment}
 \mu'_n = \expect{X^n} = \int_{-\infty}^\infty (x - c)^n f(x) \dd x
 \end{equation}
-\end{quote}
 
 Usually when no additional information is given, ``the moment of a function'' means the moment about $c=0$.
 Thus, the first moment ($n=1$) of a PDF gives the expected value of a random variable with that PDF.
 
 Moments that do not converge to a real value are said not to exist.
-If the $n$\textsuperscript{th} moment exists, the lower-order moments are guaranteed to exist.\citehere
+If the $n$\textsuperscript{th} moment exists, the lower-order moments are guaranteed to exist.\citehere{}
 
 Moments about the mean of a PDF are called central moments and have special interpretations.  
 The zeroth central moment must be 1 due to the requirements of the CDF, while the first central moment must be zero per definition.
@@ -107,6 +108,29 @@ The third and fourth central moments are usually reported in standardised form a
 The skewness is a measure of how far the median is away from the mean.
 Kurtosis is a measure of how closely the distribution is spread around the mean value.
 
+\subsection{Common univariate distributions}
+Many lists of common distributions are available, as distributions arising from various fields have been standardised.
+For the purposes of simulation, the two most frequently encountered are uniform and normal or Gaussian distributions.
+They are mentioned explicitly below but not discussed in detail.
+
+\subsubsection{Uniform}
+A PDF is described as uniform if it is described by
+\begin{equation}
+  \label{eq:uniformpdf}
+  f(x) =
+  \begin{cases}
+    \frac{1}{b-a} & a \leq x \leq b \\
+    0             & \text{otherwise}
+  \end{cases}
+\end{equation}
+
+\subsubsection{Gaussian or normal}
+The Gaussian or normal distribution, also known as the bell curve, is described by the following PDF:
+\begin{equation}
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{ -\frac{(x-\mu)^2}{2\sigma^2} }
+\end{equation}
+where $\mu$ is the mean and $\sigma$ the standard deviation.
+
 \section{Multivariate random variables}
 All the properties discussed in section~\ref{sec:univ-rand-vari} can be extended to handle more than one value \cite[65]{kulkarni1999modeling}.
 A vector can be formed from several random variables $X_i$ to form a multivariate random variable $\vect{X}$.
@@ -121,7 +145,7 @@ The cumulative distribution function and probability distribution functions are 
 and
 \begin{align}
   \label{eq:mvpdf}
-  F(\vect{x}) &= \int_{-\infty}^{x_n}\cdots\int_{-\infty}^{x_2}\int_{-\infty}^{x_1} f(x \dd x_1 \dd x_2 \dots \dd x_n \\
+  F(\vect{x}) &= \int_{-\infty}^{x_n}\cdots\int_{-\infty}^{x_2}\int_{-\infty}^{x_1} f(x) \dd x_1 \dd x_2 \dots \dd x_n \\
               &= \int_V f(\vect{x}) \dd \vect{x}
 \end{align}
 where $V$ represents the volume in the state space where the first integral is evaluated.
@@ -137,7 +161,7 @@ The jointly distributed random variables $\vect{X}$ are said to be independant i
   F(\vect{x}) = \prod_i^n F_{X_i}(x_i)
 \end{equation}
 
-If in addition to being independant, the random variables share the same marginal distributions, they are said to be independantly identically distributed (IID) variables.
+If in addition to being independant, the random variables share the same marginal distributions, they are said to be independantly identically distributed (IID)\index{IID}\index{independantly identically distributed} variables.
 
 \subsection{Mean}
 The mean or expectation of a multivariate random variable is simply a vector, $\vect{mu}$, containing the means of the marginal distributions.
@@ -174,14 +198,19 @@ It is often useful to define an autocovariance of the signal at different times 
 \end{equation}
 For $k=0$, this reduces to a similar definition of variance as is used for multivariate random variables.
 
-If the mean, variance and covariance of the time series do not change over time, the time series is called weakly or covariance stationary.
+If the mean, variance and covariance of the time series do not change over time, the time series is called weakly or covariance stationary\index{stationary time series}.
 Strong stationarity is taken to mean that the join probability distribution of the time series points is invariant of time.~\citep[20]{kitagawa2009introduction}
 
-For stationary time series, the autocovariance is often expressed as a function of $k$, which is called the lag:
+For stationary time series (where $\mu_n = \mu_{n-k} = \mu$), the autocovariance is often expressed as a function of $k$, which is called the lag:
 \begin{equation}
   \label{eq:autocovariance}
   C_k = \cov(X_n, X_{n-k}) = \expect{(X_n-\mu)(X_{n-k}-\mu)}
 \end{equation}
+
+\subsection{Noise}
+Stationary stochastic processes with points drawn from simple distributions are commonly referred to as noise sources.
+Various distributions have different names, discussed briefly here.
+Importantly, if a stochastic process has a finite sample time, it is impossible to have exact conformance to stationarity and it is often more useful to speak of band-limited white noise.
 
 \subsection{Discrete-time Markov Processes}
 A stochastic process with state space $S$ has the Markov property if the current state completely determines the probability of the following state.
@@ -211,7 +240,7 @@ The probability of remaining within the state space must be unity, hence we may 
   \sum_{j\in S} p_{ij}=1~\forall~i \in S.
 \end{equation}
 
-Matrices with this property as well as the common-sense property that $0 \leq p_{ij} \leq 1$ (as they are probabilities) are called stochastic matrices.
+Matrices with this property as well as the common-sense property that $0 \leq p_{ij} \leq 1$ (as they are probabilities) are called stochastic matrices\index{stochastic matrix}\index{special matrices!stochastic}.
 
 The orientation of $P$ is not unique. 
 The arrangement with the current state in the rows and next state in the columns is known as a right transition matrix. 
@@ -258,9 +287,9 @@ If $S$ is countable and has $N$ elements, $N^2 + N$ probabilities have to be kno
 For convenience, the model is written $\lambda = (P, \vect{\pi})$.
 
 \subsection{Transient and limiting behaviour}
-Given probabilities for the current state in a row vector $\vect{p}_i$, it can be observed that the probabilities of each state can be calculated by multiplying from the right by $P$, so that $\vect{p}_{i+1} = \vect{p}_i P$.
-Repeating this procedure for a certain number of timesteps allows us to calculate the probabilities of findin the system in a particular state after those timesteps.
-In this way it may be said that the $n$-step transition probability matrix $P^(n) = P^n$.
+Given probabilities for the current state in a row vector $\vect{p}_i$, it can be observed that the probabilities of the next state can be calculated by multiplying from the right by $P$, so that $\vect{p}_{i+1} = \vect{p}_i P$.
+Repeating this procedure for a certain number of timesteps allows us to calculate the probabilities of finding the system in a particular state after those timesteps.
+In this way it may be said that the $n$-step transition probability matrix $P(n) = P^n$.
 Note that this means that the future probability of finding the system in a particular state can be found from a known current state by using an initial probability vector containing only one 1.
 
 Now, if the process is allowed to evolve over time for an infinite number of timesteps, it may be asked whether the PMF approaches a limit.
@@ -315,7 +344,6 @@ Continuous-time Markov processes encode the transition probabilities as transiti
 \end{equation}
 
 The idea is that, having changed to a particular state the probability of moving to the next one approaches one over time, but at different rates.
-
 Continuous-time Markov processes were not considered for this work due to the diffuculties in encoding the jump times for simulation.
 
 \section{Sample Statistics}
@@ -326,7 +354,7 @@ The sampled values available will be written $\theta_i$.
 
 The problems that present themselves are therefore
 \begin{itemize}
-\item Estimation of each of the stationary statistics discussed in sections~\ref{sec:univ-rand-vari} and \ref{sec:stochastic-processes}.
+\item Estimation of each of the statistics discussed in sections~\ref{sec:univ-rand-vari} and \ref{sec:stochastic-processes}.
 \item Determination of the validity of these estimates
 \end{itemize}
 
@@ -346,10 +374,17 @@ The mean $\bar{\theta}$ of a distribution may be estimated from samples $\theta_
 This is an unbiased estimator of the mean.
 
 \subsubsection{Variance or standard deviation}
-The sample standard deviation (written $s_N$ for a sample size of $N$) can be naively calculated by analogy to the defintion of the variance as
+The standard deviation of the sample (written $s_N$ for a sample size of $N$) can be naively calculated by analogy to the defintion of the variance as
+\begin{equation}
+  \label{eq:standardeviationsample}
+  s_N = \sqrt{\frac{1}{N}\sum_{i=1}^N(\theta_i-\bar{\theta})^2}
+\end{equation}
+This is the maximum-likelihood estimate of the standard deviation if the sample is of a normally distributed value.
+However, it underestimates the standard deviation for smaller sample sizes.
+Therefore, the following unbiased estimator (called the sample standard deviation) is most commonly used:
 \begin{equation}
   \label{eq:samplestandardeviation}
-  s_N = \sqrt{}
+  s = \sqrt{\frac{1}{N-1}\sum_{i=1}^N(\theta_i-\bar{\theta})^2}
 \end{equation}
 
 \subsubsection{Skewness}
@@ -375,6 +410,10 @@ The skewness estimator is usually combined with a kurtosis estimator
 %
 In both these equations, $\bar{\theta}$ is the arithmetic mean of the samples (ie, the sum of the elements divided by $t$).  
 Values of 0 and 3 for the skewness and kurtosis respectively are expected for a normal distribution~\citep{kleijnen1975statistical}.
+
+\subsubsection{Ergodicity}
+
+
 
 \subsubsection{State transition probabilities}
 The most direct method of estimating the state transition probabilities of a Markov process is to count the number of transitions in an input signal.
@@ -426,119 +465,8 @@ The Kolmogorov-Smirnov test was favoured for confirming normality of the test re
 
 \section{Signal statistics}
 
-\subsection{Input identification}
-Stochastic simulation of systems, especially those using Monte Carlo methods, require good input scenarios to generate good output data.
-It is common to make use of Markov processes to generate realistic inputs based on historic data.
-However, identification of ``events'' within historic data can be troublesome.  
-Much work has been done on identification of events or trends in data (\citet{maurya.rengaswamy.ea2007fault} give a good overview of trend analysis techniques).  
-Reducing process signals to symbols representing qualitative event types rather than quantitative data allows patterns to be found in events, or what \citet{cheung.stephanopoulos1990representation} refer to as episodes.  
-In this seminal work, the authors define a formal language in terms of the 7 primitives shown in figure~\ref{fig:stephanopoulosprimitives}.
-
-\begin{figure}[htbp]
-  \centering
-  \setlength{\unitlength}{0.7em}
-  {\small
-  \begin{picture}(8,8)
-    \put(0,0){\line(1,0){8}}
-    \put(0,0){\line(0,1){8}}
-    \put(7,1){D}
-    \put(4,4){$(+,-)$}
-    \thicklines
-    \qbezier(1,1)(2,7)(7,7)
-  \end{picture}
-  }
-  {\small
-  \begin{picture}(8,8)
-    \put(0,0){\line(1,0){8}}
-    \put(0,0){\line(0,1){8}}
-    \put(7,1){B}
-    \put(1,4){$(+,+)$}
-    \thicklines
-    \qbezier(1,1)(7,2)(7,7)
-  \end{picture}
-  }
-  {\small
-  \begin{picture}(8,8)
-    \put(0,0){\line(1,0){8}}
-    \put(0,0){\line(0,1){8}}
-    \thicklines
-    \qbezier(1,1)(2,2)(7,7)
-    \put(7,1){C}
-    \put(1,5){$(+,0)$}
-  \end{picture}
-  }
-  {\small
-  \begin{picture}(8,8)
-    \put(0,0){\line(1,0){8}}
-    \put(0,0){\line(0,1){8}}
-    \thicklines
-    \qbezier(1,7)(6,7)(6.7,1)
-    \put(7,1){G}
-    \put(1,4){$(-,-)$}
-  \end{picture}
-  }
-  {\small
-  \begin{picture}(8,8)
-    \put(0,0){\line(1,0){8}}
-    \put(0,0){\line(0,1){8}}
-    \thicklines
-    \qbezier(1,7)(2,2)(6.7,1)
-    \put(7,1){E}
-    \put(4,4){$(-,+)$}
-  \end{picture}
-  }
-  {\small
-  \begin{picture}(8,8)
-    \put(0,0){\line(1,0){8}}
-    \put(0,0){\line(0,1){8}}
-    \thicklines
-    \qbezier(1,7)(4,4)(7,1)
-    \put(7,1){F}
-    \put(5,5){$(+,-)$}
-  \end{picture}
-  }
-  {\small
-  \begin{picture}(8,8)
-    \put(0,0){\line(1,0){8}}
-    \put(0,0){\line(0,1){8}}
-    \thicklines
-    \qbezier(1,4)(3,4)(7,4)
-    \put(7,1){A}
-    \put(4,6){$(0,0)$}
-  \end{picture}
-  }
-  \caption[Episodic analysis primitives]{Episodic analysis primitives according to \citet{cheung.stephanopoulos1990representation}.}
-  \label{fig:stephanopoulosprimitives}
-\end{figure}
-
-One problem with event-based approaches is that, to estimate the likelihood of a state transition, at least one such a transition has to be identified in the training data.  
-This means that such processes are usually very data-intensive.  
-The same holds for episodic analysis -- some patterns may go unnoticed because of misfitting. 
-Furthermore, it is difficult to determine an objective function for fitting, as attempts to fit the data too accurately usually lead to a loss of generality (the over-fitting problem, described by \citet{arora.khot2003fitting} and others).
-
-\section{Uncertainty}
-The reason for stochastic simulation is the existence of uncertainty in one or more aspects of the model.  
-If the model was perfect, a single deterministic simulation would be a complete exploration of the model.  
-In the steady state case, this means that solving the steady state equations yield a single, reliable result.  
-
-Uncertainty can be classified according its location as follows.
-
-\subsection{Input uncertainty}
-Input uncertainty refers to uncertainty about the values of the inputs into the model.  
-In control problems and when processing natural products, the properties of input streams may not be known in more detail than expected ranges.
-
-Input uncertainties are further subdivided into quantities that have known distributions rather than fixed values and quantities that vary over time, exhibiting known events.
-
-\subsubsection{Input types}
-
-\subsection{Parametric}
-Parametric uncertainty is uncertainty in parameters of the model.  
-It is usually assumed that the model shape is correct, but that differences between simulated values and experimental data can be explained by inaccurate parameter values.  
-Parametric uncertainty can be due to incorrect models, which do not model variations accurately, or to inaccurate measurements.  
-If model parameters change over time in predictable ways, it is more proper to model these changes by introducing more model equations than to mask them by assuming parametric uncertainty.  
-The specific combination of parameters for a simulation must therefore remain constant for that simulation.
-
-A process for which the parameters remain constant in this way is called an ergodic process
+\subsection{Ergodicity}
+A process for which the parameters remain constant over time is called an ergodic process
 % http://en.wikipedia.org/wiki/Ergodic_process
 
 It is possible to estimate the mean of an ergodic process by 
@@ -546,12 +474,6 @@ It is possible to estimate the mean of an ergodic process by
   \hat{\mu_T} = \frac{1}{2T} \int_{-T}^{T} x(t) \dd t
 \end{equation}
 
-
-\subsection{Model uncertainty}
-Model uncertainty is the hardest to handle during simulations, as this refers to uncertainty in the form of the model equations.  
-Model uncertainty is different from parametric uncertainty as it implies that no combination of parameters in the model can accurately capture the behaviour of the system.  
-The boundary between model and parametric uncertainty is often blurred by the fact that models are often developed with additional parameters designed to make the model more flexible.  
-This work does not address model uncertainty.
 
 % Local Variables:
 % TeX-master: "thesis"

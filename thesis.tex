@@ -21,8 +21,7 @@ pdftex]{report} % make report->book for two sided final publishing.
 \newcommand{\prob}[1]{\ensuremath{\mathrm{P}(#1)}} % probability of event
 \newcommand{\expect}[1]{\ensuremath{\mathrm{E}(#1)}} % Expectation of variable
 \newcommand{\cov}{\textrm{cov}}
-%FIXME: This transpose is ugly
-\newcommand{\transpose}{\ensuremath{^T}}
+\newcommand{\transpose}{\ensuremath{{^\intercal}}}
 
 % TODO: Typeset different code modules seperately, reference code documentation!
 \newcommand{\modulename}[2]{{\tiny #1}\fbox{#2}} % typeset module name - language, modulename
@@ -32,13 +31,14 @@ pdftex]{report} % make report->book for two sided final publishing.
 \author{Carl Sandrock} 
 \degree{Philosophiae Doctor (Control Engineering)} 
 \department{Department of Chemical Engineering} 
-\date{November 2010}
+\date{May 2011}
 
 % Include directives
 \includeonly{
 front,
 % -- Text Starts --
 introduction,
+modelling,
 statistics,
 optimisation,
 flowsheeting,
@@ -68,9 +68,10 @@ back
 
 \include{introduction}
 \part{Literature}
-\include{flowsheeting}
+\include{modelling}
 \include{statistics}
 \include{optimisation}
+\include{flowsheeting}
 \include{segmentation}
 \include{montecarlo}
 \include{software}

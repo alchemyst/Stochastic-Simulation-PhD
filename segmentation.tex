@@ -22,7 +22,7 @@ A good segmentation algorithm:
 \item uses the simplest description possible for the data (which may be in terms of the number or complexity of the identified segments) and
 \item is efficient in computer time and space requirements.
 \end{enumerate}
-If the algorithm is to be used on-line to segment signals as they are read, it is also beneficial if the algorithm works can incorporate new
+If the algorithm is to be used on-line to segment signals as they are read, it is also beneficial if the algorithm can incorporate new
 data efficiently.
 
 Some of these objectives are contradictory -- a more complex description will almost always allow a lower segmentation error than a simpler one, for instance.
@@ -61,8 +61,7 @@ Bottom-up or composition methods start with segments between all data points and
   \begin{algorithmic}
     \Function{bottomup}{$T,\epsilon$}
     \State $N \gets $ length($N$)
-    \For {$i \in (1\dots N-1)$} \Comment{Start with lines between
-      all points}
+    \For {$i \in (1\dots N-1)$} \Comment{Start with lines between all points}
     \State segments.append(segment($T[i\dots i+1]$))
     \EndFor
     \For {$i \in 1 \dots$ length(segments)-1} \Comment{Find cost of merging each pair}
@@ -124,6 +123,98 @@ When the error is reduced using optimisation, this bound is not required.
 
 Another, more significant, benefit of using optimisation rather than the direct methods, is that it enables a more general description of a segment to be used with very little additional effort beyond deciding on the parameters of the description.
 While it is clear how to approach subdivision for line segments, it is not as simple to adjust the algorithms for other functions~\citep{waibel.lee1990readings}
+
+\subsection{Input identification}
+Stochastic simulation of systems, especially those using Monte Carlo methods, require good input scenarios to generate good output data.
+It is common to make use of Markov processes to generate realistic inputs based on historic data.
+However, identification of ``events'' within historic data can be troublesome.  
+Much work has been done on identification of events or trends in data (\citet{maurya.rengaswamy.ea2007fault} give a good overview of trend analysis techniques).  
+Reducing process signals to symbols representing qualitative event types rather than quantitative data allows patterns to be found in events, or what \citet{cheung.stephanopoulos1990representation} refer to as episodes.  
+In this seminal work, the authors define a formal language in terms of the 7 primitives shown in figure~\ref{fig:stephanopoulosprimitives}.
+
+\begin{figure}[htbp]
+  \centering
+  \setlength{\unitlength}{0.7em}
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \put(7,1){D}
+    \put(4,4){$(+,-)$}
+    \thicklines
+    \qbezier(1,1)(2,7)(7,7)
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \put(7,1){B}
+    \put(1,4){$(+,+)$}
+    \thicklines
+    \qbezier(1,1)(7,2)(7,7)
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \thicklines
+    \qbezier(1,1)(2,2)(7,7)
+    \put(7,1){C}
+    \put(1,5){$(+,0)$}
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \thicklines
+    \qbezier(1,7)(6,7)(6.7,1)
+    \put(7,1){G}
+    \put(1,4){$(-,-)$}
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \thicklines
+    \qbezier(1,7)(2,2)(6.7,1)
+    \put(7,1){E}
+    \put(4,4){$(-,+)$}
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \thicklines
+    \qbezier(1,7)(4,4)(7,1)
+    \put(7,1){F}
+    \put(5,5){$(+,-)$}
+  \end{picture}
+  }
+  {\small
+  \begin{picture}(8,8)
+    \put(0,0){\line(1,0){8}}
+    \put(0,0){\line(0,1){8}}
+    \thicklines
+    \qbezier(1,4)(3,4)(7,4)
+    \put(7,1){A}
+    \put(4,6){$(0,0)$}
+  \end{picture}
+  }
+  \caption[Episodic analysis primitives]{Episodic analysis primitives according to \citet{cheung.stephanopoulos1990representation}.}
+  \label{fig:stephanopoulosprimitives}
+\end{figure}
+
+One problem with event-based approaches is that, to estimate the likelihood of a state transition, at least one such a transition has to be identified in the training data.  
+This means that such processes are usually very data-intensive.  
+The same holds for episodic analysis -- some patterns may go unnoticed because of misfitting. 
+Furthermore, it is difficult to determine an objective function for fitting, as attempts to fit the data too accurately usually lead to a loss of generality (the over-fitting problem, described by \citet{arora.khot2003fitting} and others).
+
+
 
 % Local Variables:
 % TeX-master: "thesis"

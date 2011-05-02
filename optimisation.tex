@@ -154,7 +154,12 @@ Genetic algorithms in particular have enjoyed popularity~\citep{deb.kalyanmoy200
 Recent work in Particle Swarm Optimisation has rekindled interest in using it for multi-objective optimisation.
 
 % TODO: Picture of Pareto Front
-
+\begin{figure}[htbp]
+  \centering
+  \fbox{Insert pareto front picture here}
+  \caption{Illustration of the pareto front.  The points are all solutions, while the line connects the non-dominated points.}
+  \label{fig:paretofrontexample}
+\end{figure}
 \subsubsection{MOPSO}\label{sec:mopso}
 The algorithm used in this work is the MOPSO-CD (Multi-Objective Particle Swarm Optimisation with Crowding Distance) algorithm proposed by~\citet{raquel.naval2005effective}.
 It is a modification of Particle Swarm Optimisation that adds an archive of nondominated solutions and uses a crowding distance measure to prevent many similar Pareto optimal solutions from being retained in the archive.

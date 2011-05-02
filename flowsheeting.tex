@@ -50,6 +50,8 @@ Several equations are used in many different pieces of equipment
 \section{Simulation}
 
 \subsection{Modelling}
+\citet[177]{giordano.fox.ea2009first} explains that numeric simulation is often required where analytic solution of modelling equations is not available.  
+
 \subsubsection{Microscopic}
 
 \subsubsection{Macroscopic}
@@ -89,7 +91,15 @@ work on it.
 Mass transfer operations 
 
 
-%TODO: Mention something about the phase rule and degrees of freedom
+\subsection{The phase rule}
+%TODO: Find more fundamental reference
+The phase rule can be stated as \citep[499]{mccabe.smith.ea1993unit}
+\begin{equation}
+  \label{eq:phaserule}
+  F = C - P + 2
+\end{equation}
+Where $F$ is the degrees of freedom, $C$ is the number of components and $P$ the number of phases in equilibrium.  
+Note that this relationship does not hold for reacting systems.
 
 \subsubsection{Flashing}
 A flash drum is a unit that separates a stream into a vapour and
@@ -194,13 +204,13 @@ The order
 
 \subsubsection{CSTR}
 
+% TODO: look at http://gaia.lbl.gov/bie/modelica/msl/3.1/help/Modelica_Fluid_Examples_DrumBoiler_BaseClasses.html
+
 \section{Dynamic flowsheeting}
 \subsection{History}
-%TODO: Fix up these sites
 The following time line shows major visible developments of
-flowsheeting.(Husain, 1986, Mallja et al, 2000):
+flowsheeting. \cite{husain1986chemical,mallja2000}
 \begin{description}
-\item 
 \item[1955] Single unit steady state solutions 
 \item[1958] Kelloggs - Flexible Flowsheet Program 
 \item[1965] PRODYC dynamic simulator. 

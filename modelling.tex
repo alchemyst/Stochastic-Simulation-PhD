@@ -1,0 +1,111 @@
+\chapter{Modelling and Simulation}
+
+\begin{overview}
+Modelling and simulation are two sides of the same activity.
+This chapter defines the terminology used in dynamic modelling and covers the techniques of simulation.
+The focus here is on understanding different approaches to modelling and simulation with an eye on fault finding.
+\end{overview}
+
+\section{Definitions}
+\citet[4--10]{cellier1991continuous} uses the following definitions:  
+\begin{description}
+\item[System] That which is distinguished as a system.  
+This refers to the idea that anything can be a system, as long as the boundraries are well-defined.
+\item[Inputs] Variables from outside the system (the environment of the system) that affect it.
+\item[Outputs] Variables from inside the system that can be observed.
+\item[Experiment] ``The process of extracting data from a system by exerting it through its inputs''
+\item[Model] Anything to which an experiment can be applied in order to answer questions about a system.
+\item[Simulation] An experiment performed on a model.
+\end{description}
+
+\section{Modelling}
+\subsection{Types of model}
+\citet{karplus1977spectrum} identified that mathematical models cover a spectrum of ranging from ``black box'' to ``white box'' models, covering several shades of grey in between.
+This is shown in figure
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\halfwidth]{karplus_spectrum}
+  \caption{Modelling spectrum according to~\citet{karplus1977spectrum}}
+  \label{fig:karplusspectrum}
+\end{figure}
+\citet[15]{cellier1991continuous} opines most chemical engineering problems are toward the white end of the spectrum.
+For this reason, this work will focus on continuous-time models.
+
+\subsection{Continuous-time models}
+Engineering continuous-time models are mostly one of the following types.
+Distributed parameter models are described by partial differential equations (PDEs) or lumped parameter models described by ordinary differential equations (ODEs).
+Although distributed parameter models are widely used in, for instance, chemical reactor modelling, most dynamic flowsheeting is done via lumped parameter models.
+
+Ordinary differential equations are described in general by the following form:
+\begin{equation}
+  \label{eq:odeform}
+  \dot{\vect{x}} = f(\vect{x}, \vect{u}, t)
+\end{equation}
+
+In the particular case of linear models, this can be written in matrix form as
+\begin{equation}
+  \label{eq:ode_linear}
+  \dot{\vect{x}} = A\vect{x} + B\vect{u}
+\end{equation}
+
+Many realistic models are not easily rewritten in the ODE form, as they contain implicit equations fow which closed form solutions don't exist.
+Such models are often easier to write as a combination of differential and algebraic equations, known as DAEs.
+% TODO: see http://en.wikipedia.org/wiki/Differential_algebraic_equation
+In this case, the model equations are written as
+\begin{equation}
+  \label{eq:daeform}
+  F(\dot{\vect{x}}, \vect{x}, \vect{u}, t) = 0
+\end{equation}
+
+% TODO: http://www.scholarpedia.org/article/Differential-algebraic_equations#Index_and_mathematical_structure
+Of particular interest is the concept of the index\index{index} of the DAE.
+The index may be loosely defined as the number of times the DAE has to be differentiated to $\vect{x}$ before yielding an ODE.
+By this definition, ODEs have index 0.
+
+% TODO: http://en.wikipedia.org/wiki/Pantelides_algorithm
+%  Pantelides, The Consistent Initialization of Differential-Algebraic Systems, SIAM J. Sci. and Stat. Comput. Volume 9, Issue 2, pp. 213–231 (March 1988) the original paper where the algorithm is described
+% TODO: find good reference for Pantalides algorithm
+% TODO: Read http://www.ece.arizona.edu/~cellier/ece449_lecture.html
+Many simulation packages have the ability to reduce\index{index!reduction} the index of a DAE automatically using Pantalides algorithm 
+
+\section{Simulation}
+The solution of modelling equations is called simulation.  
+Analytic solutions for ODEs exist, while several algorithms exist for the numeric solution of ODEs, DAEs and PDEs.
+
+\section{Software tools}
+\subsection{Modelling environments}
+The modern trend in software tools is to support the engineer in modelling systems by providing modules that can easily be connected to one another to represent the system at hand.
+Typically, such systems will provide mechanisms to prevent logical errors in the connection as well as simulation and validation tools.
+% TODO: Merge with other discussion of simulation tools.
+
+\section{Uncertainty}
+The reason for stochastic simulation is the existence of uncertainty in one or more aspects of the model.  
+If the model was perfect, a single deterministic simulation would be a complete exploration of the model.  
+In the steady state case, this means that solving the steady state equations yield a single, reliable result.  
+
+Uncertainty can be classified according its location as follows.
+
+\subsection{Input uncertainty}
+Input uncertainty refers to uncertainty about the values of the inputs into the model.  
+In control problems and when processing natural products, the properties of input streams may not be known in more detail than expected ranges.
+
+Input uncertainties are further subdivided into quantities that have known distributions rather than fixed values and quantities that vary over time, exhibiting known events.
+
+\subsubsection{Input types}
+
+\subsection{Parametric}
+Parametric uncertainty is uncertainty in parameters of the model.  
+It is usually assumed that the model shape is correct, but that differences between simulated values and experimental data can be explained by inaccurate parameter values.  
+Parametric uncertainty can be due to incorrect models, which do not model variations accurately, or to inaccurate measurements.  
+If model parameters change over time in predictable ways, it is more proper to model these changes by introducing more model equations than to mask them by assuming parametric uncertainty.  
+The specific combination of parameters for a simulation must therefore remain constant for that simulation.
+
+\subsection{Model uncertainty}
+Model uncertainty is the hardest to handle during simulations, as this refers to uncertainty in the form of the model equations.  
+Model uncertainty is different from parametric uncertainty as it implies that no combination of parameters in the model can accurately capture the behaviour of the system.  
+The boundary between model and parametric uncertainty is often blurred by the fact that models are often developed with additional parameters designed to make the model more flexible.  
+This work does not address model uncertainty.
+
+% Local Variables:
+% TeX-master: "thesis"
+% End:
