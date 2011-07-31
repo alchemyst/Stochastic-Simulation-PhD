@@ -13,9 +13,9 @@ The focus here is on understanding different approaches to modelling and simulat
 This refers to the idea that anything can be a system, as long as the boundraries are well-defined.
 \item[Inputs] Variables from outside the system (the environment of the system) that affect it.
 \item[Outputs] Variables from inside the system that can be observed.
-\item[Experiment] ``The process of extracting data from a system by exerting it through its inputs''
+\item[Experiment] Extracting data from a system by excercising it through its inputs
 \item[Model] Anything to which an experiment can be applied in order to answer questions about a system.
-\item[Simulation] An experiment performed on a model.
+\item[Simulation] An experiment performed on a model (as opposed to the ``real'' system).
 \end{description}
 
 \section{Modelling}
@@ -25,7 +25,8 @@ This is shown in figure
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\halfwidth]{karplus_spectrum}
-  \caption{Modelling spectrum according to~\citet{karplus1977spectrum}}
+%  \input{graph/karplus_spectrum.pdf_tex}
+  \caption[Modelling spectrum]{Modelling spectrum (adapted from~\citet{karplus1977spectrum})}
   \label{fig:karplusspectrum}
 \end{figure}
 \citet[15]{cellier1991continuous} opines most chemical engineering problems are toward the white end of the spectrum.
@@ -36,29 +37,45 @@ Engineering continuous-time models are mostly one of the following types.
 Distributed parameter models are described by partial differential equations (PDEs) or lumped parameter models described by ordinary differential equations (ODEs).
 Although distributed parameter models are widely used in, for instance, chemical reactor modelling, most dynamic flowsheeting is done via lumped parameter models.
 
-Ordinary differential equations are described in general by the following form:
+Ordinary differential equations (ODEs) are described in general by the following form:
 \begin{equation}
   \label{eq:odeform}
-  \dot{\vect{x}} = f(\vect{x}, \vect{u}, t)
+  f(x, \dot{x}, \ddot{x}, \ldots, x^{(n)}, t) = 0
 \end{equation}
-
-In the particular case of linear models, this can be written in matrix form as
+Here, $x$ is often described as the state of the system, $\dot{x}$ is the state derivative (and $\ddot{x}$ is the second derivative, etc) and $t$ is most commonly time.
+The highest derivative is called the order of the ODE.
+If this equation can be manipulated such that the highest state derivative can be written independantly, as
 \begin{equation}
-  \label{eq:ode_linear}
-  \dot{\vect{x}} = A\vect{x} + B\vect{u}
+  \label{eq:odeform_explicit}
+  \dot{x} = g(x, t)
 \end{equation}
+it is described as an explicit ODE.  
+If it cannot, it is called implicit.  
+If, additionally, $g$ can be decomposed into two functions such that 
+\begin{equation}
+  \label{eq:odeform_seperable}
+  \dot{x} = g(x, t) = h(x)y(t)
+\end{equation}
+it is described as a seperable ODE.
 
-Many realistic models are not easily rewritten in the ODE form, as they contain implicit equations fow which closed form solutions don't exist.
-Such models are often easier to write as a combination of differential and algebraic equations, known as DAEs.
+The above equations have been written with scalar arguments.  A system of such equations can be represented compactly by expressing the states as a state vector $\vect{x}$.  
+This also enables the convenient representation of higher order derivatives by introducing dummy variables equal to the derivatives.  
+Given for instance a second order ODE $f(x, \dot{x}, \ddot{x}, t)=0$, we could define a new variable $y=\dot{x}$, then use a state vector $\vect{z}=[x~y]^\transpose$ so that $\dot{\vect{z}} = [\dot{x}~\dot{y}]^\transpose = [\dot{x}~\ddot{x}]^\transpose$, and therefore $f(\vect{z}, \dot{\vect{z}}, t) = 0$.  
+
+The introduction of systems of equations in the form of equation~\ref{eq:odeform} also leads to the possibility that some of these equations are purely algebraic.
+Such equations are known as differential-algebraic equations.
+
 % TODO: see http://en.wikipedia.org/wiki/Differential_algebraic_equation
-In this case, the model equations are written as
+In this case, the model equations can be written as
 \begin{equation}
   \label{eq:daeform}
-  F(\dot{\vect{x}}, \vect{x}, \vect{u}, t) = 0
+  F(\dot{\vect{x}}, \vect{x}, \vect{y}, t) = 0
 \end{equation}
+to make the distinction between $\vect{x}$, variables which take part in the differential part of the equations and $\vect{u}$, the variables which only take part in the algebraic equations.
+
 
 % TODO: http://www.scholarpedia.org/article/Differential-algebraic_equations#Index_and_mathematical_structure
-Of particular interest is the concept of the index\index{index} of the DAE.
+Of particular interest is the concept of the differentiation index\index{index} of the DAE.
 The index may be loosely defined as the number of times the DAE has to be differentiated to $\vect{x}$ before yielding an ODE.
 By this definition, ODEs have index 0.
 
@@ -67,6 +84,15 @@ By this definition, ODEs have index 0.
 % TODO: find good reference for Pantalides algorithm
 % TODO: Read http://www.ece.arizona.edu/~cellier/ece449_lecture.html
 Many simulation packages have the ability to reduce\index{index!reduction} the index of a DAE automatically using Pantalides algorithm 
+
+
+\section{Discrete time models}
+\subsection{Classes}
+AR Autoregressive
+MA Moving average
+I Integrative
+GARCH
+PARCH
 
 \section{Simulation}
 The solution of modelling equations is called simulation.  

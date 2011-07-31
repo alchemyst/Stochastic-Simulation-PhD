@@ -2,9 +2,7 @@
 
 \section{Motivation}
 Chemical engineering process modelling and simulation pose a significant challenge to the computer program developer.  
-Chemical processes are invariably described by nonlinear differential equations
-such as chemical reaction kinetics, flow-pressure relationships and
-physical properties.  
+Chemical processes are invariably described by nonlinear differential equations such as chemical reaction kinetics, flow-pressure relationships and physical properties.  
 Dynamic simulation of such systems involves the solution of sets of nonlinear differential and algebraic equations.
 There is also uncertainty associated with the model equations themselves (model uncertainty), their parameters (parametric uncertainty) and the inputs into the model (input uncertainty).
 
@@ -21,6 +19,7 @@ This document is divided into three sections covering each of the three steps.
 \item[Part III] discusses results.  
 \end{description}
 
+%TODO: fill in this table with the correct chapter references
 \begin{table}[htbp]
   \centering
   \begin{tabular}{llll}
@@ -47,9 +46,9 @@ The deliverables of this work are:
 
 \section{Limitations}
 Although this work aims to provide the groundwork for an end-to-end stochastic simulation environment, it should be noted that much of what is presented here is at most a proof of concept.
-Some limitations are worth spelling out as they may be expected to have been overcome.
 
 Cross-correlation of input signals is not considered: each input is assumed to be independant and uncorrelated.
+If correlation of input signals is detected, it is suggested that this be added to the model by introducing uncorrelated dummy variables and functional relationships to describe the correlated inputs.
 
 The unit operations library has several omissions, most notably a functional PFR block and a component-aware pipe including delays.  
 This is due to the lack of spacial derivative support in Modelica.

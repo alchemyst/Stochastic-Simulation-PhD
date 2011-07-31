@@ -76,7 +76,12 @@ The mode is a value that maximises $f(x)$, loosely the peak of $f(x)$ or the mos
 
 There is no restriction on these values being the same, but many commonly used distributions are symmetrical about the median and feature modes equal to their means.
 
-%TODO: Picture showing a PDF with mean, median, mode.
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\fullwidth]{centraltendency}
+  \caption{Measures of central tendency on a Gamma distribution}
+  \label{fig:centraldendency}
+\end{figure}
 
 \subsubsection{Moments}
 Equation~\ref{eq:continuousexpectation} can be seen as a specific case of a more general concept called the moment.
@@ -161,7 +166,7 @@ The jointly distributed random variables $\vect{X}$ are said to be independant i
   F(\vect{x}) = \prod_i^n F_{X_i}(x_i)
 \end{equation}
 
-If in addition to being independant, the random variables share the same marginal distributions, they are said to be independantly identically distributed (IID)\index{IID}\index{independantly identically distributed} variables.
+If, in addition to being independant, the random variables share the same marginal distributions, they are said to be independantly identically distributed (IID)\index{IID}\index{independantly identically distributed} variables.
 
 \subsection{Mean}
 The mean or expectation of a multivariate random variable is simply a vector, $\vect{mu}$, containing the means of the marginal distributions.
@@ -182,6 +187,18 @@ or equivalently in matrix form:
 %TODO: find some references
 There is some difference in notation, as $\Sigma(\vect{X})$ is called either the variance or the covariance matrix.
 It should be clear that the diagonal elements of $\Sigma$ correspond to $\sigma_i^2$, the variance of the marginal distributions.
+
+\subsection{Heteroscedasticity}\index{heteroscedacticity}
+% see http://en.wikipedia.org/wiki/Heteroscedasticity
+A joint distribution is heteroscedastic if the variance of one component depends on the values of the others.  The word is based on the greek \emph{hetero}, meaning ``different'' and \emph{scedasis} meaning ``dispersion''.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\fullwidth]{heteroscedasticity}
+  \caption[Two-dimensional points showing heteroscedasticity]{Two-dimensional points showing heteroscedasticity.  The variance of variable 2 increases with variable 1}
+  \label{fig:heteroscedasticity}
+\end{figure}
+
 
 \section{Stochastic processes}
 \label{sec:stochastic-processes}
@@ -374,7 +391,7 @@ The mean $\bar{\theta}$ of a distribution may be estimated from samples $\theta_
 This is an unbiased estimator of the mean.
 
 \subsubsection{Variance or standard deviation}
-The standard deviation of the sample (written $s_N$ for a sample size of $N$) can be naively calculated by analogy to the defintion of the variance as
+The standard deviation of the sample (written $s_N$ for a sample size of $N$) can be naively calculated by analogy to the defintion of the variance in equation  as
 \begin{equation}
   \label{eq:standardeviationsample}
   s_N = \sqrt{\frac{1}{N}\sum_{i=1}^N(\theta_i-\bar{\theta})^2}
@@ -410,10 +427,6 @@ The skewness estimator is usually combined with a kurtosis estimator
 %
 In both these equations, $\bar{\theta}$ is the arithmetic mean of the samples (ie, the sum of the elements divided by $t$).  
 Values of 0 and 3 for the skewness and kurtosis respectively are expected for a normal distribution~\citep{kleijnen1975statistical}.
-
-\subsubsection{Ergodicity}
-
-
 
 \subsubsection{State transition probabilities}
 The most direct method of estimating the state transition probabilities of a Markov process is to count the number of transitions in an input signal.
@@ -466,8 +479,8 @@ The Kolmogorov-Smirnov test was favoured for confirming normality of the test re
 \section{Signal statistics}
 
 \subsection{Ergodicity}
-A process for which the parameters remain constant over time is called an ergodic process
-% http://en.wikipedia.org/wiki/Ergodic_process
+A process is said to be ergodic if the properties of the distributions the points are drawn from do not change over time.  
+More specifically, a process may be said to be mean ergodic or ergodic to the mean if $E(X)=\mu$ is the same for all times.
 
 It is possible to estimate the mean of an ergodic process by 
 \begin{equation}

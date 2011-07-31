@@ -5,8 +5,23 @@
 \end{overview}
 
 \section{Background}
-Introduce optimisation quickly to show I know what I'm talking about,
-then move swiftly to the problem of curve fitting and parameter estimation.
+The general continuous optimisation problem is often stated mathematically as
+\begin{align}
+  \label{eq:nonlinear_optmisation}
+  \min_{\vect{x}} &  f(\vect{x}) \\
+   \text{s.t.~} & g(\vect{x}) = 0 \\
+ & h(\vect{x}) \leq 0
+\end{align}
+
+Here, the vector $\vect{x} \in \mathbb{R}^n$ represents the design variables\index{design variables}, in the design space\index{design space}.  
+The objective function $f$ is a scalar field in the design space.
+The functions $g$ and $h$ indicate equality and inequality constraints respectively and may be vector or scalar fields without loss of generality.
+
+\subsection{Special cases}
+When $f$, $g$ and $h$ are linear mappings, we have the linear programming problem, which is solved efficiently by modern algorithms including the Simplex method and interior-point solvers.  
+If $f$ is a quadtratic form while $g$ and $h$ are still linear, we have the quadratic programming problem, for which efficient solvers also exist.  
+In these cases, the main difficulty of solution lies in the combinatorial element associated with handling the constraint functions; particularly the inequality constraints.
+
 
 \section{Important definitions}
 \subsection{Optimality}
@@ -153,13 +168,13 @@ Evolutionary algorithms are a natural fit for multi-objective optimisation, as t
 Genetic algorithms in particular have enjoyed popularity~\citep{deb.kalyanmoy2001multi-objective}.
 Recent work in Particle Swarm Optimisation has rekindled interest in using it for multi-objective optimisation.
 
-% TODO: Picture of Pareto Front
 \begin{figure}[htbp]
   \centering
-  \fbox{Insert pareto front picture here}
+  \includegraphics[width=\fullwidth]{samplepareto}
   \caption{Illustration of the pareto front.  The points are all solutions, while the line connects the non-dominated points.}
   \label{fig:paretofrontexample}
 \end{figure}
+
 \subsubsection{MOPSO}\label{sec:mopso}
 The algorithm used in this work is the MOPSO-CD (Multi-Objective Particle Swarm Optimisation with Crowding Distance) algorithm proposed by~\citet{raquel.naval2005effective}.
 It is a modification of Particle Swarm Optimisation that adds an archive of nondominated solutions and uses a crowding distance measure to prevent many similar Pareto optimal solutions from being retained in the archive.
