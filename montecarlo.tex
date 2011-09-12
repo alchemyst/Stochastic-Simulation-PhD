@@ -65,12 +65,12 @@ X_{i+1} = (aX_i +c) (\mod N)
 \end{equation}
 
 % TODO: Refer to the use of the Mersenne Twister algorithm
-\begin{quote}
+%\begin{quote}
 The 1997 invention of the Mersenne twister algorithm, by Makoto Matsumoto and Takuji Nishimura, avoids many of the problems with earlier generators.
-It has the colossal period of 219937−1 iterations (>43 × 106,000), is proven to be equidistributed in (up to) 623 dimensions (for 32-bit values), and runs faster than other statistically reasonable generators.
+It has the colossal period of 219937−1 iterations ($>43\times106,000$), is proven to be equidistributed in (up to) 623 dimensions (for 32-bit values), and runs faster than other statistically reasonable generators.
 It is now increasingly becoming the random number generator of choice for statistical simulations and generative modeling.
 SFMT, SIMD-oriented Fast Mersenne Twister, a variant of Mersenne twister, is faster even if it's not compiled with SIMD support.
-\end{quote}
+%\end{quote}
 
 Marsaglia suggests the use of XOR-based generators for normal
 applications where efficiency is important \citehere.

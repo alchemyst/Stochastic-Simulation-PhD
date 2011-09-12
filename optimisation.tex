@@ -25,6 +25,8 @@ In these cases, the main difficulty of solution lies in the combinatorial elemen
 
 \section{Important definitions}
 \subsection{Optimality}
+The optimality conditions are different depending on different assumptions on $f$.  
+In the case of smooth, differentiable functions as objectives and constraints, the 
 Karush-Kuh-Tucker conditions
 
 \subsection{Global optima}
@@ -43,12 +45,12 @@ We conclude with some discussion of the justifiability of biologically-inspired 
 
 It has also been proposed \citehere\ that NFL's corollary is that certain algorithms will be well-aligned to certain problems and that it is therefore proper for optimization researchers to focus their attention on finding which algorithms suit a particular problem rather than developing more general optimizers. Of course, this is difficult to do a-priori, and there will always be demand for robust optimisation algorithms that can be set loose on an arbitrary optimisation problem and will find good results.
 
-This can be seen as a full employment theorem for optimisation algorithm developers. \url{http://en.wikipedia.org/wiki/Full_employment_theorem}
+This can be seen as a full employment theorem for optimisation algorithm developers. %\url{http://en.wikipedia.org/wiki/Full_employment_theorem}
 
 \subsection{Dominance}
 \citet[28]{deb.kalyanmoy2001multi-objective} defines (weak) dominance as follows:
 
-\begin{quote}
+%\begin{quote}
   A solution \varx{1} is said to dominate the other solution \varx{2}, if both conditions 1 and 2 are true:
   \begin{enumerate}
   \item The solution \varx{1} is no worse than \varx{2} in all objectives, or $f_j(\varx{1}) \ntriangleright f_j(\varx{2})$ for all $j = 1,2,\ldots,M$
@@ -62,10 +64,10 @@ This can be seen as a full employment theorem for optimisation algorithm develop
   \item \varx{1} is non-dominated by \varx{2}, or;
   \item \varx{1} is non-inferior to \varx{2}.
   \end{itemize}
-\end{quote}
+%\end{quote}
 
-My translation of this into formal math:
-
+%My translation of this into formal math:
+In other words:
 \begin{equation}
   \label{eq:3}
   \varx{1} \dominates \varx{2} \iff ( f_j(\varx{1}) \ntriangleright f_j(\varx{2}) \forall j \in J \textrm{~and~} \exists k \in J | f_k(\varx{1}) \vartriangleright f_k(\varx{2})
@@ -75,8 +77,8 @@ This ``weak formulation'' may be contrasted witht the ``strong'' or ``strict'' f
 The ``better in at least one objective, but no worse in any'' formulation is strengthened to ``better in all'', or $\varx{1} \strongdominates \varx{2} \iff f_j(\varx{1}) \vartriangleleft f_j(\varx{2}) \forall j \in J$.
 
 \subsection{Pareto efficiency}
-From Wikipedia
-\begin{quote}
+%From Wikipedia
+%\begin{quote}
   Consider a design space with $n$ real parameters, and for each design-space point there are $m$ different criteria by which to judge that point.
   Let $f : \mathbb{R}^n \rightarrow \mathbb{R}^m$ be the function which assigns, to each design-space point $x$, a criteria-space point $f$($x$).
   This represents the way of valuing the designs.
@@ -89,7 +91,7 @@ From Wikipedia
   One criterion vector $y$ $strictly dominates$ (or "is preferred to") a vector $y*$ if each parameter of $y$ is no greater than the corresponding parameter of $y*$ and at least one parameter is strictly less: that is, $\mathbf{y}_i \le \mathbf{y*}_i$ for each $i$ and $\mathbf{y}_i < \mathbf{y*}_i$ for some $i$.
 This is written as $\mathbf{y} \succ \mathbf{y*}$ to mean that $y$ strictly dominates $y*$.
 Then the Pareto frontier is the set of points from $Y$ that are not strictly dominated by another point in $Y$.
-\end{quote}
+%\end{quote}
 
 % see ~/Downloads/Documents/pareto_efficiency/original_paper_skyline_operator.pdf
 In 2001, B\"orzs\"onyi et al \citehere\ proposed an extension to SQL that they called the ``Skyline operator''.
@@ -117,8 +119,8 @@ The optimal solution, in the sense of minimizing the norm of the residual (the d
 % TODO: Discuss Gauss's solution of the problem.
 
 \subsubsection{Least squares}
-Wikipedia:
-\begin{quote}
+%Wikipedia:
+%\begin{quote}
   The method of least squares is a standard approach to the approximate solution of overdetermined systems, i.e. sets of equations in which there are more equations than unknowns.
  "Least squares" means that the overall solution minimizes the sum of the squares of the errors made in solving every single equation.
  The most important application is in data fitting.
@@ -126,31 +128,26 @@ Wikipedia:
   Least squares problems fall into two categories: linear least squares and nonlinear least squares, depending on whether or not the residuals are linear in all unknowns.
   The linear least-squares problem occurs in statistical regression analysis; it has a closed-form solution.
   The non-linear problem has no closed solution and is usually solved by iterative refinement; at each iteration the system is approximated by a linear one, thus the core calculation is similar in both cases.
-  The least-squares method was first described by Carl Friedrich Gauss around 1794.[1]
+  The least-squares method was first described by Carl Friedrich Gauss around 1794.%[1]
   Least squares corresponds to the maximum likelihood criterion if the experimental errors have a normal distribution and can also be derived as a method of moments estimator.
-\end{quote}
+%\end{quote}
 
 \section{Population based methods}
 \subsection{Differential Evolution}
 \subsection{PSO}
-Kennedy and Eberhart developed the Particle Swarm algorithm in XXX (year) and it has been adopted
-
-Wikipedia:
-\begin{quote}
+%Wikipedia:
+%\begin{quote}
   Such methods are commonly known as metaheuristics as they make few or no assumptions about the problem being optimized and can search very large spaces of candidate solutions.
   However, metaheuristics such as PSO do not guarantee an optimal solution is ever found.
   More specifically, PSO does not use the gradient of the problem being optimized, which means PSO does not require for the optimization problem to be differentiable as is required by classic optimization methods such as gradient descent and quasi-newton methods.
   PSO can therefore also be used on optimization problems that are partially irregular, noisy, change over time, etc.
   PSO optimizes a problem by having a population of candidate solutions, here dubbed particles, and moving these particles around in the search-space according to simple mathematical formulae.
-  The movements of the particles are guided by the best found positions in the search-space which are updated as better positions are found by the particles.
- PSO is originally attributed to Kennedy, Eberhart and Shi [1][2] and was first intended for simulating social behaviour.
-  The algorithm was simplified and it was observed to be performing optimization.
-  The book by Kennedy and Eberhart [3] describes many philosophical aspects of PSO and swarm intelligence.
-  An extensive survey of PSO applications is made by Poli [4][5].
-\end{quote}
-
-\section{Multiple objectives}
-MOPSO.
+%  The movements of the particles are guided by the best found positions in the search-space which are updated as better positions are found by the particles.
+% PSO is originally attributed to Kennedy, Eberhart and Shi [1][2] and was first intended for simulating social behaviour.
+%  The algorithm was simplified and it was observed to be performing optimization.
+%  The book by Kennedy and Eberhart [3] describes many philosophical aspects of PSO and swarm intelligence.
+%  An extensive survey of PSO applications is made by Poli [4][5].
+%\end{quote}
 
 \section{Multi-objective optimisation}
 \label{sec:multi-object-optim}

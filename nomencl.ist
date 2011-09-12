@@ -49,7 +49,7 @@
 %%   Right brace   \}     Tilde         \~}
 %%
 %% ---- for input file ----
-keyword    "\\glossaryentry"
+keyword    "\\nomenclatureentry"
 %% Germans might want to change this and delete the two %%
 %% quote '"'
 %% ---- for output file ----

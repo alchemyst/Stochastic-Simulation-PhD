@@ -3,25 +3,29 @@
 \begin{overview}
 Modelling and simulation are two sides of the same activity.
 This chapter defines the terminology used in dynamic modelling and covers the techniques of simulation.
-The focus here is on understanding different approaches to modelling and simulation with an eye on fault finding.
+The focus here is on understanding different approaches to modelling and simulation with a view to fault finding.
 \end{overview}
 
 \section{Definitions}
+The terminology used in modelling and simulation are less rigourously defined than may be desirable.
+This means that a particular word may have several meanings depending on which source is being consulted.
 \citet[4--10]{cellier1991continuous} uses the following definitions:  
 \begin{description}
 \item[System] That which is distinguished as a system.  
-This refers to the idea that anything can be a system, as long as the boundraries are well-defined.
+This refers to the idea that anything can be a system, as long as the boundaries are well-defined.
 \item[Inputs] Variables from outside the system (the environment of the system) that affect it.
 \item[Outputs] Variables from inside the system that can be observed.
-\item[Experiment] Extracting data from a system by excercising it through its inputs
+\item[Experiment] Extracting data from a system by exercising it through its inputs
 \item[Model] Anything to which an experiment can be applied in order to answer questions about a system.
 \item[Simulation] An experiment performed on a model (as opposed to the ``real'' system).
 \end{description}
 
+The word ``observed'' in the definition of the outputs refers to being able to determine the value.  
+In the case of mathematical models, all the variables calculated during simulation are observable in this sense.
+
 \section{Modelling}
 \subsection{Types of model}
-\citet{karplus1977spectrum} identified that mathematical models cover a spectrum of ranging from ``black box'' to ``white box'' models, covering several shades of grey in between.
-This is shown in figure
+\citet{karplus1977spectrum} identified that mathematical models cover a spectrum of ranging from ``black box'' to ``white box'' models, covering several shades of grey in between as shown in figure~\ref{fig:karplusspectrum}.
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=\halfwidth]{karplus_spectrum}
@@ -29,12 +33,15 @@ This is shown in figure
   \caption[Modelling spectrum]{Modelling spectrum (adapted from~\citet{karplus1977spectrum})}
   \label{fig:karplusspectrum}
 \end{figure}
-\citet[15]{cellier1991continuous} opines most chemical engineering problems are toward the white end of the spectrum.
+\citet[15]{cellier1991continuous} is of the opinion that most chemical engineering problems are toward the white end of the spectrum.
 For this reason, this work will focus on continuous-time models.
 
+
+
 \subsection{Continuous-time models}
+\label{sec:cont-time-models}
 Engineering continuous-time models are mostly one of the following types.
-Distributed parameter models are described by partial differential equations (PDEs) or lumped parameter models described by ordinary differential equations (ODEs).
+Distributed parameter models are described by partial differential equations (PDEs), while lumped parameter models are described by ordinary differential equations (ODEs).
 Although distributed parameter models are widely used in, for instance, chemical reactor modelling, most dynamic flowsheeting is done via lumped parameter models.
 
 Ordinary differential equations (ODEs) are described in general by the following form:
@@ -44,7 +51,7 @@ Ordinary differential equations (ODEs) are described in general by the following
 \end{equation}
 Here, $x$ is often described as the state of the system, $\dot{x}$ is the state derivative (and $\ddot{x}$ is the second derivative, etc) and $t$ is most commonly time.
 The highest derivative is called the order of the ODE.
-If this equation can be manipulated such that the highest state derivative can be written independantly, as
+If this equation can be manipulated such that the highest state derivative can be written independently, as
 \begin{equation}
   \label{eq:odeform_explicit}
   \dot{x} = g(x, t)
@@ -56,7 +63,7 @@ If, additionally, $g$ can be decomposed into two functions such that
   \label{eq:odeform_seperable}
   \dot{x} = g(x, t) = h(x)y(t)
 \end{equation}
-it is described as a seperable ODE.
+it is described as a separable ODE.
 
 The above equations have been written with scalar arguments.  A system of such equations can be represented compactly by expressing the states as a state vector $\vect{x}$.  
 This also enables the convenient representation of higher order derivatives by introducing dummy variables equal to the derivatives.  
@@ -65,14 +72,21 @@ Given for instance a second order ODE $f(x, \dot{x}, \ddot{x}, t)=0$, we could d
 The introduction of systems of equations in the form of equation~\ref{eq:odeform} also leads to the possibility that some of these equations are purely algebraic.
 Such equations are known as differential-algebraic equations.
 
-% TODO: see http://en.wikipedia.org/wiki/Differential_algebraic_equation
+% see http://en.wikipedia.org/wiki/Differential_algebraic_equation
 In this case, the model equations can be written as
 \begin{equation}
   \label{eq:daeform}
   F(\dot{\vect{x}}, \vect{x}, \vect{y}, t) = 0
 \end{equation}
-to make the distinction between $\vect{x}$, variables which take part in the differential part of the equations and $\vect{u}$, the variables which only take part in the algebraic equations.
+to make the distinction between $\vect{x}$, variables which take part in the differential part of the equations and $\vect{y}$, the variables which only take part in the algebraic equations.
 
+The formulation in equation~\ref{eq:daeform} is known as fully implicit.  
+If it is possible to separate the equations into a differential part and an algebraic part a semi-implicit form is obtained:
+\begin{align}
+  \label{eq:daesemiimplicit}
+  f(\dot{\vect{x}}, \vect{x}, \vect{y}, t) &= 0 \\
+  g(\vect{x}, \vect{y}, t) &= 0
+\end{align}
 
 % TODO: http://www.scholarpedia.org/article/Differential-algebraic_equations#Index_and_mathematical_structure
 Of particular interest is the concept of the differentiation index\index{index} of the DAE.
@@ -83,20 +97,41 @@ By this definition, ODEs have index 0.
 %  Pantelides, The Consistent Initialization of Differential-Algebraic Systems, SIAM J. Sci. and Stat. Comput. Volume 9, Issue 2, pp. 213–231 (March 1988) the original paper where the algorithm is described
 % TODO: find good reference for Pantalides algorithm
 % TODO: Read http://www.ece.arizona.edu/~cellier/ece449_lecture.html
-Many simulation packages have the ability to reduce\index{index!reduction} the index of a DAE automatically using Pantalides algorithm 
+Many simulation packages have the ability to reduce\index{index!reduction} the index of a DAE automatically using Pantalides's algorithm 
 
+For the purposes of modelling real systems, these equations will all be modified by taking into account the effect of the inputs to the system.
+This is often indicated by the vector $\vect{u(t)}$.
 
-\section{Discrete time models}
+% TODO: Mention partial differential equations
+
+\subsection{Discrete time models}
+The differential equations discussed in section~\ref{sec:cont-time-models} assume or imply that time proceeds in a continuous fashion.
+If a process is discontinuous or batch-like, this may not be an accurate description.
+In such cases, a model may be described in discrete form, where the model essentially describes the behaviour of the system at distinct points in time.
+These models also take one of several forms, discussed below:
+ 
+\subsubsection{Difference equations}
+The evolution of a system state is clearly a function of the inputs into the system and the state itself.
+It is convenient if the relationships are linear, so that one may write
+\begin{equation}
+  \label{eq:diff}
+  x_t = \mu + \sum_{i=1}^{p}\phi_i x_{t-i} + \sum_{i=0}^{q}\theta_i u_{t-i}
+\end{equation}
+Such difference equations are frequently encountered in econometrics and time series analysis, where specific versions are distinguished.
+simulation if the current state can be calculated from previous states here the future state of the model is described in terms of its past states.
+
 \subsection{Classes}
-AR Autoregressive
-MA Moving average
+AR Auto-regressive % http://en.wikipedia.org/wiki/Autoregressive_model
+MA Moving average % http://en.wikipedia.org/wiki/Moving_average_model
 I Integrative
 GARCH
 PARCH
 
 \section{Simulation}
 The solution of modelling equations is called simulation.  
-Analytic solutions for ODEs exist, while several algorithms exist for the numeric solution of ODEs, DAEs and PDEs.
+Analytic solutions for some ODEs exist, while several algorithms exist for the numeric solution of ODEs, DAEs and PDEs.
+
+% TODO: Flesh this out!
 
 \section{Software tools}
 \subsection{Modelling environments}
@@ -109,7 +144,7 @@ The reason for stochastic simulation is the existence of uncertainty in one or m
 If the model was perfect, a single deterministic simulation would be a complete exploration of the model.  
 In the steady state case, this means that solving the steady state equations yield a single, reliable result.  
 
-Uncertainty can be classified according its location as follows.
+Uncertainty can be classified according to its location as follows.
 
 \subsection{Input uncertainty}
 Input uncertainty refers to uncertainty about the values of the inputs into the model.  
@@ -117,7 +152,7 @@ In control problems and when processing natural products, the properties of inpu
 
 Input uncertainties are further subdivided into quantities that have known distributions rather than fixed values and quantities that vary over time, exhibiting known events.
 
-\subsubsection{Input types}
+%\subsubsection{Input types}
 
 \subsection{Parametric}
 Parametric uncertainty is uncertainty in parameters of the model.  

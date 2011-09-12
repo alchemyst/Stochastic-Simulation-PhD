@@ -2,45 +2,45 @@
 
 \section{Motivation}
 Chemical engineering process modelling and simulation pose a significant challenge to the computer program developer.  
-Chemical processes are invariably described by nonlinear differential equations such as chemical reaction kinetics, flow-pressure relationships and physical properties.  
+Chemical processes are invariably described by differential equations which include nonlinear relationships describgin chemical reaction kinetics, flow-pressure relationships and physical properties.  
 Dynamic simulation of such systems involves the solution of sets of nonlinear differential and algebraic equations.
 There is also uncertainty associated with the model equations themselves (model uncertainty), their parameters (parametric uncertainty) and the inputs into the model (input uncertainty).
 
 This work aims to present a framework for the development of stochastic dynamic simulations of chemical processes. 
 The framework is designed to be generic. 
-The large problem of stochastic dynamic modelling has been broken down into three steps: input modelling, process modelling and simulation.
+The large problem of stochastic dynamic modelling has been broken down into three segments: input modelling, process modelling and simulation.
 
 \section{Structure of the document}
-This document is divided into three sections covering each of the three steps.
+This document is divided into three parts covering each of the three segments.
 \begin{description}
 \item[Part I] reviews relevant literature.  
-	This covers signal analysis, identification and generation; theory of dynamic and stochastic simulation of chemical engineering systems and existing frameworks for these activities in addition to ancilliary subjects of optimisation and computer programming
+	This covers signal analysis, identification and generation; theory of dynamic and stochastic simulation of chemical engineering systems and existing frameworks for these activities in addition to ancilliary topics of optimisation and computer programming
 \item[Part II] explains the implementation of the software developed in this thesis.  The implementation process is explained starting with decisions about where to start and analysis of the problem along with discussion of the implementation.
 \item[Part III] discusses results.  
 \end{description}
 
-%TODO: fill in this table with the correct chapter references
-\begin{table}[htbp]
-  \centering
-  \begin{tabular}{llll}
-    \toprule
-                            & Input & Model & Simulation \\
-    \midrule
-    Part I: Literature      &       &       &            \\
-    Part II: Implementation &       &       &            \\
-    Part III: Results       &       &       &            \\
-    \bottomrule
-  \end{tabular}
-  \caption{Structure matrix}
-  \label{tab:structure}
-\end{table}
+% %TODO: fill in this table with the correct chapter references
+% \begin{table}[htbp]
+%   \centering
+%   \begin{tabular}{llll}
+%     \toprule
+%                             & Input & Model & Simulation \\
+%     \midrule
+%     Part I: Literature      &       &       &            \\
+%     Part II: Implementation &       &       &            \\
+%     Part III: Results       &       &       &            \\
+%     \bottomrule
+%   \end{tabular}
+%   \caption{Structure matrix}
+%   \label{tab:structure}
+% \end{table}
 
 \section{Contributions}
-The deliverables of this work are:
+The outcomes of this work are:
 \begin{enumerate}
 \item A novel application of multi-objective optimisation to the identification of transition probabilities in Markov Chain models of input sequences.
 \item A set of Modelica models that enable modelling of chemical engineering unit operations
-\item Support for using CAPE-Open compliant property databases for the calculation of thermodynamic properties in these models
+\item Support for using CAPE-Open compliant property databases for the calculation of thermodynamic properties required in these models
 \item A set of programs that can run models built using this framework in Monte Carlo simulations
 \end{enumerate}
 
@@ -51,13 +51,13 @@ Cross-correlation of input signals is not considered: each input is assumed to b
 If correlation of input signals is detected, it is suggested that this be added to the model by introducing uncorrelated dummy variables and functional relationships to describe the correlated inputs.
 
 The unit operations library has several omissions, most notably a functional PFR block and a component-aware pipe including delays.  
-This is due to the lack of spacial derivative support in Modelica.
+This is due to the lack of spatial derivative support in Modelica.
 
 Postprocessing of the results is limited to visualisation.
 Originally, the scope of the work was to develop postprocessing methods that could use the simulations sensibly for feedback control.
 Unfortunately the constraints of time and space are real even in an academic environment.
 
-There is much scope for further research, and several topics have been identified in section~\ref{sec:furtherresearch}.
+There is much scope for further research, and several potential topics have been identified in section~\ref{sec:furtherresearch}.
 Any of these topics would make a good Masters or PhD research topic.
 
 % Local Variables:
